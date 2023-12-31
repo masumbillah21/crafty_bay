@@ -1,5 +1,5 @@
+import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/views/screens/authentication/verify_pin_code_screen.dart';
-import 'package:crafty_bay/views/utilities/app_messages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

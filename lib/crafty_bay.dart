@@ -1,6 +1,8 @@
+import 'package:crafty_bay/controllers/auth_controller.dart';
+import 'package:crafty_bay/controllers/user_controller.dart';
+import 'package:crafty_bay/utilities/app_routes.dart';
+import 'package:crafty_bay/utilities/app_theme_data.dart';
 import 'package:crafty_bay/views/screens/onboard/splash_screen.dart';
-import 'package:crafty_bay/views/utilities/app_routes.dart';
-import 'package:crafty_bay/views/utilities/app_theme_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,9 +14,19 @@ class CraftyBay extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Crafty Bay',
+      debugShowCheckedModeBanner: false,
       theme: AppThemeData.lightThemeData,
+      initialBinding: CraftyBayDependency(),
       initialRoute: SplashScreen.routeName,
       getPages: AppRoutes.appRoutes,
     );
+  }
+}
+
+class CraftyBayDependency extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => UserController());
+    Get.lazyPut(() => AuthController());
   }
 }

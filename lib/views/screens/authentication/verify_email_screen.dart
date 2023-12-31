@@ -1,7 +1,8 @@
+import 'package:crafty_bay/controllers/user_controller.dart';
+import 'package:crafty_bay/utilities/app_messages.dart';
+import 'package:crafty_bay/utilities/assets_path.dart';
+import 'package:crafty_bay/utilities/utilities.dart';
 import 'package:crafty_bay/views/screens/authentication/verify_pin_code_screen.dart';
-import 'package:crafty_bay/views/utilities/app_messages.dart';
-import 'package:crafty_bay/views/utilities/assets_path.dart';
-import 'package:crafty_bay/views/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -15,7 +16,28 @@ class VerifyEmailScreen extends StatefulWidget {
 }
 
 class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailTEController = TextEditingController();
+
+  Future<void> _verifyEmail() async {
+    if (_formKey.currentState!.validate()) {
+      bool res = await Get.find<UserController>()
+          .verifyUserEmail(_emailTEController.text.trim());
+      if (res) {
+        successToast(AppMessages.emailVerificationSuccess);
+        Get.toNamed(VerifyPinCodeScreen.routeName);
+      } else {
+        errorToast(AppMessages.emailVerificationFailed);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _emailTEController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,6 +70,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                   height: 10,
                 ),
                 Form(
+                  key: _formKey,
                   child: Column(
                     children: [
                       TextFormField(
@@ -70,12 +93,20 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                       ),
                       SizedBox(
                         width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Get.toNamed(VerifyPinCodeScreen.routeName);
-                          },
-                          child: const Text('Next'),
-                        ),
+                        child: GetBuilder<UserController>(builder: (user) {
+                          return Visibility(
+                            visible: user.inProgress == false,
+                            replacement: const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _verifyEmail();
+                              },
+                              child: const Text('Next'),
+                            ),
+                          );
+                        }),
                       )
                     ],
                   ),

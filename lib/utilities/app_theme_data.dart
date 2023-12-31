@@ -1,4 +1,4 @@
-import 'package:crafty_bay/views/utilities/app_colors.dart';
+import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 

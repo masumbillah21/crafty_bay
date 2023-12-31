@@ -1,8 +1,8 @@
+import 'package:crafty_bay/utilities/app_colors.dart';
+import 'package:crafty_bay/utilities/app_messages.dart';
+import 'package:crafty_bay/utilities/app_theme_data.dart';
+import 'package:crafty_bay/utilities/assets_path.dart';
 import 'package:crafty_bay/views/screens/profile/update_profile_screen.dart';
-import 'package:crafty_bay/views/utilities/app_colors.dart';
-import 'package:crafty_bay/views/utilities/app_messages.dart';
-import 'package:crafty_bay/views/utilities/app_theme_data.dart';
-import 'package:crafty_bay/views/utilities/assets_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
