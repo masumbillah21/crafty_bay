@@ -1,4 +1,6 @@
-import 'package:crafty_bay/views/screens/splash_screen.dart';
+import 'package:crafty_bay/views/screens/onboard/splash_screen.dart';
+import 'package:crafty_bay/views/utilities/app_routes.dart';
+import 'package:crafty_bay/views/utilities/app_theme_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,14 +12,9 @@ class CraftyBay extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Crafty Bay',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: AppThemeData.lightThemeData,
       initialRoute: SplashScreen.routeName,
-      getPages: [
-        GetPage(name: SplashScreen.routeName, page: () => const SplashScreen()),
-      ],
+      getPages: AppRoutes.appRoutes,
     );
   }
 }
