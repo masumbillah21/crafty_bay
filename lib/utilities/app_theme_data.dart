@@ -33,12 +33,6 @@ class AppThemeData {
         color: Colors.grey[500],
         fontWeight: FontWeight.normal,
       ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10.0),
-        borderSide: BorderSide(
-          color: AppColors.colorSwatch[500]!,
-        ),
-      ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10.0),
         borderSide: BorderSide(
@@ -46,7 +40,20 @@ class AppThemeData {
           width: 1.4,
         ),
       ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: BorderSide(
+          color: AppColors.colorSwatch[500]!,
+        ),
+      ),
       errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: const BorderSide(
+          color: Colors.red,
+          width: 1.4,
+        ),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10.0),
         borderSide: const BorderSide(
           color: Colors.red,
@@ -66,6 +73,15 @@ class AppThemeData {
           fontSize: 16,
           fontWeight: FontWeight.w500,
           letterSpacing: 1,
+        ),
+      ),
+    ),
+    iconButtonTheme: IconButtonThemeData(
+      style: IconButton.styleFrom(
+        backgroundColor: Colors.grey.shade200,
+        foregroundColor: Colors.black45,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
         ),
       ),
     ),

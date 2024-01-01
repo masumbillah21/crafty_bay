@@ -21,7 +21,7 @@ class ApiCaller {
           await http.post(uri, headers: requestHeader, body: formValue);
       var resData = jsonDecode(response.body);
 
-      if (response.statusCode == 200 && resData['status'] == 'success') {
+      if (response.statusCode == 200 && resData['msg'] == 'success') {
         return ApiResponse(
           isSuccess: true,
           jsonResponse: resData,
@@ -59,7 +59,7 @@ class ApiCaller {
       );
       var resData = jsonDecode(response.body);
 
-      if (response.statusCode == 200 && resData['status'] == 'success') {
+      if (response.statusCode == 200 && resData['msg'] == 'success') {
         return ApiResponse(
           isSuccess: true,
           jsonResponse: resData,

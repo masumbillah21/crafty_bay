@@ -1,7 +1,11 @@
+import 'dart:async';
+
+import 'package:crafty_bay/controllers/user_controller.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/app_theme_data.dart';
 import 'package:crafty_bay/utilities/assets_path.dart';
+import 'package:crafty_bay/utilities/utilities.dart';
 import 'package:crafty_bay/views/screens/profile/update_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,6 +22,54 @@ class VerifyPinCodeScreen extends StatefulWidget {
 
 class _VerifyPinCodeScreenState extends State<VerifyPinCodeScreen> {
   final TextEditingController _pinCodeCTEController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  Timer? _timer;
+  int _start = 120;
+
+  void _startTimer() {
+    const oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (_start == 0) {
+          setState(() {
+            timer.cancel();
+          });
+        } else {
+          setState(() {
+            _start--;
+          });
+        }
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    _startTimer();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pinCodeCTEController.dispose();
+    _timer!.cancel();
+    super.dispose();
+  }
+
+  Future<void> _verifyPicCode() async {
+    if (_formKey.currentState!.validate()) {
+      bool res = await Get.find<UserController>()
+          .verifyPicCode(_pinCodeCTEController.text.trim());
+      if (res) {
+        successToast(AppMessages.otpSuccess);
+        Get.offNamedUntil(UpdateProfileScreen.routeName, (route) => false);
+      } else {
+        errorToast(AppMessages.otpFailed);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,6 +102,7 @@ class _VerifyPinCodeScreenState extends State<VerifyPinCodeScreen> {
                   height: 16,
                 ),
                 Form(
+                  key: _formKey,
                   child: Column(
                     children: [
                       PinCodeTextField(
@@ -78,12 +131,20 @@ class _VerifyPinCodeScreenState extends State<VerifyPinCodeScreen> {
                       ),
                       SizedBox(
                         width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Get.offAllNamed(UpdateProfileScreen.routeName);
-                          },
-                          child: const Text('Next'),
-                        ),
+                        child: GetBuilder<UserController>(builder: (user) {
+                          return Visibility(
+                            visible: user.inProgress == false,
+                            replacement: const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _verifyPicCode();
+                              },
+                              child: const Text('Next'),
+                            ),
+                          );
+                        }),
                       )
                     ],
                   ),
@@ -91,13 +152,13 @@ class _VerifyPinCodeScreenState extends State<VerifyPinCodeScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("This code will expire in "),
+                    const Text("This code will expire in "),
                     Text(
-                      "120s",
-                      style: TextStyle(
+                      "${_start}s",
+                      style: const TextStyle(
                         color: AppColors.primaryColor,
                       ),
                     ),

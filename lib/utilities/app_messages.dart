@@ -5,10 +5,13 @@ class AppMessages {
   static const String registrationSuccess = "Registration success.";
   static const String registrationFailed = "Registration failed.";
 
-  static const String emailVerificationSuccess = "Verification code emailed.";
+  static const String emailVerificationSuccess =
+      "Verification code has been sent.";
   static const String emailVerificationFailed =
-      "Failed to email verification code, Try again.";
+      "Failed to send verification code, Try again.";
 
+  static const String requiredOTP = 'OTP is required';
+  static const String otpLength = 'OTP must be 4 digits.';
   static const String otpSuccess = "OTP verified.";
   static const String otpFailed = "Failed to verify OTP.";
 
@@ -38,7 +41,5 @@ class AppMessages {
   static const String passwordLength =
       'Password must be at least 8 characters.';
 
-  static const String requiredOTP = 'OTP is required';
-  static const String otpLength = 'OTP must be 6 digits.';
   static const String inValidEmail = 'Invalid Email.';
 }

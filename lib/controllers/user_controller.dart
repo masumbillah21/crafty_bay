@@ -22,7 +22,8 @@ class UserController extends GetxController {
     update();
     if (res.isSuccess) {
       _authController.saveUserToReset(
-          model: UserModel.fromJson({'email': email}));
+        model: UserModel.fromJson({'email': email}),
+      );
       return true;
     } else {
       return false;
@@ -40,8 +41,9 @@ class UserController extends GetxController {
     _inProgress = false;
     update();
     if (res.isSuccess) {
-      _authController.saveUserToReset(
-          model: UserModel.fromJson({'email': email, 'OTP': pin}));
+      _authController.saveUserInfo(
+          model: UserModel.fromJson({'email': email}),
+          userToken: res.jsonResponse['data']);
       return true;
     } else {
       return false;
@@ -49,8 +51,7 @@ class UserController extends GetxController {
   }
 
   Future<bool> createProfile(
-      {required String email,
-      required String firstName,
+      {required String firstName,
       required String lastName,
       required String mobile,
       required String city,
@@ -59,7 +60,6 @@ class UserController extends GetxController {
     update();
 
     UserModel formValue = UserModel(
-      email: email,
       firstName: firstName,
       lastName: lastName,
       mobile: mobile,
@@ -73,6 +73,23 @@ class UserController extends GetxController {
     update();
     if (res.isSuccess) {
       _authController.saveUserToReset(model: formValue);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> readProfile() async {
+    _inProgress = true;
+    update();
+
+    ApiResponse res = await ApiCaller().apiGetRequest(url: Urls.readProfile);
+
+    _inProgress = false;
+    update();
+
+    if (res.isSuccess) {
+      //_authController.saveUserToReset(model: formValue);
       return true;
     } else {
       return false;

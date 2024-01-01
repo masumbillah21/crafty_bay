@@ -1,4 +1,5 @@
 import 'package:crafty_bay/controllers/auth_controller.dart';
+import 'package:crafty_bay/controllers/bottom_nav_controller.dart';
 import 'package:crafty_bay/controllers/user_controller.dart';
 import 'package:crafty_bay/utilities/app_routes.dart';
 import 'package:crafty_bay/utilities/app_theme_data.dart';
@@ -26,7 +27,8 @@ class CraftyBay extends StatelessWidget {
 class CraftyBayDependency extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => UserController());
-    Get.lazyPut(() => AuthController());
+    Get.put(AuthController());
+    Get.put(UserController());
+    Get.put(BottomNavController());
   }
 }

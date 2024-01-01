@@ -1,8 +1,10 @@
+import 'package:crafty_bay/controllers/auth_controller.dart';
 import 'package:crafty_bay/controllers/user_controller.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/assets_path.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
 import 'package:crafty_bay/views/screens/authentication/verify_pin_code_screen.dart';
+import 'package:crafty_bay/views/screens/profile/update_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -18,6 +20,7 @@ class VerifyEmailScreen extends StatefulWidget {
 class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailTEController = TextEditingController();
+  bool _isLogin = false;
 
   Future<void> _verifyEmail() async {
     if (_formKey.currentState!.validate()) {
@@ -30,6 +33,19 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
         errorToast(AppMessages.emailVerificationFailed);
       }
     }
+  }
+
+  Future<void> _checkLogin() async {
+    _isLogin = await Get.find<AuthController>().checkAuthState();
+    if (_isLogin) {
+      Get.offAllNamed(UpdateProfileScreen.routeName);
+    }
+  }
+
+  @override
+  void initState() {
+    _checkLogin();
+    super.initState();
   }
 
   @override

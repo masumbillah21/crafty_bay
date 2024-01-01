@@ -1,5 +1,5 @@
 import 'package:crafty_bay/utilities/assets_path.dart';
-import 'package:crafty_bay/views/screens/authentication/verify_email_screen.dart';
+import 'package:crafty_bay/views/screens/bottom_nav_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(
       const Duration(seconds: 2),
     );
-    Get.offAllNamed(VerifyEmailScreen.routeName);
+    Get.offAllNamed(BottomNavScreen.routeName);
   }
 
   @override
