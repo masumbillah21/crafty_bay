@@ -6,14 +6,6 @@ class AppThemeData {
   static ThemeData lightThemeData = ThemeData(
     colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
     useMaterial3: true,
-    appBarTheme: AppBarTheme(
-      shape: BorderDirectional(
-        bottom: BorderSide(
-          width: 1.0,
-          color: Colors.grey.shade400,
-        ),
-      ),
-    ),
     textTheme: const TextTheme(
       headlineLarge: TextStyle(
         fontSize: 30,
