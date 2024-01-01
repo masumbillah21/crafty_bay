@@ -3,6 +3,7 @@ import 'package:crafty_bay/controllers/user_controller.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/assets_path.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
+import 'package:crafty_bay/views/screens/authentication/verify_email_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -48,8 +49,17 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     }
   }
 
+  bool _isLogin = false;
+  Future<void> _checkLogin() async {
+    _isLogin = await Get.find<AuthController>().checkAuthState();
+    if (!_isLogin) {
+      Get.offNamed(VerifyEmailScreen.routeName);
+    }
+  }
+
   @override
   void initState() {
+    _checkLogin();
     var user = Get.find<AuthController>().user;
     _firstNameTEController.text = user?.firstName ?? '';
     _lastNameTEController.text = user?.lastName ?? '';

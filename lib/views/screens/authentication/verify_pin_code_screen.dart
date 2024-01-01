@@ -168,9 +168,14 @@ class _VerifyPinCodeScreenState extends State<VerifyPinCodeScreen> {
                   height: 10,
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (_start == 0) {
+                      Get.back();
+                    }
+                  },
                   style: TextButton.styleFrom(
-                    foregroundColor: Colors.grey,
+                    foregroundColor:
+                        _start != 0 ? Colors.grey : AppColors.primaryColor,
                   ),
                   child: const Text('Resent Code'),
                 )

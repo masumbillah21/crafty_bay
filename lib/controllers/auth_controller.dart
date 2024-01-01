@@ -12,13 +12,10 @@ class AuthController extends GetxController {
   static String? get token => _token;
   UserModel? get user => _user;
 
-  Future<void> saveUserInfo(
-      {required String userToken, required UserModel model}) async {
-    //_filterProfilePhoto(model);
+  Future<void> saveUserToken(String userToken) async {
     await _storage.write('token', userToken);
-    await _storage.write("user", model.toJson());
-    _token = userToken;
-    _user = UserModel.fromJson(jsonDecode(_storage.read('user') ?? '{}'));
+    _token = _storage.read('token');
+    print("Auth Token: $_token");
     update();
   }
 
@@ -36,6 +33,7 @@ class AuthController extends GetxController {
 
   Future<bool> checkAuthState() async {
     String? token = _storage.read('token');
+    print("check token: $token");
     if (token != null) {
       await initializeUserCache();
       return true;

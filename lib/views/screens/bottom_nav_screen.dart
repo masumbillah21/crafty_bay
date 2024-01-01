@@ -13,6 +13,7 @@ import 'package:get/get.dart';
 class BottomNavScreen extends StatelessWidget {
   static const routeName = '/bottom-navigation';
   const BottomNavScreen({super.key});
+  final double iconSize = 35.0;
 
   final List<Widget> _screens = const [
     HomeScreen(),
@@ -37,21 +38,33 @@ class BottomNavScreen extends StatelessWidget {
           onTap: (index) {
             nav.changeScreen(index);
           },
-          items: const [
+          items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: Icon(
+                Icons.home,
+                size: iconSize,
+              ),
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.category_outlined),
+              icon: Icon(
+                Icons.category_outlined,
+                size: iconSize,
+              ),
               label: 'Categories',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.add_shopping_cart),
+              icon: Icon(
+                Icons.shopping_basket_outlined,
+                size: iconSize,
+              ),
               label: 'Cart',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.card_giftcard),
+              icon: Icon(
+                Icons.card_giftcard_outlined,
+                size: iconSize,
+              ),
               label: 'Wish',
             ),
           ],

@@ -16,8 +16,8 @@ class UserController extends GetxController {
     _inProgress = true;
     update();
 
-    ApiResponse res =
-        await ApiCaller().apiGetRequest(url: Urls.loginUrl(email));
+    ApiResponse res = await ApiCaller()
+        .apiGetRequest(url: Urls.loginUrl(email), isLogin: true);
     _inProgress = false;
     update();
     if (res.isSuccess) {
@@ -36,14 +36,13 @@ class UserController extends GetxController {
 
     String? email = AuthController().user?.email ?? '';
 
-    ApiResponse res = await ApiCaller()
-        .apiGetRequest(url: Urls.verifyLogin(email: email, otp: pin));
+    ApiResponse res = await ApiCaller().apiGetRequest(
+        url: Urls.verifyLogin(email: email, otp: pin), isLogin: true);
     _inProgress = false;
     update();
     if (res.isSuccess) {
-      _authController.saveUserInfo(
-          model: UserModel.fromJson({'email': email}),
-          userToken: res.jsonResponse['data']);
+      _authController.saveUserToken(res.jsonResponse['data']);
+      await readProfile();
       return true;
     } else {
       return false;
@@ -89,7 +88,9 @@ class UserController extends GetxController {
     update();
 
     if (res.isSuccess) {
-      //_authController.saveUserToReset(model: formValue);
+      UserModel userModel = UserModel.fromJson(res.jsonResponse['data'][0]);
+
+      _authController.saveUserToReset(model: userModel);
       return true;
     } else {
       return false;

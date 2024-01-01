@@ -10,13 +10,14 @@ import 'package:get/get.dart';
 class CraftyBay extends StatelessWidget {
   const CraftyBay({super.key});
 
-  // This widget is the root of your application.
+  static GlobalKey<NavigatorState> navigationKey = GlobalKey<NavigatorState>();
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Crafty Bay',
       debugShowCheckedModeBanner: false,
       theme: AppThemeData.lightThemeData,
+      navigatorKey: navigationKey,
       initialBinding: CraftyBayDependency(),
       initialRoute: SplashScreen.routeName,
       getPages: AppRoutes.appRoutes,
