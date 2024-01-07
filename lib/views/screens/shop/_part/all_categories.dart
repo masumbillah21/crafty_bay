@@ -12,7 +12,7 @@ class AllCategories extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.find<CategoryController>().getCategoryList();
     return SizedBox(
-      height: 200,
+      height: 180,
       child: GetBuilder<CategoryController>(builder: (category) {
         return Visibility(
           visible: category.inProgress == false,

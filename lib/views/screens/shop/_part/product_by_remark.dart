@@ -34,14 +34,14 @@ class ProductByRemark extends StatelessWidget {
                   itemCount: product.remarkProductList?.length ?? 0,
                   itemBuilder: (context, index) {
                     return Card(
-                      elevation: 2,
                       color: Colors.cyan.shade50,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
-                            width: 100,
-                            height: 100,
+                            width: 120,
+                            height: 120,
                             child: ClipRRect(
                               child: Image.network(
                                 product.remarkProductList![index].image!,
@@ -62,6 +62,7 @@ class ProductByRemark extends StatelessWidget {
                               ),
                             ),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   product.remarkProductList![index].title ?? '',
@@ -70,17 +71,18 @@ class ProductByRemark extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(
-                                  height: 6,
+                                  height: 10,
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
                                   children: [
                                     Text(
                                       "\$${product.remarkProductList![index].price}",
                                       style: const TextStyle(
                                         color: AppColors.primaryColor,
                                       ),
+                                    ),
+                                    const SizedBox(
+                                      width: 6,
                                     ),
                                     Row(
                                       children: [
@@ -93,19 +95,19 @@ class ProductByRemark extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                    IconButton(
-                                      style: IconButton.styleFrom(
-                                        iconSize: 14,
-                                        backgroundColor: AppColors.primaryColor,
-                                        foregroundColor: Colors.white,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
+                                    const SizedBox(
+                                      width: 25,
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.all(3),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(4),
+                                        color: AppColors.primaryColor,
                                       ),
-                                      onPressed: () {},
-                                      icon: const Icon(
+                                      child: const Icon(
                                         Icons.favorite_border_outlined,
+                                        size: 12,
+                                        color: Colors.white,
                                       ),
                                     )
                                   ],

@@ -2,6 +2,7 @@ import 'package:crafty_bay/controllers/auth_controller.dart';
 import 'package:crafty_bay/controllers/bottom_nav_controller.dart';
 import 'package:crafty_bay/controllers/category_controller.dart';
 import 'package:crafty_bay/controllers/product_controller.dart';
+import 'package:crafty_bay/controllers/product_slider_controller.dart';
 import 'package:crafty_bay/controllers/user_controller.dart';
 import 'package:crafty_bay/utilities/app_routes.dart';
 import 'package:crafty_bay/utilities/app_theme_data.dart';
@@ -35,5 +36,6 @@ class CraftyBayDependency extends Bindings {
     Get.put(BottomNavController());
     Get.put(CategoryController());
     Get.put(ProductController());
+    Get.put(ProductSliderController());
   }
 }
