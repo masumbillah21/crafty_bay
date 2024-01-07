@@ -33,12 +33,13 @@ class ProductByRemark extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   itemCount: product.remarkProductList?.length ?? 0,
                   itemBuilder: (context, index) {
+                    var item = product.remarkProductList![index];
                     return ProductGrid(
-                      id: product.remarkProductList![index].id!,
-                      title: product.remarkProductList![index].title!,
-                      price: product.remarkProductList![index].price!,
-                      image: product.remarkProductList![index].image!,
-                      star: product.remarkProductList![index].star!,
+                      id: item.id!,
+                      title: item.title!,
+                      price: item.price!,
+                      image: item.image!,
+                      star: item.star!,
                     );
                   },
                 ),
