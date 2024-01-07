@@ -18,7 +18,7 @@ class SectionTitle extends StatelessWidget {
           title,
           style: const TextStyle(
             fontWeight: FontWeight.w800,
-            fontSize: 17,
+            fontSize: 20,
           ),
         ),
         TextButton(onPressed: onPressed, child: const Text('See All'))
