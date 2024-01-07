@@ -26,12 +26,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-  final FocusNode _firstNameFocusNode = FocusNode();
-  final FocusNode _lastNameFocusNode = FocusNode();
-  final FocusNode _mobileFocusNode = FocusNode();
-  final FocusNode _cityFocusNode = FocusNode();
-  final FocusNode _shippingAddressFocusNode = FocusNode();
-
   void _createUserProfile() async {
     if (_formKey.currentState!.validate()) {
       bool res = await Get.find<UserController>().createProfile(
@@ -77,11 +71,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     _cityTEController.dispose();
     _shippingAddressTEController.dispose();
 
-    _firstNameFocusNode.dispose();
-    _lastNameFocusNode.dispose();
-    _mobileFocusNode.dispose();
-    _cityFocusNode.dispose();
-    _shippingAddressFocusNode.dispose();
     super.dispose();
   }
 
@@ -122,15 +111,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     children: [
                       TextFormField(
                         controller: _firstNameTEController,
-                        focusNode: _firstNameFocusNode,
                         decoration: const InputDecoration(
                           hintText: 'First Name',
                         ),
                         keyboardType: TextInputType.text,
-                        onFieldSubmitted: (_) {
-                          FocusScope.of(context)
-                              .requestFocus(_lastNameFocusNode);
-                        },
+                        textInputAction: TextInputAction.next,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return AppMessages.requiredFirstName;
@@ -143,14 +128,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       ),
                       TextFormField(
                         controller: _lastNameTEController,
-                        focusNode: _lastNameFocusNode,
+                        textInputAction: TextInputAction.next,
                         decoration: const InputDecoration(
                           hintText: 'Last Name',
                         ),
                         keyboardType: TextInputType.text,
-                        onFieldSubmitted: (_) {
-                          FocusScope.of(context).requestFocus(_mobileFocusNode);
-                        },
                         validator: (value) {
                           if (value!.isEmpty) {
                             return AppMessages.requiredLastName;
@@ -163,14 +145,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       ),
                       TextFormField(
                         controller: _mobileTEController,
-                        focusNode: _mobileFocusNode,
+                        textInputAction: TextInputAction.next,
                         decoration: const InputDecoration(
                           hintText: 'Mobile',
                         ),
                         keyboardType: TextInputType.text,
-                        onFieldSubmitted: (_) {
-                          FocusScope.of(context).requestFocus(_cityFocusNode);
-                        },
                         validator: (value) {
                           if (value!.isEmpty) {
                             return AppMessages.requiredMobileNumber;
@@ -187,15 +166,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       ),
                       TextFormField(
                         controller: _cityTEController,
-                        focusNode: _cityFocusNode,
+                        textInputAction: TextInputAction.next,
                         decoration: const InputDecoration(
                           hintText: 'City',
                         ),
                         keyboardType: TextInputType.text,
-                        onFieldSubmitted: (_) {
-                          FocusScope.of(context)
-                              .requestFocus(_shippingAddressFocusNode);
-                        },
                         validator: (value) {
                           if (value!.isEmpty) {
                             return AppMessages.requiredCity;
@@ -208,7 +183,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       ),
                       TextFormField(
                         controller: _shippingAddressTEController,
-                        focusNode: _shippingAddressFocusNode,
                         maxLines: 4,
                         decoration: const InputDecoration(
                           hintText: 'Shipping Address',
