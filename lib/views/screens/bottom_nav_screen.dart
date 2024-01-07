@@ -58,7 +58,7 @@ class BottomNavScreen extends StatelessWidget {
             ),
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.card_giftcard_outlined,
+                Icons.favorite_border_outlined,
                 size: iconSize,
               ),
               label: 'Wish',
