@@ -1,10 +1,4 @@
 class AppMessages {
-  static const String loginSuccess = "Login success.";
-  static const String loginFailed = "Email or password is incorrect.";
-
-  static const String registrationSuccess = "Registration success.";
-  static const String registrationFailed = "Registration failed.";
-
   static const String emailVerificationSuccess =
       "Verification code has been sent.";
   static const String emailVerificationFailed =
@@ -14,9 +8,6 @@ class AppMessages {
   static const String otpLength = 'OTP must be 4 digits.';
   static const String otpSuccess = "OTP verified.";
   static const String otpFailed = "Failed to verify OTP.";
-
-  static const String passwordResetSuccess = "New password updated.";
-  static const String passwordResetFailed = "Failed to update new password.";
 
   static const String profileUpdateSuccess = "Profile updated.";
   static const String profileUpdateFailed = "Failed to update profile.";
@@ -42,4 +33,6 @@ class AppMessages {
       'Password must be at least 8 characters.';
 
   static const String inValidEmail = 'Invalid Email.';
+
+  static emptyMessage(String message) => "Your $message is empty!";
 }

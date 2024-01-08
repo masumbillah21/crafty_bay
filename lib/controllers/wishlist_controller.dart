@@ -9,11 +9,15 @@ class WishlistController extends GetxController {
 
   bool _inProgress = false;
 
+  bool _loaded = false;
+
   List<WishlistModel>? get wishlist => _wishlist;
   bool get inProgress => _inProgress;
 
   Future<void> createWishlist(int productId) async {
     _inProgress = true;
+    _loaded = false;
+    update();
     ApiResponse res =
         await ApiCaller().apiGetRequest(url: Urls.createWishList(productId));
     _inProgress = false;
@@ -26,25 +30,27 @@ class WishlistController extends GetxController {
           list.add(WishlistModel.fromJson(v));
         });
 
-        _wishlist = list;
+        // _wishlist = list;
       }
     }
   }
 
   Future<void> getWishlist() async {
+    if (_loaded) {
+      return;
+    }
     _inProgress = true;
     ApiResponse res =
         await ApiCaller().apiGetRequest(url: Urls.productWishList);
     _inProgress = false;
+    _loaded = true;
     update();
-    print("res: ${res.statusCode}");
     if (res.isSuccess) {
       if (res.jsonResponse['data'] != null) {
         List<WishlistModel>? list = <WishlistModel>[];
 
         res.jsonResponse['data'].forEach((v) {
           list.add(WishlistModel.fromJson(v));
-          print(v);
         });
 
         _wishlist = list;

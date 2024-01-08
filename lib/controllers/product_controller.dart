@@ -9,16 +9,26 @@ class ProductController extends GetxController {
   final Set<ProductModel> _productList = {};
 
   bool _inProgress = false;
+  bool _loaded = false;
 
   List<ProductModel>? get remarkProductList => _remarkProductList;
   Set<ProductModel>? get productList => _productList;
   bool get inProgress => _inProgress;
 
+  ProductModel getProductById(int productId) {
+    return _productList.firstWhere((element) => element.id == productId);
+  }
+
   Future<void> getProductByRemark(String remark) async {
+    if (_loaded) {
+      return;
+    }
     _inProgress = true;
+    update();
     ApiResponse res =
         await ApiCaller().apiGetRequest(url: Urls.productListByRemark(remark));
     _inProgress = false;
+    _loaded = true;
     update();
     if (res.isSuccess) {
       if (res.jsonResponse['data'] != null) {
@@ -32,9 +42,5 @@ class ProductController extends GetxController {
         _remarkProductList = remarkProducts;
       }
     }
-  }
-
-  ProductModel getProductById(int productId) {
-    return _productList.firstWhere((element) => element.id == productId);
   }
 }
