@@ -6,10 +6,12 @@ import 'package:get/get.dart';
 
 class ProductController extends GetxController {
   List<ProductModel>? _remarkProductList = [];
+  final Set<ProductModel> _productList = {};
 
   bool _inProgress = false;
 
   List<ProductModel>? get remarkProductList => _remarkProductList;
+  Set<ProductModel>? get productList => _productList;
   bool get inProgress => _inProgress;
 
   Future<void> getProductByRemark(String remark) async {
@@ -24,10 +26,15 @@ class ProductController extends GetxController {
 
         res.jsonResponse['data'].forEach((v) {
           remarkProducts.add(ProductModel.fromJson(v));
+          _productList.add(ProductModel.fromJson(v));
         });
 
         _remarkProductList = remarkProducts;
       }
     }
+  }
+
+  ProductModel getProductById(int productId) {
+    return _productList.firstWhere((element) => element.id == productId);
   }
 }

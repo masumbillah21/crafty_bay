@@ -25,8 +25,8 @@ class ProductGrid extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(
-            width: 120,
-            height: 120,
+            width: 100,
+            height: 100,
             child: ClipRRect(
               child: Image.network(
                 image,
@@ -51,12 +51,16 @@ class ProductGrid extends StatelessWidget {
               children: [
                 Text(
                   title,
+                  maxLines: 1,
                   style: const TextStyle(
                     color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 12,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 8,
                 ),
                 Row(
                   children: [
@@ -64,12 +68,15 @@ class ProductGrid extends StatelessWidget {
                       "\$$price",
                       style: const TextStyle(
                         color: AppColors.primaryColor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12,
                       ),
                     ),
                     const SizedBox(
                       width: 6,
                     ),
-                    Row(
+                    Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                         const Icon(
                           Icons.star,
@@ -81,7 +88,7 @@ class ProductGrid extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(
-                      width: 25,
+                      width: 8,
                     ),
                     Container(
                       padding: const EdgeInsets.all(3),

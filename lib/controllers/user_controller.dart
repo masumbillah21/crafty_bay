@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 
 class UserController extends GetxController {
   bool _inProgress = false;
+  bool _isReadProfile = false;
 
   final AuthController _authController = Get.find<AuthController>();
 
@@ -21,7 +22,7 @@ class UserController extends GetxController {
     _inProgress = false;
     update();
     if (res.isSuccess) {
-      _authController.saveUserToReset(
+      await _authController.saveUserData(
         model: UserModel.fromJson({'email': email}),
       );
       return true;
@@ -34,15 +35,14 @@ class UserController extends GetxController {
     _inProgress = true;
     update();
 
-    String? email = AuthController().user?.email ?? '';
+    String? email = _authController.user?.email ?? '';
 
     ApiResponse res = await ApiCaller().apiGetRequest(
         url: Urls.verifyLogin(email: email, otp: pin), isLogin: true);
     _inProgress = false;
     update();
     if (res.isSuccess) {
-      _authController.saveUserToken(res.jsonResponse['data']);
-      await readProfile();
+      await _authController.saveUserToken(res.jsonResponse['data']);
       return true;
     } else {
       return false;
@@ -69,9 +69,10 @@ class UserController extends GetxController {
         .apiPostRequest(url: Urls.createProfile, formValue: formValue.toJson());
 
     _inProgress = false;
+    _isReadProfile = false;
     update();
     if (res.isSuccess) {
-      _authController.saveUserToReset(model: formValue);
+      await _authController.saveUserData(model: formValue);
       return true;
     } else {
       return false;
@@ -79,18 +80,21 @@ class UserController extends GetxController {
   }
 
   Future<bool> readProfile() async {
+    if (_isReadProfile) {
+      return true;
+    }
     _inProgress = true;
     update();
 
     ApiResponse res = await ApiCaller().apiGetRequest(url: Urls.readProfile);
 
     _inProgress = false;
+    _isReadProfile = true;
     update();
 
     if (res.isSuccess) {
       UserModel userModel = UserModel.fromJson(res.jsonResponse['data'][0]);
-
-      _authController.saveUserToReset(model: userModel);
+      await _authController.saveUserData(model: userModel);
       return true;
     } else {
       return false;

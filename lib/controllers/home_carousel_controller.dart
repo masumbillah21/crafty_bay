@@ -4,8 +4,8 @@ import 'package:crafty_bay/models/carousel_model.dart';
 import 'package:crafty_bay/utilities/urls.dart';
 import 'package:get/get.dart';
 
-class ProductSliderController extends GetxController {
-  List<CarouselModel>? _carouselList;
+class HomeCarouselController extends GetxController {
+  List<CarouselModel>? _carouselList = [];
   int _currentIndex = 0;
 
   bool _inProgress = false;

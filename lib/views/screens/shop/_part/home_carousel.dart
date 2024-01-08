@@ -1,5 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:crafty_bay/controllers/product_slider_controller.dart';
+import 'package:crafty_bay/controllers/home_carousel_controller.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,13 +9,13 @@ class HomeCarousel extends StatelessWidget {
     super.key,
   });
 
-  final ProductSliderController productSliderController =
-      Get.find<ProductSliderController>();
+  final HomeCarouselController productSliderController =
+      Get.find<HomeCarouselController>();
 
   @override
   Widget build(BuildContext context) {
     productSliderController.getHomeCarousel();
-    return GetBuilder<ProductSliderController>(builder: (slider) {
+    return GetBuilder<HomeCarouselController>(builder: (slider) {
       return Visibility(
         visible: slider.inProgress == false,
         replacement: const Center(

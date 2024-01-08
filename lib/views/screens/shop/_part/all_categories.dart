@@ -1,5 +1,5 @@
+import 'package:crafty_bay/controllers/bottom_nav_controller.dart';
 import 'package:crafty_bay/controllers/category_controller.dart';
-import 'package:crafty_bay/views/screens/shop/categories_screen.dart';
 import 'package:crafty_bay/views/widgets/category_grid.dart';
 import 'package:crafty_bay/views/widgets/section_title.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +24,7 @@ class AllCategories extends StatelessWidget {
               SectionTitle(
                 title: 'All Categories',
                 onPressed: () {
-                  Get.toNamed(CategoriesScreen.routeName);
+                  Get.find<BottomNavController>().changeScreen(1);
                 },
               ),
               Expanded(

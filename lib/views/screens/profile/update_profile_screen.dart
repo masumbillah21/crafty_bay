@@ -48,6 +48,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     _isLogin = await Get.find<AuthController>().checkAuthState();
     if (!_isLogin) {
       Get.offNamed(VerifyEmailScreen.routeName);
+    } else {
+      await Get.find<UserController>().readProfile();
     }
   }
 

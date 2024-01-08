@@ -27,8 +27,7 @@ class Urls {
 
   //WishList
   static const productWishList = "$baseUrl/ProductWishList";
-  static createWishList(String productId) =>
-      "$baseUrl/CreateWishList/$productId";
+  static createWishList(int productId) => "$baseUrl/CreateWishList/$productId";
 
   //Cart
   static const createCartList = "$baseUrl/CreateCartList";

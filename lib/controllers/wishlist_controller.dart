@@ -1,0 +1,54 @@
+import 'package:crafty_bay/api/api_caller.dart';
+import 'package:crafty_bay/api/api_response.dart';
+import 'package:crafty_bay/models/wishlist_model.dart';
+import 'package:crafty_bay/utilities/urls.dart';
+import 'package:get/get.dart';
+
+class WishlistController extends GetxController {
+  List<WishlistModel>? _wishlist = [];
+
+  bool _inProgress = false;
+
+  List<WishlistModel>? get wishlist => _wishlist;
+  bool get inProgress => _inProgress;
+
+  Future<void> createWishlist(int productId) async {
+    _inProgress = true;
+    ApiResponse res =
+        await ApiCaller().apiGetRequest(url: Urls.createWishList(productId));
+    _inProgress = false;
+    update();
+    if (res.isSuccess) {
+      if (res.jsonResponse['data'] != null) {
+        List<WishlistModel>? list = <WishlistModel>[];
+
+        res.jsonResponse['data'].forEach((v) {
+          list.add(WishlistModel.fromJson(v));
+        });
+
+        _wishlist = list;
+      }
+    }
+  }
+
+  Future<void> getWishlist() async {
+    _inProgress = true;
+    ApiResponse res =
+        await ApiCaller().apiGetRequest(url: Urls.productWishList);
+    _inProgress = false;
+    update();
+    print("res: ${res.statusCode}");
+    if (res.isSuccess) {
+      if (res.jsonResponse['data'] != null) {
+        List<WishlistModel>? list = <WishlistModel>[];
+
+        res.jsonResponse['data'].forEach((v) {
+          list.add(WishlistModel.fromJson(v));
+          print(v);
+        });
+
+        _wishlist = list;
+      }
+    }
+  }
+}

@@ -15,12 +15,10 @@ class AuthController extends GetxController {
   Future<void> saveUserToken(String userToken) async {
     await _storage.write('token', userToken);
     _token = _storage.read('token');
-    print("Auth Token: $_token");
     update();
   }
 
-  Future<void> saveUserToReset({required UserModel model}) async {
-    //_filterProfilePhoto(model);
+  Future<void> saveUserData({required UserModel model}) async {
     await _storage.write("user", model.toJson());
     _user = UserModel.fromJson(jsonDecode(_storage.read('user') ?? '{}'));
     update();
@@ -33,7 +31,6 @@ class AuthController extends GetxController {
 
   Future<bool> checkAuthState() async {
     String? token = _storage.read('token');
-    print("check token: $token");
     if (token != null) {
       await initializeUserCache();
       return true;
@@ -47,12 +44,4 @@ class AuthController extends GetxController {
     _token = null;
     _user = null;
   }
-
-  // static UserModel _filterProfilePhoto(UserModel model) {
-  //   if (model.photo != null && model.photo!.startsWith('data:image')) {
-  //     model.photo =
-  //         model.photo!.replaceFirst(RegExp(r'data:image/[^;]+;base64,'), '');
-  //   }
-  //   return model;
-  // }
 }

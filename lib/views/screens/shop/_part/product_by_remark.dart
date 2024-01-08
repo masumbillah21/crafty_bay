@@ -13,7 +13,7 @@ class ProductByRemark extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.find<ProductController>().getProductByRemark(remark);
     return SizedBox(
-      height: 250,
+      height: 230,
       child: GetBuilder<ProductController>(builder: (product) {
         return Visibility(
           visible: product.inProgress == false,

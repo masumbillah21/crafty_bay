@@ -1,9 +1,4 @@
-import 'package:crafty_bay/controllers/auth_controller.dart';
-import 'package:crafty_bay/controllers/bottom_nav_controller.dart';
-import 'package:crafty_bay/controllers/category_controller.dart';
-import 'package:crafty_bay/controllers/product_controller.dart';
-import 'package:crafty_bay/controllers/product_slider_controller.dart';
-import 'package:crafty_bay/controllers/user_controller.dart';
+import 'package:crafty_bay/crafty_bay_dependency.dart';
 import 'package:crafty_bay/utilities/app_routes.dart';
 import 'package:crafty_bay/utilities/app_theme_data.dart';
 import 'package:crafty_bay/views/screens/onboard/splash_screen.dart';
@@ -25,17 +20,5 @@ class CraftyBay extends StatelessWidget {
       initialRoute: SplashScreen.routeName,
       getPages: AppRoutes.appRoutes,
     );
-  }
-}
-
-class CraftyBayDependency extends Bindings {
-  @override
-  void dependencies() {
-    Get.put(AuthController());
-    Get.put(UserController());
-    Get.put(BottomNavController());
-    Get.put(CategoryController());
-    Get.put(ProductController());
-    Get.put(ProductSliderController());
   }
 }

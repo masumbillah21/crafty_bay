@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:crafty_bay/api/api_response.dart';
 import 'package:crafty_bay/controllers/auth_controller.dart';
+import 'package:crafty_bay/crafty_bay.dart';
+import 'package:crafty_bay/views/screens/authentication/verify_email_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class ApiCaller {
@@ -55,8 +58,8 @@ class ApiCaller {
         uri,
         headers: requestHeader,
       );
-      var resData = jsonDecode(response.body);
 
+      var resData = jsonDecode(response.body);
       if (response.statusCode == 200 && resData['msg'] == 'success') {
         return ApiResponse(
           isSuccess: true,
@@ -64,9 +67,9 @@ class ApiCaller {
           statusCode: response.statusCode,
         );
       } else if (response.statusCode == 401) {
-        // if (!isLogin) {
-        //   backToLogin();
-        // }
+        if (!isLogin) {
+          //backToLogin();
+        }
         return ApiResponse(
           isSuccess: false,
           jsonResponse: resData,
@@ -84,9 +87,9 @@ class ApiCaller {
     }
   }
 
-  // Future<void> backToLogin() async {
-  //   await AuthController.clearAuthData();
-  //   Navigator.pushNamedAndRemoveUntil(CraftyBay.navigationKey.currentContext!,
-  //       VerifyEmailScreen.routeName, (route) => false);
-  // }
+  Future<void> backToLogin() async {
+    await AuthController.clearAuthData();
+    Navigator.pushNamedAndRemoveUntil(CraftyBay.navigationKey.currentContext!,
+        VerifyEmailScreen.routeName, (route) => false);
+  }
 }
