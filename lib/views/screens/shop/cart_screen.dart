@@ -1,5 +1,6 @@
 import 'package:crafty_bay/controllers/bottom_nav_controller.dart';
-import 'package:crafty_bay/utilities/app_messages.dart';
+import 'package:crafty_bay/views/widgets/cart_item.dart';
+import 'package:crafty_bay/views/widgets/fixed_bottom_section.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,10 +21,20 @@ class CartScreen extends StatelessWidget {
         ),
         title: const Text('Cart'),
       ),
-      body: Center(
-        child: Text(
-          AppMessages.emptyMessage("cart"),
-        ),
+      body: Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: 15,
+                itemBuilder: (context, index) => const CartItem(),
+              ),
+            ),
+          ),
+          const FixedBottomSection()
+        ],
       ),
     );
   }
