@@ -10,31 +10,37 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 1,
-        leading: IconButton(
-          onPressed: () {
-            Get.find<BottomNavController>().backToHome();
-          },
-          icon: const Icon(Icons.arrow_back),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (_) {
+        Get.find<BottomNavController>().backToHome();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 1,
+          leading: IconButton(
+            onPressed: () {
+              Get.find<BottomNavController>().backToHome();
+            },
+            icon: const Icon(Icons.arrow_back),
+          ),
+          title: const Text('Cart'),
         ),
-        title: const Text('Cart'),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: 15,
-                itemBuilder: (context, index) => const CartItem(),
+        body: Column(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 15,
+                  itemBuilder: (context, index) => const CartItem(),
+                ),
               ),
             ),
-          ),
-          const FixedBottomSection()
-        ],
+            const FixedBottomSection()
+          ],
+        ),
       ),
     );
   }
