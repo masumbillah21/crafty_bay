@@ -14,7 +14,7 @@ class CraftyBayDependency extends Bindings {
     Get.lazyPut(() => CategoryController());
     Get.lazyPut(() => ProductController());
     Get.lazyPut(() => HomeCarouselController());
-    Get.lazyPut(() => WishlistController());
+    Get.put(WishlistController());
     Get.put(AuthController());
     Get.put(UserController());
   }
