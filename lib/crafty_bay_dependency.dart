@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 class CraftyBayDependency extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => BottomNavController());
+    Get.put(BottomNavController());
     Get.lazyPut(() => CategoryController());
     Get.lazyPut(() => ProductController());
     Get.lazyPut(() => HomeCarouselController());

@@ -13,10 +13,21 @@ class CartItem extends StatelessWidget {
       color: Colors.white,
       child: Row(
         children: [
-          const SizedBox(
-            width: 80,
-            height: 80,
-            child: Text("image"),
+          SizedBox(
+            width: 90,
+            height: 90,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(10),
+                topLeft: Radius.circular(10),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.network(
+                  'https://photo.teamrabbil.com/images/2023/04/04/product.png',
+                ),
+              ),
+            ),
           ),
           Expanded(
             child: Padding(
@@ -52,7 +63,7 @@ class CartItem extends StatelessWidget {
                       IconButton(
                         onPressed: () {},
                         icon: const Icon(
-                          Icons.delete,
+                          Icons.delete_outline,
                           color: Colors.grey,
                         ),
                       )

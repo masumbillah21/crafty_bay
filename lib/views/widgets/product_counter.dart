@@ -10,16 +10,18 @@ class ProductCounter extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(
-          decoration: BoxDecoration(
-            color: AppColors.primaryColor,
-            borderRadius: BorderRadius.circular(5),
-          ),
-          padding: const EdgeInsets.all(5),
-          child: const Icon(
-            Icons.remove,
-            size: 12,
-            color: Colors.white,
+        InkWell(
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppColors.primaryColor,
+              borderRadius: BorderRadius.circular(5),
+            ),
+            padding: const EdgeInsets.all(5),
+            child: const Icon(
+              Icons.remove,
+              size: 12,
+              color: Colors.white,
+            ),
           ),
         ),
         const SizedBox(
@@ -35,16 +37,19 @@ class ProductCounter extends StatelessWidget {
         const SizedBox(
           width: 5,
         ),
-        Container(
-          decoration: BoxDecoration(
-            color: AppColors.primaryColor,
-            borderRadius: BorderRadius.circular(5),
-          ),
-          padding: const EdgeInsets.all(5),
-          child: const Icon(
-            Icons.add,
-            size: 12,
-            color: Colors.white,
+        InkWell(
+          onTap: () {},
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppColors.primaryColor,
+              borderRadius: BorderRadius.circular(5),
+            ),
+            padding: const EdgeInsets.all(5),
+            child: const Icon(
+              Icons.add,
+              size: 12,
+              color: Colors.white,
+            ),
           ),
         ),
       ],

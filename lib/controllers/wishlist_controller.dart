@@ -30,7 +30,7 @@ class WishlistController extends GetxController {
           list.add(WishlistModel.fromJson(v));
         });
 
-        // _wishlist = list;
+        _wishlist = list;
       }
     }
   }
