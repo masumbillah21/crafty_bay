@@ -1,11 +1,14 @@
 import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 
 class AppThemeData {
   static ThemeData lightThemeData = ThemeData(
     colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
     useMaterial3: true,
+    appBarTheme: const AppBarTheme(
+      elevation: 2,
+      backgroundColor: Colors.white,
+    ),
     textTheme: const TextTheme(
       headlineLarge: TextStyle(
         fontSize: 30,
@@ -68,28 +71,5 @@ class AppThemeData {
         ),
       ),
     ),
-    iconButtonTheme: IconButtonThemeData(
-      style: IconButton.styleFrom(
-        backgroundColor: Colors.grey.shade200,
-        foregroundColor: Colors.black45,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50),
-        ),
-      ),
-    ),
-  );
-
-  static PinTheme appOTPStyle = PinTheme(
-    inactiveColor: AppColors.primaryColor,
-    inactiveFillColor: Colors.white,
-    selectedColor: AppColors.primaryColor,
-    activeColor: Colors.white,
-    selectedFillColor: AppColors.primaryColor,
-    shape: PinCodeFieldShape.box,
-    borderRadius: BorderRadius.circular(5),
-    fieldHeight: 50,
-    borderWidth: 0.5,
-    fieldWidth: 45,
-    activeFillColor: Colors.white,
   );
 }

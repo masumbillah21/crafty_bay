@@ -21,7 +21,7 @@ class Urls {
       "$baseUrl/ListProductByBrand/$brandId";
   static productListByRemark(String remark) =>
       "$baseUrl/ListProductByRemark/$remark";
-  static productDetailById(String productId) =>
+  static productDetailById(int productId) =>
       "$baseUrl/ProductDetailsById/$productId";
   static const listProductSlider = "$baseUrl/ListProductSlider";
 

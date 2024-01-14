@@ -7,6 +7,7 @@ import 'package:crafty_bay/views/screens/profile/update_profile_screen.dart';
 import 'package:crafty_bay/views/screens/shop/cart_screen.dart';
 import 'package:crafty_bay/views/screens/shop/categories_screen.dart';
 import 'package:crafty_bay/views/screens/shop/home_screen.dart';
+import 'package:crafty_bay/views/screens/shop/product_details_screen.dart';
 import 'package:crafty_bay/views/screens/shop/wish_list_screen.dart';
 import 'package:get/get.dart';
 
@@ -24,6 +25,10 @@ class AppRoutes {
     GetPage(
       name: CategoriesScreen.routeName,
       page: () => const CategoriesScreen(),
+    ),
+    GetPage(
+      name: ProductDetailsScreen.routeName,
+      page: () => ProductDetailsScreen(),
     ),
     GetPage(
       name: CartScreen.routeName,

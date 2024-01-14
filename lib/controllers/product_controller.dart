@@ -19,6 +19,31 @@ class ProductController extends GetxController {
     return _productList.firstWhere((element) => element.id == productId);
   }
 
+  Future<void> getProductDetailsById(int productId) async {
+    if (_loaded) {
+      return;
+    }
+    _inProgress = true;
+    update();
+    ApiResponse res =
+        await ApiCaller().apiGetRequest(url: Urls.productDetailById(productId));
+    _inProgress = false;
+    _loaded = true;
+    update();
+    if (res.isSuccess) {
+      if (res.jsonResponse['data'] != null) {
+        List<ProductModel>? remarkProducts = <ProductModel>[];
+
+        res.jsonResponse['data'].forEach((v) {
+          remarkProducts.add(ProductModel.fromJson(v));
+          _productList.add(ProductModel.fromJson(v));
+        });
+
+        _remarkProductList = remarkProducts;
+      }
+    }
+  }
+
   Future<void> getProductByRemark(String remark) async {
     if (_loaded) {
       return;

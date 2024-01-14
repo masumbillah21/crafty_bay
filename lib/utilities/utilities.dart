@@ -38,3 +38,11 @@ void errorToast(msg) {
     fontSize: 16.0,
   );
 }
+
+Color hexColor(String hexColor) {
+  hexColor = hexColor.toUpperCase().replaceAll("#", "");
+  if (hexColor.length == 6) {
+    hexColor = "0xFF$hexColor";
+  }
+  return Color(int.parse(hexColor));
+}
