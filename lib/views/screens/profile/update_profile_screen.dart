@@ -1,5 +1,6 @@
 import 'package:crafty_bay/controllers/auth_controller.dart';
-import 'package:crafty_bay/controllers/user_controller.dart';
+import 'package:crafty_bay/controllers/create_user_profile_controller.dart';
+import 'package:crafty_bay/controllers/read_user_profile_controller.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/assets_path.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
@@ -28,7 +29,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
   void _createUserProfile() async {
     if (_formKey.currentState!.validate()) {
-      bool res = await Get.find<UserController>().createProfile(
+      bool res = await Get.find<CreateUserProfileController>().createProfile(
         firstName: _firstNameTEController.text.trim(),
         lastName: _lastNameTEController.text.trim(),
         mobile: _mobileTEController.text.trim(),
@@ -49,7 +50,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     if (!_isLogin) {
       Get.offNamed(VerifyEmailScreen.routeName);
     } else {
-      await Get.find<UserController>().readProfile();
+      await Get.find<ReadUserProfileController>().readProfile();
     }
   }
 
@@ -205,7 +206,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       ),
                       SizedBox(
                         width: double.infinity,
-                        child: GetBuilder<UserController>(builder: (user) {
+                        child: GetBuilder<CreateUserProfileController>(
+                            builder: (user) {
                           return Visibility(
                             visible: user.inProgress == false,
                             replacement: const Center(

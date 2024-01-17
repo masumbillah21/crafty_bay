@@ -1,4 +1,4 @@
-import 'package:crafty_bay/controllers/user_controller.dart';
+import 'package:crafty_bay/controllers/send_email_otp_controller.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/assets_path.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
@@ -21,8 +21,8 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
 
   Future<void> _verifyEmail() async {
     if (_formKey.currentState!.validate()) {
-      bool res = await Get.find<UserController>()
-          .verifyUserEmail(_emailTEController.text.trim());
+      bool res = await Get.find<SendEmailOTPController>()
+          .sendEmailOTP(_emailTEController.text.trim());
       if (res) {
         successToast(AppMessages.emailVerificationSuccess);
         Get.toNamed(VerifyPinCodeScreen.routeName);
@@ -93,7 +93,8 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                       ),
                       SizedBox(
                         width: double.infinity,
-                        child: GetBuilder<UserController>(builder: (user) {
+                        child:
+                            GetBuilder<SendEmailOTPController>(builder: (user) {
                           return Visibility(
                             visible: user.inProgress == false,
                             replacement: const Center(

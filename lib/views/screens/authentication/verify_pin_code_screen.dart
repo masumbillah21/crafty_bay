@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:crafty_bay/controllers/user_controller.dart';
+import 'package:crafty_bay/controllers/verify_otp_controller.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/assets_path.dart';
@@ -57,10 +57,10 @@ class _VerifyPinCodeScreenState extends State<VerifyPinCodeScreen> {
     super.dispose();
   }
 
-  Future<void> _verifyPicCode() async {
+  Future<void> _verifyPinCode() async {
     if (_formKey.currentState!.validate()) {
-      bool res = await Get.find<UserController>()
-          .verifyPicCode(_pinCodeCTEController.text.trim());
+      bool res = await Get.find<VerifyOTPController>()
+          .verifyOTP(_pinCodeCTEController.text.trim());
       if (res) {
         successToast(AppMessages.otpSuccess);
         Get.offNamedUntil(BottomNavScreen.routeName, (route) => false);
@@ -131,7 +131,7 @@ class _VerifyPinCodeScreenState extends State<VerifyPinCodeScreen> {
                       ),
                       SizedBox(
                         width: double.infinity,
-                        child: GetBuilder<UserController>(builder: (user) {
+                        child: GetBuilder<VerifyOTPController>(builder: (user) {
                           return Visibility(
                             visible: user.inProgress == false,
                             replacement: const Center(
@@ -139,7 +139,7 @@ class _VerifyPinCodeScreenState extends State<VerifyPinCodeScreen> {
                             ),
                             child: ElevatedButton(
                               onPressed: () {
-                                _verifyPicCode();
+                                _verifyPinCode();
                               },
                               child: const Text('Next'),
                             ),
