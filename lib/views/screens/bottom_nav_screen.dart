@@ -1,4 +1,6 @@
 import 'package:crafty_bay/controllers/bottom_nav_controller.dart';
+import 'package:crafty_bay/controllers/category_controller.dart';
+import 'package:crafty_bay/controllers/home_carousel_controller.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:crafty_bay/views/screens/shop/cart_screen.dart';
 import 'package:crafty_bay/views/screens/shop/categories_screen.dart';
@@ -21,6 +23,8 @@ class BottomNavScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.find<HomeCarouselController>().getHomeCarousel();
+    Get.find<CategoryController>().getCategoryList();
     return GetBuilder<BottomNavController>(builder: (nav) {
       return Scaffold(
         body: _screens[nav.currentScreen],

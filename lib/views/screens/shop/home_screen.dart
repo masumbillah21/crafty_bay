@@ -1,8 +1,11 @@
+import 'package:crafty_bay/controllers/category_controller.dart';
+import 'package:crafty_bay/controllers/home_carousel_controller.dart';
 import 'package:crafty_bay/views/screens/shop/_part/all_categories.dart';
 import 'package:crafty_bay/views/screens/shop/_part/home_carousel.dart';
 import 'package:crafty_bay/views/screens/shop/_part/product_by_remark.dart';
 import 'package:crafty_bay/views/widgets/crafty_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatelessWidget {
   static const routeName = '/home';
@@ -41,11 +44,37 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              HomeCarousel(),
+              SizedBox(
+                height: 230,
+                child: GetBuilder<HomeCarouselController>(builder: (carousel) {
+                  return Visibility(
+                    visible: !carousel.inProgress,
+                    replacement: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    child: HomeCarousel(
+                      homeCarousel: carousel,
+                    ),
+                  );
+                }),
+              ),
               const SizedBox(
                 height: 10,
               ),
-              const AllCategories(),
+              SizedBox(
+                height: 180,
+                child: GetBuilder<CategoryController>(builder: (category) {
+                  return Visibility(
+                    visible: !category.inProgress,
+                    replacement: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    child: AllCategories(
+                      category: category,
+                    ),
+                  );
+                }),
+              ),
               const ProductByRemark(remark: 'Popular'),
               const SizedBox(
                 height: 10,

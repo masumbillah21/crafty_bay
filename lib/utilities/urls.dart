@@ -15,9 +15,9 @@ class Urls {
   static const categoryList = "$baseUrl/CategoryList";
 
   //Products
-  static productListByCategory(String categoryId) =>
+  static productListByCategory(int categoryId) =>
       "$baseUrl/ListProductByCategory/$categoryId";
-  static productListByBrand(String brandId) =>
+  static productListByBrand(int brandId) =>
       "$baseUrl/ListProductByBrand/$brandId";
   static productListByRemark(String remark) =>
       "$baseUrl/ListProductByRemark/$remark";

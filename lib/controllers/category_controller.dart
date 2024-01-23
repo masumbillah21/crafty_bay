@@ -8,20 +8,15 @@ class CategoryController extends GetxController {
   List<CategoryModel>? _categoryList = [];
 
   bool _inProgress = false;
-  bool _loaded = false;
 
   List<CategoryModel>? get categoryList => _categoryList;
   bool get inProgress => _inProgress;
 
   Future<void> getCategoryList() async {
-    if (_loaded) {
-      return;
-    }
     _inProgress = true;
     update();
     ApiResponse res = await ApiCaller().apiGetRequest(url: Urls.categoryList);
     _inProgress = false;
-    _loaded = true;
     update();
     if (res.isSuccess) {
       if (res.jsonResponse['data'] != null) {

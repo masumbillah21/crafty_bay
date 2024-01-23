@@ -6,12 +6,14 @@ import 'package:get/get.dart';
 
 class ProductController extends GetxController {
   List<ProductModel>? _remarkProductList = [];
+  List<ProductModel>? _categoryProductList = [];
   final Set<ProductModel> _productList = {};
 
   bool _inProgress = false;
   bool _loaded = false;
 
   List<ProductModel>? get remarkProductList => _remarkProductList;
+  List<ProductModel>? get categoryProductList => _categoryProductList;
   Set<ProductModel>? get productList => _productList;
   bool get inProgress => _inProgress;
 
@@ -65,6 +67,26 @@ class ProductController extends GetxController {
         });
 
         _remarkProductList = remarkProducts;
+      }
+    }
+  }
+
+  Future<void> getProductByCategoryId(int categoryId) async {
+    _inProgress = true;
+    update();
+    ApiResponse res = await ApiCaller()
+        .apiGetRequest(url: Urls.productListByCategory(categoryId));
+    _inProgress = false;
+    update();
+    if (res.isSuccess) {
+      if (res.jsonResponse['data'] != null) {
+        List<ProductModel>? products = <ProductModel>[];
+        res.jsonResponse['data'].forEach((v) {
+          products.add(ProductModel.fromJson(v));
+          _productList.add(ProductModel.fromJson(v));
+        });
+
+        _categoryProductList = products;
       }
     }
   }
