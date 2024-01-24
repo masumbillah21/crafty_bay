@@ -34,5 +34,5 @@ class AppMessages {
 
   static const String inValidEmail = 'Invalid Email.';
 
-  static emptyMessage(String message) => "Your $message is empty!";
+  static emptyMessage(String message) => "$message is empty!";
 }

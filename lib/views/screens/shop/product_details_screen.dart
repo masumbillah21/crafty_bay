@@ -1,47 +1,56 @@
+import 'package:crafty_bay/controllers/product_details_controller.dart';
+import 'package:crafty_bay/models/product_details_model.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
 import 'package:crafty_bay/views/screens/shop/_part/product_carousel.dart';
 import 'package:crafty_bay/views/widgets/fixed_bottom_section.dart';
 import 'package:crafty_bay/views/widgets/product_counter.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   static const routeName = '/product-details';
-  ProductDetailsScreen({super.key});
-
-  final List<String> colors = [
-    "#212121",
-    "#0E98B1",
-    "#7A5548",
-    "#D9D9D9",
-    "#757575",
-  ];
-
-  final List<String> sizes = ["30", "32", "36", "40", "44"];
+  const ProductDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    //int id = Get.arguments;
+    int id = Get.arguments;
+    Get.find<ProductDetailsController>().getProductDetailsById(id);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Product Details"),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [ProductCarousel(), productDetailsBody],
-              ),
-            ),
+      body: GetBuilder<ProductDetailsController>(builder: (product) {
+        return Visibility(
+          visible: !product.inProgress,
+          replacement: const Center(
+            child: CircularProgressIndicator(),
           ),
-          const FixedBottomSection(),
-        ],
-      ),
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      ProductCarousel(
+                        productCarousel:
+                            product.productDetailsList!.carouselImages,
+                      ),
+                      productDetailsBody(
+                          product.productDetailsList!.productDetailsList![0]),
+                    ],
+                  ),
+                ),
+              ),
+              const FixedBottomSection(),
+            ],
+          ),
+        );
+      }),
     );
   }
 
-  Padding get productDetailsBody {
+  Padding productDetailsBody(ProductDetailsModel product) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -50,19 +59,19 @@ class ProductDetailsScreen extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
                 child: Text(
-                  "Product Title goes here - 30% discount",
-                  style: TextStyle(
+                  "${product.product?.title}",
+                  style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
               ),
-              ProductCounter(),
+              const ProductCounter(),
             ],
           ),
           const SizedBox(
@@ -70,16 +79,16 @@ class ProductDetailsScreen extends StatelessWidget {
           ),
           Row(
             children: [
-              const Wrap(
+              Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.star,
                     color: Colors.yellow,
                   ),
                   Text(
-                    "4.5",
-                    style: TextStyle(
+                    "${product.product?.star}",
+                    style: const TextStyle(
                       fontSize: 18,
                     ),
                   ),
@@ -126,7 +135,8 @@ class ProductDetailsScreen extends StatelessWidget {
             height: 10,
           ),
           Row(
-            children: colors
+            children: product.color!
+                .split(",")
                 .map(
                   (e) => Padding(
                     padding: const EdgeInsets.only(right: 8.0),
@@ -152,7 +162,8 @@ class ProductDetailsScreen extends StatelessWidget {
             height: 10,
           ),
           Row(
-            children: sizes
+            children: product.size!
+                .split(RegExp(r'[,.\\s]'))
                 .map(
                   (e) => Container(
                     height: 40,
@@ -183,9 +194,9 @@ class ProductDetailsScreen extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          const Text(
-            '''Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.''',
-            style: TextStyle(
+          Text(
+            "${product.des!.replaceAll("\\r\\", "")}",
+            style: const TextStyle(
               color: Colors.grey,
               fontSize: 14,
             ),

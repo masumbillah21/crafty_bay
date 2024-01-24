@@ -1,5 +1,10 @@
 import 'package:crafty_bay/controllers/category_controller.dart';
 import 'package:crafty_bay/controllers/home_carousel_controller.dart';
+import 'package:crafty_bay/controllers/new_product_controller.dart';
+import 'package:crafty_bay/controllers/popular_product_controller.dart';
+import 'package:crafty_bay/controllers/special_product_controller.dart';
+import 'package:crafty_bay/models/product_list_model.dart';
+import 'package:crafty_bay/utilities/remark_enum.dart';
 import 'package:crafty_bay/views/screens/shop/_part/all_categories.dart';
 import 'package:crafty_bay/views/screens/shop/_part/home_carousel.dart';
 import 'package:crafty_bay/views/screens/shop/_part/product_by_remark.dart';
@@ -75,15 +80,58 @@ class HomeScreen extends StatelessWidget {
                   );
                 }),
               ),
-              const ProductByRemark(remark: 'Popular'),
+              SizedBox(
+                height: 230,
+                child: GetBuilder<PopularProductController>(builder: (popular) {
+                  return Visibility(
+                    visible: !popular.inProgress,
+                    replacement: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    child: ProductByRemark(
+                      remark: RemarkEnum.Popular.name,
+                      product: popular.remarkProductList ?? ProductListModel(),
+                    ),
+                  );
+                }),
+              ),
               const SizedBox(
                 height: 10,
               ),
-              const ProductByRemark(remark: 'Special'),
+              SizedBox(
+                height: 230,
+                child: GetBuilder<SpecialProductController>(builder: (special) {
+                  return Visibility(
+                    visible: !special.inProgress,
+                    replacement: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    child: ProductByRemark(
+                      remark: RemarkEnum.Special.name,
+                      product: special.remarkProductList ?? ProductListModel(),
+                    ),
+                  );
+                }),
+              ),
               const SizedBox(
                 height: 10,
               ),
-              const ProductByRemark(remark: 'New'),
+              SizedBox(
+                height: 230,
+                child: GetBuilder<NewProductController>(builder: (newProduct) {
+                  return Visibility(
+                    visible: !newProduct.inProgress,
+                    replacement: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    child: ProductByRemark(
+                      remark: RemarkEnum.New.name,
+                      product:
+                          newProduct.remarkProductList ?? ProductListModel(),
+                    ),
+                  );
+                }),
+              ),
             ],
           ),
         ),

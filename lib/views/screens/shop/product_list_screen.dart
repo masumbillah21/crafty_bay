@@ -30,10 +30,10 @@ class ProductListScreen extends StatelessWidget {
             replacement: const Center(
               child: CircularProgressIndicator(),
             ),
-            child: product.categoryProductList?.isEmpty ?? true
+            child: product.categoryProductList?.productList?.isEmpty ?? true
                 ? Center(
                     child: Text(
-                      AppMessages.emptyMessage('wishlist'),
+                      AppMessages.emptyMessage('product'),
                     ),
                   )
                 : GridView.builder(
@@ -45,10 +45,11 @@ class ProductListScreen extends StatelessWidget {
                       mainAxisSpacing: 4,
                       crossAxisSpacing: 4,
                     ),
-                    itemCount: product.categoryProductList?.length ?? 0,
+                    itemCount:
+                        product.categoryProductList?.productList?.length ?? 0,
                     itemBuilder: (context, index) {
-                      var item = Get.find<ProductController>().getProductById(
-                          product.categoryProductList![index].id!);
+                      var item =
+                          product.categoryProductList!.productList![index];
                       return FittedBox(
                         child: ProductGrid(
                           id: item.id!,

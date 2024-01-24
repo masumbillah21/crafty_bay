@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:crafty_bay/controllers/home_carousel_controller.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
+import 'package:crafty_bay/views/screens/shop/product_details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomeCarousel extends StatelessWidget {
   const HomeCarousel({
@@ -62,7 +64,10 @@ class HomeCarousel extends StatelessWidget {
                             height: 10,
                           ),
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.toNamed(ProductDetailsScreen.routeName,
+                                  arguments: item.productId);
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.white,
                               foregroundColor: AppColors.primaryColor,

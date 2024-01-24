@@ -1,74 +1,23 @@
 import 'package:crafty_bay/api/api_caller.dart';
 import 'package:crafty_bay/api/api_response.dart';
+import 'package:crafty_bay/models/product_list_model.dart';
 import 'package:crafty_bay/models/product_model.dart';
 import 'package:crafty_bay/utilities/urls.dart';
 import 'package:get/get.dart';
 
 class ProductController extends GetxController {
-  List<ProductModel>? _remarkProductList = [];
-  List<ProductModel>? _categoryProductList = [];
+  ProductListModel? _categoryProductList = ProductListModel();
+
   final Set<ProductModel> _productList = {};
 
   bool _inProgress = false;
-  bool _loaded = false;
 
-  List<ProductModel>? get remarkProductList => _remarkProductList;
-  List<ProductModel>? get categoryProductList => _categoryProductList;
+  ProductListModel? get categoryProductList => _categoryProductList;
   Set<ProductModel>? get productList => _productList;
   bool get inProgress => _inProgress;
 
   ProductModel getProductById(int productId) {
     return _productList.firstWhere((element) => element.id == productId);
-  }
-
-  Future<void> getProductDetailsById(int productId) async {
-    if (_loaded) {
-      return;
-    }
-    _inProgress = true;
-    update();
-    ApiResponse res =
-        await ApiCaller().apiGetRequest(url: Urls.productDetailById(productId));
-    _inProgress = false;
-    _loaded = true;
-    update();
-    if (res.isSuccess) {
-      if (res.jsonResponse['data'] != null) {
-        List<ProductModel>? remarkProducts = <ProductModel>[];
-
-        res.jsonResponse['data'].forEach((v) {
-          remarkProducts.add(ProductModel.fromJson(v));
-          _productList.add(ProductModel.fromJson(v));
-        });
-
-        _remarkProductList = remarkProducts;
-      }
-    }
-  }
-
-  Future<void> getProductByRemark(String remark) async {
-    if (_loaded) {
-      return;
-    }
-    _inProgress = true;
-    update();
-    ApiResponse res =
-        await ApiCaller().apiGetRequest(url: Urls.productListByRemark(remark));
-    _inProgress = false;
-    _loaded = true;
-    update();
-    if (res.isSuccess) {
-      if (res.jsonResponse['data'] != null) {
-        List<ProductModel>? remarkProducts = <ProductModel>[];
-
-        res.jsonResponse['data'].forEach((v) {
-          remarkProducts.add(ProductModel.fromJson(v));
-          _productList.add(ProductModel.fromJson(v));
-        });
-
-        _remarkProductList = remarkProducts;
-      }
-    }
   }
 
   Future<void> getProductByCategoryId(int categoryId) async {
@@ -80,13 +29,7 @@ class ProductController extends GetxController {
     update();
     if (res.isSuccess) {
       if (res.jsonResponse['data'] != null) {
-        List<ProductModel>? products = <ProductModel>[];
-        res.jsonResponse['data'].forEach((v) {
-          products.add(ProductModel.fromJson(v));
-          _productList.add(ProductModel.fromJson(v));
-        });
-
-        _categoryProductList = products;
+        _categoryProductList = ProductListModel.fromJson(res.jsonResponse);
       }
     }
   }
