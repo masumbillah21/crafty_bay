@@ -39,6 +39,20 @@ void errorToast(msg) {
   );
 }
 
+Color getColorByName(String colorName) {
+  colorName = colorName.toLowerCase();
+
+  Map<String, Color> colorMap = {
+    'red': Colors.red,
+    'green': Colors.green,
+    'blue': Colors.blue,
+    'white': Colors.white,
+    // Add more color names and codes as needed
+  };
+
+  return colorMap[colorName] ?? Colors.black;
+}
+
 Color hexColor(String hexColor) {
   hexColor = hexColor.toUpperCase().replaceAll("#", "");
   if (hexColor.length == 6) {

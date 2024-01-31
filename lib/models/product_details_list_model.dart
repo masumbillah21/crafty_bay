@@ -9,23 +9,15 @@ class ProductDetailsListModel {
   ProductDetailsListModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
       productDetailsList = <ProductDetailsModel>[];
+      carouselImages = [];
       json['data'].forEach((v) {
         for (int i = 1; i <= 4; i++) {
-          if (v.containsKey('img1')) {
+          if (v.containsKey('img$i')) {
             carouselImages.add(v['img$i']);
           }
         }
         productDetailsList!.add(ProductDetailsModel.fromJson(v));
       });
     }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-
-    if (productDetailsList != null) {
-      data['data'] = productDetailsList!.map((v) => v.toJson()).toList();
-    }
-    return data;
   }
 }

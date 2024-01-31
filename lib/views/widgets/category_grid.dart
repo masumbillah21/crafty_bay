@@ -24,9 +24,14 @@ class CategoryGrid extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(
+          Container(
             height: 80,
             width: 80,
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: AppColors.primaryColor.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(10),
+            ),
             child: Image.network(
               categoryImg,
               fit: BoxFit.cover,

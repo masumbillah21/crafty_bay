@@ -30,7 +30,7 @@ class ApiCaller {
           statusCode: response.statusCode,
         );
       } else if (response.statusCode == 401) {
-        //backToLogin();
+        backToLogin();
         return ApiResponse(
           isSuccess: false,
           jsonResponse: resData,
@@ -68,7 +68,7 @@ class ApiCaller {
         );
       } else if (response.statusCode == 401) {
         if (!isLogin) {
-          //backToLogin();
+          backToLogin();
         }
         return ApiResponse(
           isSuccess: false,

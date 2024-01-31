@@ -112,7 +112,7 @@ class _VerifyPinCodeScreenState extends State<VerifyPinCodeScreen> {
                         backgroundColor: Colors.transparent,
                         appContext: context,
                         autoDisposeControllers: false,
-                        length: 4,
+                        length: 6,
                         pinTheme: appOTPStyle,
                         animationType: AnimationType.fade,
                         animationDuration: const Duration(microseconds: 300),
@@ -120,7 +120,7 @@ class _VerifyPinCodeScreenState extends State<VerifyPinCodeScreen> {
                         validator: (value) {
                           if (value!.isEmpty) {
                             return AppMessages.requiredOTP;
-                          } else if (value.length < 4) {
+                          } else if (value.length < 6) {
                             return AppMessages.otpLength;
                           }
                           return null;

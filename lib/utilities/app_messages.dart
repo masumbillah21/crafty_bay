@@ -5,7 +5,7 @@ class AppMessages {
       "Failed to send verification code, Try again.";
 
   static const String requiredOTP = 'OTP is required';
-  static const String otpLength = 'OTP must be 4 digits.';
+  static const String otpLength = 'OTP must be 6 digits.';
   static const String otpSuccess = "OTP verified.";
   static const String otpFailed = "Failed to verify OTP.";
 

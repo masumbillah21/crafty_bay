@@ -1,6 +1,7 @@
 import 'package:crafty_bay/controllers/product_details_controller.dart';
 import 'package:crafty_bay/models/product_details_model.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
+import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
 import 'package:crafty_bay/views/screens/shop/_part/product_carousel.dart';
 import 'package:crafty_bay/views/widgets/fixed_bottom_section.dart';
@@ -26,25 +27,34 @@ class ProductDetailsScreen extends StatelessWidget {
           replacement: const Center(
             child: CircularProgressIndicator(),
           ),
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      ProductCarousel(
-                        productCarousel:
-                            product.productDetailsList!.carouselImages,
+          child: (product.productDetails?.productDetailsList?.isNotEmpty ??
+                  false)
+              ? Column(
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            ProductCarousel(
+                              productCarousel:
+                                  product.productDetails?.carouselImages ?? [],
+                            ),
+                            productDetailsBody(
+                              product.productDetails?.productDetailsList?[0] ??
+                                  ProductDetailsModel(),
+                            ),
+                          ],
+                        ),
                       ),
-                      productDetailsBody(
-                          product.productDetailsList!.productDetailsList![0]),
-                    ],
+                    ),
+                    const FixedBottomSection(),
+                  ],
+                )
+              : Center(
+                  child: Text(
+                    AppMessages.emptyMessage('Product Details'),
                   ),
                 ),
-              ),
-              const FixedBottomSection(),
-            ],
-          ),
         );
       }),
     );
@@ -140,9 +150,23 @@ class ProductDetailsScreen extends StatelessWidget {
                 .map(
                   (e) => Padding(
                     padding: const EdgeInsets.only(right: 8.0),
-                    child: CircleAvatar(
-                      radius: 18,
-                      backgroundColor: hexColor(e),
+                    child: InkWell(
+                      onTap: () {
+                        //
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        margin: const EdgeInsets.only(right: 8),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: getColorByName(e),
+                          borderRadius: BorderRadius.circular(50),
+                          border: Border.all(
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 )
@@ -163,20 +187,25 @@ class ProductDetailsScreen extends StatelessWidget {
           ),
           Row(
             children: product.size!
-                .split(RegExp(r'[,.\\s]'))
+                .split(',')
                 .map(
-                  (e) => Container(
-                    height: 40,
-                    width: 40,
-                    margin: const EdgeInsets.only(right: 8),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      border: Border.all(
-                        color: Colors.black54,
+                  (e) => InkWell(
+                    onTap: () {
+                      //
+                    },
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      margin: const EdgeInsets.only(right: 8),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        border: Border.all(
+                          color: Colors.black54,
+                        ),
                       ),
+                      child: Text(e),
                     ),
-                    child: Text(e),
                   ),
                 )
                 .toList(),
@@ -195,7 +224,7 @@ class ProductDetailsScreen extends StatelessWidget {
             height: 10,
           ),
           Text(
-            "${product.des!.replaceAll("\\r\\", "")}",
+            product.des!.replaceAll("\\r\\", ""),
             style: const TextStyle(
               color: Colors.grey,
               fontSize: 14,

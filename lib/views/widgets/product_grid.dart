@@ -8,7 +8,7 @@ class ProductGrid extends StatelessWidget {
   final String title;
   final String price;
   final String image;
-  final double star;
+  final int star;
   const ProductGrid({
     super.key,
     required this.id,
@@ -26,7 +26,8 @@ class ProductGrid extends StatelessWidget {
       },
       borderRadius: BorderRadius.circular(15),
       child: Card(
-        color: Colors.cyan.shade50,
+        color: Colors.white,
+        shadowColor: Colors.grey[100],
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

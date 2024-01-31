@@ -17,19 +17,19 @@ import 'package:get/get.dart';
 class CraftyBayDependency extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => BottomNavController());
-    Get.lazyPut(() => HomeCarouselController());
-    Get.lazyPut(() => CategoryController());
-    Get.lazyPut(() => PopularProductController());
-    Get.lazyPut(() => SpecialProductController());
-    Get.lazyPut(() => NewProductController());
+    Get.lazyPut(() => BottomNavController(), fenix: true);
+    Get.lazyPut(() => HomeCarouselController(), fenix: true);
+    Get.lazyPut(() => CategoryController(), fenix: true);
+    Get.lazyPut(() => PopularProductController(), fenix: true);
+    Get.lazyPut(() => SpecialProductController(), fenix: true);
+    Get.lazyPut(() => NewProductController(), fenix: true);
     Get.put(ProductController());
     Get.put(ProductDetailsController());
-    Get.lazyPut(() => WishlistController());
-    Get.lazyPut(() => AuthController());
-    Get.lazyPut(() => SendEmailOTPController());
-    Get.lazyPut(() => VerifyOTPController());
-    Get.lazyPut(() => ReadUserProfileController());
-    Get.lazyPut(() => CreateUserProfileController());
+    Get.lazyPut(() => WishlistController(), fenix: true);
+    Get.lazyPut(() => AuthController(), fenix: true);
+    Get.lazyPut(() => SendEmailOTPController(), fenix: true);
+    Get.lazyPut(() => VerifyOTPController(), fenix: true);
+    Get.lazyPut(() => ReadUserProfileController(), fenix: true);
+    Get.lazyPut(() => CreateUserProfileController(), fenix: true);
   }
 }

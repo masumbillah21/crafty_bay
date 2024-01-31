@@ -32,54 +32,71 @@ class HomeCarousel extends StatelessWidget {
             return Builder(
               builder: (BuildContext context) {
                 return Container(
-                  alignment: Alignment.center,
+                  padding: const EdgeInsets.only(left: 16),
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                     color: AppColors.primaryColor,
                     borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(item.image ?? ''),
+                    ),
                   ),
-                  child: Row(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Image.network(
-                        item.image ?? '',
-                        width: 180,
+                      Text(
+                        item.title ?? '',
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                       const SizedBox(
-                        width: 20,
+                        height: 2,
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item.title ?? '',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                            ),
+                      Text(
+                        item.price ?? '',
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.sizeOf(context).width / 2,
+                        child: Text(
+                          item.shortDes ?? '',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
                           ),
-                          const SizedBox(
-                            height: 10,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Get.toNamed(ProductDetailsScreen.routeName,
+                              arguments: item.productId);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: AppColors.primaryColor,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 25,
+                            vertical: 5,
                           ),
-                          ElevatedButton(
-                            onPressed: () {
-                              Get.toNamed(ProductDetailsScreen.routeName,
-                                  arguments: item.productId);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              foregroundColor: AppColors.primaryColor,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 25,
-                                vertical: 5,
-                              ),
-                            ),
-                            child: const Text('Buy Now'),
-                          ),
-                        ],
-                      )
+                        ),
+                        child: const Text('Buy Now'),
+                      ),
                     ],
                   ),
                 );

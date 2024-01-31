@@ -1,5 +1,5 @@
 class Urls {
-  static const baseUrl = 'https://craftybay.teamrabbil.com/api';
+  static const baseUrl = 'http://ecom-api.teamrabbil.com/api';
 
   //Users
   static loginUrl(String email) => "$baseUrl/UserLogin/$email";

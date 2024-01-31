@@ -2,6 +2,7 @@ class CarouselModel {
   int? id;
   String? title;
   String? shortDes;
+  String? price;
   String? image;
   int? productId;
 
@@ -9,6 +10,7 @@ class CarouselModel {
     this.id,
     this.title,
     this.shortDes,
+    this.price,
     this.image,
     this.productId,
   });
@@ -17,6 +19,7 @@ class CarouselModel {
     id = json['id'];
     title = json['title'];
     shortDes = json['short_des'];
+    price = json['price'];
     image = json['image'];
     productId = json['product_id'];
   }
