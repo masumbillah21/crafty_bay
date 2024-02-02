@@ -1,6 +1,7 @@
 import 'package:crafty_bay/controllers/auth_controller.dart';
 import 'package:crafty_bay/controllers/create_user_profile_controller.dart';
 import 'package:crafty_bay/controllers/read_user_profile_controller.dart';
+import 'package:crafty_bay/models/customer_model.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/assets_path.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
@@ -18,28 +19,42 @@ class UpdateProfileScreen extends StatefulWidget {
 }
 
 class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
-  final TextEditingController _firstNameTEController = TextEditingController();
-  final TextEditingController _lastNameTEController = TextEditingController();
-  final TextEditingController _mobileTEController = TextEditingController();
-  final TextEditingController _cityTEController = TextEditingController();
-  final TextEditingController _shippingAddressTEController =
+  final TextEditingController _cusNameTEController = TextEditingController();
+  final TextEditingController _cusAddTEController = TextEditingController();
+  final TextEditingController _cusCityTEController = TextEditingController();
+  final TextEditingController _cusPostcodeTEController =
       TextEditingController();
+  final TextEditingController _cusPhoneTEController = TextEditingController();
+
+  final TextEditingController _shipNameTEController = TextEditingController();
+  final TextEditingController _shipAddTEController = TextEditingController();
+  final TextEditingController _shipCityTEController = TextEditingController();
+  final TextEditingController _shipPostcodeTEController =
+      TextEditingController();
+  final TextEditingController _shipPhoneTEController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
   void _createUserProfile() async {
     if (_formKey.currentState!.validate()) {
-      bool res = await Get.find<CreateUserProfileController>().createProfile(
-        firstName: _firstNameTEController.text.trim(),
-        lastName: _lastNameTEController.text.trim(),
-        mobile: _mobileTEController.text.trim(),
-        city: _cityTEController.text.trim(),
-        shippingAddress: _shippingAddressTEController.text.trim(),
+      CustomerModel formValue = CustomerModel(
+        cusName: _cusNameTEController.text.trim(),
+        cusAdd: _cusAddTEController.text.trim(),
+        cusCity: _cusCityTEController.text.trim(),
+        cusPostcode: _cusPostcodeTEController.text.trim(),
+        cusPhone: _cusPhoneTEController.text.trim(),
+        shipName: _shipNameTEController.text.trim(),
+        shipAdd: _shipAddTEController.text.trim(),
+        shipCity: _shipCityTEController.text.trim(),
+        shipPostcode: _shipPostcodeTEController.text.trim(),
+        shipPhone: _shipPhoneTEController.text.trim(),
       );
+      bool res = await Get.find<CreateUserProfileController>()
+          .createProfile(formValue);
       if (res) {
         successToast(AppMessages.profileUpdateSuccess);
       } else {
-        errorToast(AppMessages.profileUpdateSuccess);
+        errorToast(AppMessages.profileUpdateFailed);
       }
     }
   }
@@ -57,23 +72,34 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   @override
   void initState() {
     _checkLogin();
-    var user = Get.find<AuthController>().user;
-    _firstNameTEController.text = user?.firstName ?? '';
-    _lastNameTEController.text = user?.lastName ?? '';
-    _mobileTEController.text = user?.mobile ?? '';
-    _cityTEController.text = user?.city ?? '';
-    _shippingAddressTEController.text = user?.shippingAddress ?? '';
+    var customer = Get.find<AuthController>().customer;
+    _cusNameTEController.text = customer?.cusName ?? '';
+    _cusAddTEController.text = customer?.cusAdd ?? '';
+    _cusCityTEController.text = customer?.cusCity ?? '';
+    _cusPostcodeTEController.text = customer?.cusPostcode ?? '';
+    _cusPhoneTEController.text = customer?.cusPhone ?? '';
+
+    _shipNameTEController.text = customer?.shipName ?? '';
+    _shipAddTEController.text = customer?.shipAdd ?? '';
+    _shipCityTEController.text = customer?.shipCity ?? '';
+    _shipPostcodeTEController.text = customer?.shipPostcode ?? '';
+    _shipPhoneTEController.text = customer?.shipPhone ?? '';
     super.initState();
   }
 
   @override
   void dispose() {
-    _firstNameTEController.dispose();
-    _lastNameTEController.dispose();
-    _mobileTEController.dispose();
-    _cityTEController.dispose();
-    _shippingAddressTEController.dispose();
+    _cusNameTEController.dispose();
+    _cusAddTEController.dispose();
+    _cusCityTEController.dispose();
+    _cusPostcodeTEController.dispose();
+    _cusPhoneTEController.dispose();
 
+    _shipNameTEController.dispose();
+    _shipAddTEController.dispose();
+    _shipCityTEController.dispose();
+    _shipPostcodeTEController.dispose();
+    _shipPhoneTEController.dispose();
     super.dispose();
   }
 
@@ -111,11 +137,19 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 Form(
                   key: _formKey,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const Text(
+                        "Billing Address",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                      const Divider(),
                       TextFormField(
-                        controller: _firstNameTEController,
+                        controller: _cusNameTEController,
                         decoration: const InputDecoration(
-                          hintText: 'First Name',
+                          hintText: 'Name',
                         ),
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.next,
@@ -130,10 +164,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         height: 10,
                       ),
                       TextFormField(
-                        controller: _lastNameTEController,
+                        controller: _cusAddTEController,
                         textInputAction: TextInputAction.next,
                         decoration: const InputDecoration(
-                          hintText: 'Last Name',
+                          hintText: 'Address',
                         ),
                         keyboardType: TextInputType.text,
                         validator: (value) {
@@ -147,7 +181,41 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         height: 10,
                       ),
                       TextFormField(
-                        controller: _mobileTEController,
+                        controller: _cusCityTEController,
+                        textInputAction: TextInputAction.next,
+                        decoration: const InputDecoration(
+                          hintText: 'City',
+                        ),
+                        keyboardType: TextInputType.text,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return AppMessages.requiredCity;
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        controller: _cusPostcodeTEController,
+                        textInputAction: TextInputAction.next,
+                        decoration: const InputDecoration(
+                          hintText: 'Postal Code',
+                        ),
+                        keyboardType: TextInputType.text,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return AppMessages.requiredCity;
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        controller: _cusPhoneTEController,
                         textInputAction: TextInputAction.next,
                         decoration: const InputDecoration(
                           hintText: 'Mobile',
@@ -167,8 +235,49 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       const SizedBox(
                         height: 10,
                       ),
+                      const Text(
+                        "Shipping Address",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                      const Divider(),
                       TextFormField(
-                        controller: _cityTEController,
+                        controller: _shipNameTEController,
+                        decoration: const InputDecoration(
+                          hintText: 'Name',
+                        ),
+                        keyboardType: TextInputType.text,
+                        textInputAction: TextInputAction.next,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return AppMessages.requiredFirstName;
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        controller: _shipAddTEController,
+                        textInputAction: TextInputAction.next,
+                        decoration: const InputDecoration(
+                          hintText: 'Address',
+                        ),
+                        keyboardType: TextInputType.text,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return AppMessages.requiredLastName;
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        controller: _shipCityTEController,
                         textInputAction: TextInputAction.next,
                         decoration: const InputDecoration(
                           hintText: 'City',
@@ -185,18 +294,36 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         height: 10,
                       ),
                       TextFormField(
-                        controller: _shippingAddressTEController,
-                        maxLines: 4,
+                        controller: _shipPostcodeTEController,
+                        textInputAction: TextInputAction.next,
                         decoration: const InputDecoration(
-                          hintText: 'Shipping Address',
+                          hintText: 'Postal Code',
                         ),
                         keyboardType: TextInputType.text,
-                        onFieldSubmitted: (_) {
-                          _createUserProfile();
-                        },
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return AppMessages.requiredShippingAddress;
+                            return AppMessages.requiredCity;
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        controller: _shipPhoneTEController,
+                        textInputAction: TextInputAction.next,
+                        decoration: const InputDecoration(
+                          hintText: 'Mobile',
+                        ),
+                        keyboardType: TextInputType.text,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return AppMessages.requiredMobileNumber;
+                          } else if (value.length < 11) {
+                            return AppMessages.invalidMobileNumber;
+                          } else if (!validatePhoneNumber(value)) {
+                            return AppMessages.invalidMobileNumber;
                           }
                           return null;
                         },

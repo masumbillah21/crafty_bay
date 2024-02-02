@@ -8,7 +8,8 @@ class ProductDetailsController extends GetxController {
   int _currentIndex = 0;
   int get currentIndex => _currentIndex;
   ProductDetailsListModel? _productDetailsList = ProductDetailsListModel();
-  ProductDetailsListModel? get productDetailsList => _productDetailsList;
+
+  ProductDetailsListModel? get productDetails => _productDetailsList;
 
   bool _inProgress = false;
   bool get inProgress => _inProgress;

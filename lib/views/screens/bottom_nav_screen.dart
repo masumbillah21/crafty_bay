@@ -32,14 +32,14 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
 
   @override
   void initState() {
-    if (mounted) {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Get.find<HomeCarouselController>().getHomeCarousel();
       Get.find<CategoryController>().getCategoryList();
       Get.find<PopularProductController>().getProductByRemark();
       Get.find<SpecialProductController>().getProductByRemark();
       Get.find<NewProductController>().getProductByRemark();
-    }
-    super.initState();
+    });
   }
 
   @override

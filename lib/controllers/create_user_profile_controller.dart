@@ -1,7 +1,7 @@
 import 'package:crafty_bay/api/api_caller.dart';
 import 'package:crafty_bay/api/api_response.dart';
 import 'package:crafty_bay/controllers/auth_controller.dart';
-import 'package:crafty_bay/models/user_model.dart';
+import 'package:crafty_bay/models/customer_model.dart';
 import 'package:crafty_bay/utilities/urls.dart';
 import 'package:get/get.dart';
 
@@ -12,29 +12,19 @@ class CreateUserProfileController extends GetxController {
 
   bool get inProgress => _inProgress;
 
-  Future<bool> createProfile(
-      {required String firstName,
-      required String lastName,
-      required String mobile,
-      required String city,
-      required String shippingAddress}) async {
+  Future<bool> createProfile(CustomerModel formValue) async {
     _inProgress = true;
     update();
 
-    UserModel formValue = UserModel(
-      firstName: firstName,
-      lastName: lastName,
-      mobile: mobile,
-      city: city,
-      shippingAddress: shippingAddress,
-    );
     ApiResponse res = await ApiCaller()
         .apiPostRequest(url: Urls.createProfile, formValue: formValue.toJson());
 
     _inProgress = false;
     update();
+    print(res.errorMessage);
+    print("token: ${AuthController.token.toString()}");
     if (res.isSuccess) {
-      await _authController.saveUserData(model: formValue);
+      await _authController.saveCustomerData(model: formValue);
       return true;
     } else {
       return false;

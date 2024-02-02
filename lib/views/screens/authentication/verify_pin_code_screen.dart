@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:crafty_bay/controllers/read_user_profile_controller.dart';
 import 'package:crafty_bay/controllers/verify_otp_controller.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
@@ -7,6 +8,7 @@ import 'package:crafty_bay/utilities/assets_path.dart';
 import 'package:crafty_bay/utilities/styles.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
 import 'package:crafty_bay/views/screens/bottom_nav_screen.dart';
+import 'package:crafty_bay/views/screens/profile/update_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -63,7 +65,15 @@ class _VerifyPinCodeScreenState extends State<VerifyPinCodeScreen> {
           .verifyOTP(_pinCodeCTEController.text.trim());
       if (res) {
         successToast(AppMessages.otpSuccess);
-        Get.offNamedUntil(BottomNavScreen.routeName, (route) => false);
+        var readProfile = Get.find<ReadUserProfileController>();
+        await readProfile.readProfile();
+        bool hasProfile = readProfile.hasProfileData;
+
+        if (hasProfile) {
+          Get.offNamedUntil(BottomNavScreen.routeName, (route) => false);
+        } else {
+          Get.offNamedUntil(UpdateProfileScreen.routeName, (route) => false);
+        }
       } else {
         errorToast(AppMessages.otpFailed);
       }
@@ -95,7 +105,7 @@ class _VerifyPinCodeScreenState extends State<VerifyPinCodeScreen> {
                   height: 10,
                 ),
                 Text(
-                  "A 4 digit OTP code has been sent.",
+                  "A 6 digit OTP code has been sent.",
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 const SizedBox(

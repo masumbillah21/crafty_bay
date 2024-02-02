@@ -1,7 +1,7 @@
 import 'package:crafty_bay/api/api_caller.dart';
 import 'package:crafty_bay/api/api_response.dart';
 import 'package:crafty_bay/controllers/auth_controller.dart';
-import 'package:crafty_bay/models/user_model.dart';
+import 'package:crafty_bay/models/customer_model.dart';
 import 'package:crafty_bay/utilities/urls.dart';
 import 'package:get/get.dart';
 
@@ -24,11 +24,13 @@ class ReadUserProfileController extends GetxController {
     update();
 
     if (res.isSuccess) {
-      if (res.jsonResponse['data'] == null) {
+      if (res.jsonResponse['data'] == null ||
+          res.jsonResponse['data'].isEmpty) {
         _hasProfileData = false;
       } else {
-        UserModel userModel = UserModel.fromJson(res.jsonResponse['data'][0]);
-        await _authController.saveUserData(model: userModel);
+        CustomerModel customerModel =
+            CustomerModel.fromJson(res.jsonResponse['data']);
+        await _authController.saveCustomerData(model: customerModel);
       }
 
       return true;
