@@ -12,14 +12,14 @@ ButtonStyle get iconButtonStyle => IconButton.styleFrom(
 
 PinTheme get appOTPStyle => PinTheme(
       inactiveColor: AppColors.primaryColor,
-      inactiveFillColor: Colors.white,
+      inactiveFillColor: AppColors.primaryColor,
       selectedColor: AppColors.primaryColor,
-      activeColor: Colors.white,
       selectedFillColor: AppColors.primaryColor,
+      activeColor: Colors.white,
+      activeFillColor: AppColors.primaryColor,
       shape: PinCodeFieldShape.box,
       borderRadius: BorderRadius.circular(5),
       fieldHeight: 50,
       borderWidth: 0.5,
       fieldWidth: 45,
-      activeFillColor: Colors.white,
     );

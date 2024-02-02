@@ -1,10 +1,12 @@
+import 'package:crafty_bay/controllers/add_to_cart_controller.dart';
 import 'package:crafty_bay/controllers/product_details_controller.dart';
+import 'package:crafty_bay/models/cart_model.dart';
 import 'package:crafty_bay/models/product_details_model.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
 import 'package:crafty_bay/views/screens/shop/_part/product_carousel.dart';
-import 'package:crafty_bay/views/widgets/fixed_bottom_section.dart';
+import 'package:crafty_bay/views/widgets/bottom_section_bg.dart';
 import 'package:crafty_bay/views/widgets/product_counter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,6 +14,21 @@ import 'package:get/get.dart';
 class ProductDetailsScreen extends StatelessWidget {
   static const routeName = '/product-details';
   const ProductDetailsScreen({super.key});
+
+  void addToCard(
+      {required int productId,
+      required String color,
+      required String size,
+      required String quantity}) async {
+    CartModel cartModel = CartModel(
+        productId: productId, color: color, size: size, qty: quantity);
+    bool res = await Get.find<AddToCartController>().addToCart(cartModel);
+    if (res) {
+      successToast("Cart Successfully Added.");
+    } else {
+      errorToast("Failed to add into cart, try again later.");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,15 +56,60 @@ class ProductDetailsScreen extends StatelessWidget {
                               productCarousel:
                                   product.productDetails?.carouselImages ?? [],
                             ),
-                            productDetailsBody(
-                              product.productDetails?.productDetailsList?[0] ??
-                                  ProductDetailsModel(),
-                            ),
+                            productDetailsBody(product),
                           ],
                         ),
                       ),
                     ),
-                    const FixedBottomSection(),
+                    BottomSectionBg(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Price",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Text(
+                                "\$${product.productDetails?.productDetailsList?[0].product?.price ?? 0}",
+                                style: const TextStyle(
+                                  color: AppColors.primaryColor,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 150,
+                            child: GetBuilder<AddToCartController>(
+                                builder: (cart) {
+                              return Visibility(
+                                visible: !cart.inProgress,
+                                replacement: const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    addToCard(
+                                      productId: id,
+                                      color: product.selectedColor.value,
+                                      size: product.selectedSize.value,
+                                      quantity: product.productQuantity.string,
+                                    );
+                                  },
+                                  child: const Text("Add To Cart"),
+                                ),
+                              );
+                            }),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 )
               : Center(
@@ -60,7 +122,9 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }
 
-  Padding productDetailsBody(ProductDetailsModel product) {
+  Padding productDetailsBody(ProductDetailsController product) {
+    ProductDetailsModel productDetails =
+        product.productDetails?.productDetailsList?[0] ?? ProductDetailsModel();
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -74,14 +138,16 @@ class ProductDetailsScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  "${product.product?.title}",
+                  "${productDetails.product?.title}",
                   style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
               ),
-              const ProductCounter(),
+              ProductCounter(
+                controller: product,
+              ),
             ],
           ),
           const SizedBox(
@@ -97,7 +163,7 @@ class ProductDetailsScreen extends StatelessWidget {
                     color: Colors.yellow,
                   ),
                   Text(
-                    "${product.product?.star}",
+                    "${productDetails.product?.star}",
                     style: const TextStyle(
                       fontSize: 18,
                     ),
@@ -144,34 +210,7 @@ class ProductDetailsScreen extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          Row(
-            children: product.color!
-                .split(",")
-                .map(
-                  (e) => Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: InkWell(
-                      onTap: () {
-                        //
-                      },
-                      child: Container(
-                        height: 40,
-                        width: 40,
-                        margin: const EdgeInsets.only(right: 8),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: getColorByName(e),
-                          borderRadius: BorderRadius.circular(50),
-                          border: Border.all(
-                            color: Colors.black54,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-                .toList(),
-          ),
+          colorSelector(product),
           const SizedBox(
             height: 16,
           ),
@@ -185,31 +224,7 @@ class ProductDetailsScreen extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          Row(
-            children: product.size!
-                .split(',')
-                .map(
-                  (e) => InkWell(
-                    onTap: () {
-                      //
-                    },
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      margin: const EdgeInsets.only(right: 8),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        border: Border.all(
-                          color: Colors.black54,
-                        ),
-                      ),
-                      child: Text(e),
-                    ),
-                  ),
-                )
-                .toList(),
-          ),
+          sizeSelector(productDetails, product),
           const SizedBox(
             height: 16,
           ),
@@ -224,7 +239,7 @@ class ProductDetailsScreen extends StatelessWidget {
             height: 10,
           ),
           Text(
-            product.des!.replaceAll("\\r\\", ""),
+            productDetails.des!.replaceAll("\\r\\", ""),
             style: const TextStyle(
               color: Colors.grey,
               fontSize: 14,
@@ -232,6 +247,88 @@ class ProductDetailsScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Row sizeSelector(
+      ProductDetailsModel productDetails, ProductDetailsController product) {
+    return Row(
+      children: productDetails.size!
+          .split(',')
+          .map(
+            (e) => Obx(
+              () => InkWell(
+                onTap: () {
+                  product.selectedSize(e);
+                },
+                borderRadius: BorderRadius.circular(50),
+                child: Container(
+                  height: 40,
+                  width: 40,
+                  margin: const EdgeInsets.only(right: 8),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: product.selectedSize.value == e
+                        ? AppColors.primaryColor
+                        : Colors.white,
+                    borderRadius: BorderRadius.circular(50),
+                    border: Border.all(
+                      color: product.selectedSize.value == e
+                          ? AppColors.primaryColor
+                          : Colors.black54,
+                    ),
+                  ),
+                  child: Text(
+                    e,
+                    style: TextStyle(
+                      color: product.selectedSize.value == e
+                          ? Colors.white
+                          : Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          )
+          .toList(),
+    );
+  }
+
+  Row colorSelector(ProductDetailsController product) {
+    return Row(
+      children: product.productDetails!.productDetailsList![0].color!
+          .split(",")
+          .map(
+            (e) => Obx(() => Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: InkWell(
+                    onTap: () {
+                      product.selectedColor(e);
+                    },
+                    borderRadius: BorderRadius.circular(50),
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      margin: const EdgeInsets.only(right: 8),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: getColorByName(e),
+                        borderRadius: BorderRadius.circular(50),
+                        border: Border.all(
+                          color: e == 'White' ? Colors.grey : getColorByName(e),
+                        ),
+                      ),
+                      child: product.selectedColor.value == e
+                          ? Icon(
+                              Icons.done,
+                              color: e == 'White' ? Colors.black : Colors.white,
+                            )
+                          : null,
+                    ),
+                  ),
+                )),
+          )
+          .toList(),
     );
   }
 }

@@ -1,10 +1,12 @@
+import 'package:crafty_bay/models/cart_model.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
-import 'package:crafty_bay/views/widgets/product_counter.dart';
 import 'package:flutter/material.dart';
 
 class CartItem extends StatelessWidget {
+  final CartModel cartModel;
   const CartItem({
     super.key,
+    required this.cartModel,
   });
 
   @override
@@ -24,7 +26,7 @@ class CartItem extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Image.network(
-                  'https://photo.teamrabbil.com/images/2023/04/04/product.png',
+                  cartModel.product?.image ?? '',
                 ),
               ),
             ),
@@ -38,13 +40,13 @@ class CartItem extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Product title goes here.......",
+                            cartModel.product?.title ?? '',
                             maxLines: 1,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 17,
                               color: Colors.black,
                               fontWeight: FontWeight.w700,
@@ -53,9 +55,9 @@ class CartItem extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Text("Color: Red"),
-                              Text(", "),
-                              Text("Size: XL"),
+                              Text("Color: ${cartModel.color}"),
+                              const Text(", "),
+                              Text("Size: ${cartModel.size}"),
                             ],
                           ),
                         ],
@@ -72,18 +74,18 @@ class CartItem extends StatelessWidget {
                   const SizedBox(
                     height: 8,
                   ),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "\$100",
-                        style: TextStyle(
+                        "\$${cartModel.price}",
+                        style: const TextStyle(
                           color: AppColors.primaryColor,
                           fontSize: 17,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      ProductCounter(),
+                      //ProductCounter(),
                     ],
                   )
                 ],

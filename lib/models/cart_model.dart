@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:crafty_bay/models/product_model.dart';
 
 class CartModel {
@@ -25,33 +27,25 @@ class CartModel {
       this.product});
 
   CartModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    userId = json['user_id'];
-    productId = json['product_id'];
-    color = json['color'];
-    size = json['size'];
-    qty = json['qty'];
-    price = json['price'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    id = json['id'] ?? '';
+    userId = json['user_id'] ?? '';
+    productId = json['product_id'] ?? '';
+    color = json['color'] ?? '';
+    size = json['size'] ?? '';
+    qty = json['qty'] ?? '';
+    price = json['price'] ?? '';
+    createdAt = json['created_at'] ?? '';
+    updatedAt = json['updated_at'] ?? '';
     product =
         json['product'] != null ? ProductModel.fromJson(json['product']) : null;
   }
 
-  Map<String, dynamic> toJson() {
+  String toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['user_id'] = userId;
     data['product_id'] = productId;
     data['color'] = color;
     data['size'] = size;
     data['qty'] = qty;
-    data['price'] = price;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    if (product != null) {
-      data['product'] = product!.toJson();
-    }
-    return data;
+    return jsonEncode(data);
   }
 }

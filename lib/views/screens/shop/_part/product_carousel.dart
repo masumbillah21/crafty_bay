@@ -34,7 +34,7 @@ class ProductCarousel extends StatelessWidget {
                   ),
                   child: Image.network(
                     item,
-                    width: 180,
+                    fit: BoxFit.cover,
                   ),
                 );
               },

@@ -1,3 +1,4 @@
+import 'package:crafty_bay/controllers/auth_controller.dart';
 import 'package:crafty_bay/utilities/assets_path.dart';
 import 'package:crafty_bay/views/screens/bottom_nav_screen.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(
       const Duration(seconds: 2),
     );
+    await Get.find<AuthController>().initializeUserCache();
     Get.offAllNamed(BottomNavScreen.routeName);
   }
 

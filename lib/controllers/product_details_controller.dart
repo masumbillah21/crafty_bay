@@ -5,14 +5,20 @@ import 'package:crafty_bay/utilities/urls.dart';
 import 'package:get/get.dart';
 
 class ProductDetailsController extends GetxController {
-  int _currentIndex = 0;
-  int get currentIndex => _currentIndex;
+  final RxString _selectedColor = ''.obs;
+  final RxString _selectedSize = ''.obs;
+  final RxInt _productQuantity = 1.obs;
+
   ProductDetailsListModel? _productDetailsList = ProductDetailsListModel();
 
   ProductDetailsListModel? get productDetails => _productDetailsList;
 
   bool _inProgress = false;
   bool get inProgress => _inProgress;
+
+  RxString get selectedColor => _selectedColor;
+  RxString get selectedSize => _selectedSize;
+  RxInt get productQuantity => _productQuantity;
 
   Future<void> getProductDetailsById(int productId) async {
     _inProgress = true;
@@ -30,8 +36,21 @@ class ProductDetailsController extends GetxController {
     }
   }
 
-  void getCurrentIndex(int index) {
-    _currentIndex = index;
-    update();
+  void selectColor(String color) {
+    _selectedColor.value = color;
+  }
+
+  void selectSize(String size) {
+    _selectedSize.value = size;
+  }
+
+  void increaseQyt() {
+    _productQuantity.value += 1;
+  }
+
+  void decreaseQyt() {
+    if (_productQuantity > 1) {
+      _productQuantity.value -= 1;
+    }
   }
 }

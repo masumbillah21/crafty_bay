@@ -5,7 +5,7 @@ import 'package:crafty_bay/controllers/new_product_controller.dart';
 import 'package:crafty_bay/controllers/popular_product_controller.dart';
 import 'package:crafty_bay/controllers/special_product_controller.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
-import 'package:crafty_bay/views/screens/shop/cart_screen.dart';
+import 'package:crafty_bay/views/screens/shop/cart_list_screen.dart';
 import 'package:crafty_bay/views/screens/shop/categories_screen.dart';
 import 'package:crafty_bay/views/screens/shop/home_screen.dart';
 import 'package:crafty_bay/views/screens/shop/wish_list_screen.dart';
@@ -26,20 +26,18 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   final List<Widget> _screens = const [
     HomeScreen(),
     CategoriesScreen(),
-    CartScreen(),
+    CartListScreen(),
     WishListScreen()
   ];
 
   @override
   void initState() {
+    Get.find<HomeCarouselController>().getHomeCarousel();
+    Get.find<CategoryController>().getCategoryList();
+    Get.find<PopularProductController>().getProductByRemark();
+    Get.find<SpecialProductController>().getProductByRemark();
+    Get.find<NewProductController>().getProductByRemark();
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Get.find<HomeCarouselController>().getHomeCarousel();
-      Get.find<CategoryController>().getCategoryList();
-      Get.find<PopularProductController>().getProductByRemark();
-      Get.find<SpecialProductController>().getProductByRemark();
-      Get.find<NewProductController>().getProductByRemark();
-    });
   }
 
   @override

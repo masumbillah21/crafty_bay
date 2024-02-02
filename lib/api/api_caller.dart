@@ -19,6 +19,7 @@ class ApiCaller {
   }) async {
     try {
       var uri = Uri.parse(url);
+      print("token: ${AuthController.token.toString()}");
       var response =
           await http.post(uri, headers: requestHeader, body: formValue);
       var resData = jsonDecode(response.body);
@@ -58,7 +59,7 @@ class ApiCaller {
         uri,
         headers: requestHeader,
       );
-
+      print("token: ${AuthController.token.toString()}");
       var resData = jsonDecode(response.body);
       if (response.statusCode == 200 && resData['msg'] == 'success') {
         return ApiResponse(

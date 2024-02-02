@@ -19,8 +19,6 @@ class VerifyOTPController extends GetxController {
 
     ApiResponse res = await ApiCaller().apiGetRequest(
         url: Urls.verifyLogin(email: email, otp: pin), isLogin: true);
-
-    await Future.delayed(const Duration(seconds: 3));
     _inProgress = false;
     update();
     if (res.isSuccess) {

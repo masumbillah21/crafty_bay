@@ -1,5 +1,4 @@
 import 'package:crafty_bay/controllers/bottom_nav_controller.dart';
-import 'package:crafty_bay/controllers/product_controller.dart';
 import 'package:crafty_bay/controllers/wishlist_controller.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/views/widgets/product_grid.dart';
@@ -37,7 +36,7 @@ class WishListScreen extends StatelessWidget {
               replacement: const Center(
                 child: CircularProgressIndicator(),
               ),
-              child: wish.wishlist?.isEmpty ?? true
+              child: wish.wishlist?.wishList?.isEmpty ?? true
                   ? Center(
                       child: Text(
                         AppMessages.emptyMessage('wishlist'),
@@ -52,17 +51,16 @@ class WishListScreen extends StatelessWidget {
                         mainAxisSpacing: 4,
                         crossAxisSpacing: 4,
                       ),
-                      itemCount: wish.wishlist?.length ?? 0,
+                      itemCount: wish.wishlist?.wishList?.length ?? 0,
                       itemBuilder: (context, index) {
-                        var item = Get.find<ProductController>()
-                            .getProductById(wish.wishlist![index].productId!);
+                        var item = wish.wishlist!.wishList![index];
                         return FittedBox(
                           child: ProductGrid(
-                            id: item.id!,
-                            title: item.title!,
-                            price: item.price!,
-                            image: item.image!,
-                            star: item.star!,
+                            id: item.productId!,
+                            title: item.product!.title!,
+                            price: item.product!.price!,
+                            image: item.product!.image!,
+                            star: item.product!.star!,
                           ),
                         );
                       },
