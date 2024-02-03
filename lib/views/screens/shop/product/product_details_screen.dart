@@ -24,13 +24,13 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   late final int id;
-  int _productQyt = 1;
+  final ValueNotifier<int> _productQyt = ValueNotifier(1);
 
   void addToCard(
       {required int productId,
       required String color,
       required String size,
-      required String quantity}) async {
+      required int quantity}) async {
     CartModel cartModel = CartModel(
         productId: productId, color: color, size: size, qty: quantity);
     bool res = await Get.find<AddToCartController>().addToCart(cartModel);
@@ -123,7 +123,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         productId: id,
                                         color: product.selectedColor.value,
                                         size: product.selectedSize.value,
-                                        quantity: _productQyt.toString(),
+                                        quantity: _productQyt.value,
                                       );
                                     }
                                   },
@@ -171,8 +171,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ),
               ),
               ProductCounter(
-                onChange: (int value) {
-                  _productQyt = value;
+                initialValue: _productQyt,
+                onChange: (v) {
+                  _productQyt.value = v;
                 },
               ),
             ],

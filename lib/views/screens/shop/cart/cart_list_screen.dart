@@ -1,8 +1,9 @@
 import 'package:crafty_bay/controllers/cart/get_cart_list_controller.dart';
 import 'package:crafty_bay/controllers/home/bottom_nav_controller.dart';
+import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
+import 'package:crafty_bay/views/widgets/bottom_section_bg.dart';
 import 'package:crafty_bay/views/widgets/cart_item.dart';
-import 'package:crafty_bay/views/widgets/fixed_bottom_section.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -35,7 +36,7 @@ class CartListScreen extends StatelessWidget {
             replacement: const Center(
               child: CircularProgressIndicator(),
             ),
-            child: cart.cartList?.isNotEmpty ?? false
+            child: cart.cartList?.cartList?.isNotEmpty ?? false
                 ? Column(
                     children: [
                       Expanded(
@@ -43,18 +44,55 @@ class CartListScreen extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: ListView.builder(
                             shrinkWrap: true,
-                            itemCount: cart.cartList?.length ?? 0,
+                            itemCount: cart.cartList?.cartList?.length ?? 0,
                             itemBuilder: (context, index) => CartItem(
-                              cartModel: cart.cartList![index],
+                              cartModel: cart.cartList!.cartList![index],
+                              controller: cart,
                             ),
                           ),
                         ),
                       ),
-                      const FixedBottomSection()
+                      BottomSectionBg(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Total Price",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                Obx(
+                                  () => Text(
+                                    "\$${cart.totalPrice}",
+                                    style: const TextStyle(
+                                      color: AppColors.primaryColor,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              width: 100,
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                child: const Text("Checkout"),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   )
-                : Text(
-                    AppMessages.emptyMessage("Cart"),
+                : Center(
+                    child: Text(
+                      AppMessages.emptyMessage("Cart"),
+                    ),
                   ),
           );
         }),

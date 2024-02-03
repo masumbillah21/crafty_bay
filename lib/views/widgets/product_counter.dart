@@ -1,24 +1,32 @@
-import 'package:crafty_bay/controllers/helper/quantity_controller.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class ProductCounter extends StatelessWidget {
+  final ValueNotifier<int> initialValue;
+  final int minValue;
+  final int maxValue;
+  final int step;
   final Function(int) onChange;
-  final int initialValue;
+
   const ProductCounter(
-      {super.key, required this.onChange, this.initialValue = 1});
+      {super.key,
+      required this.initialValue,
+      this.minValue = 1,
+      this.maxValue = 20,
+      required this.onChange,
+      this.step = 1});
 
   @override
   Widget build(BuildContext context) {
-    final QuantityController quantityController =
-        Get.find<QuantityController>();
-    quantityController.quantity.value = initialValue;
+    ValueNotifier<int> value = initialValue;
     return Row(
       children: [
         InkWell(
           onTap: () {
-            quantityController.decreaseQuantity();
+            if (value.value > minValue) {
+              value.value -= step;
+            }
+            onChange(value.value);
           },
           child: Container(
             decoration: BoxDecoration(
@@ -36,24 +44,26 @@ class ProductCounter extends StatelessWidget {
         const SizedBox(
           width: 5,
         ),
-        Obx(
-          () {
-            onChange(quantityController.quantity.value);
-            return Text(
-              quantityController.quantity.string.padLeft(2, '0'),
-              style: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-              ),
-            );
-          },
-        ),
+        ValueListenableBuilder(
+            valueListenable: value,
+            builder: (context, qyt, _) {
+              return Text(
+                qyt.toString().padLeft(2, '0'),
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                ),
+              );
+            }),
         const SizedBox(
           width: 5,
         ),
         InkWell(
           onTap: () {
-            quantityController.increaseQuantity();
+            if (value.value < maxValue) {
+              initialValue.value += 1;
+            }
+            onChange(value.value);
           },
           child: Container(
             decoration: BoxDecoration(

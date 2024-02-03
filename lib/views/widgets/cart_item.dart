@@ -1,14 +1,32 @@
+import 'package:crafty_bay/controllers/cart/get_cart_list_controller.dart';
 import 'package:crafty_bay/models/cart/cart_model.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
+import 'package:crafty_bay/views/widgets/product_counter.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class CartItem extends StatelessWidget {
+class CartItem extends StatefulWidget {
   final CartModel cartModel;
-
+  final GetCartListController controller;
   const CartItem({
     super.key,
     required this.cartModel,
+    required this.controller,
   });
+
+  @override
+  State<CartItem> createState() => _CartItemState();
+}
+
+class _CartItemState extends State<CartItem> {
+  final ValueNotifier<int> _productQyt = ValueNotifier(1);
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _productQyt.value = widget.cartModel.qty!;
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +45,7 @@ class CartItem extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Image.network(
-                  cartModel.product?.image ?? '',
+                  widget.cartModel.product?.image ?? '',
                 ),
               ),
             ),
@@ -45,7 +63,7 @@ class CartItem extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            cartModel.product?.title ?? '',
+                            widget.cartModel.product?.title ?? '',
                             maxLines: 1,
                             style: const TextStyle(
                               fontSize: 17,
@@ -56,18 +74,21 @@ class CartItem extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Text("Color: ${cartModel.color}"),
+                              Text("Color: ${widget.cartModel.color}"),
                               const Text(", "),
-                              Text("Size: ${cartModel.size}"),
+                              Text("Size: ${widget.cartModel.size}"),
                             ],
                           ),
                         ],
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          Get.find<GetCartListController>()
+                              .deleteCartList(widget.cartModel.productId!);
+                        },
                         icon: const Icon(
                           Icons.delete_outline,
-                          color: Colors.grey,
+                          color: Colors.red,
                         ),
                       )
                     ],
@@ -79,14 +100,20 @@ class CartItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "\$${cartModel.price}",
+                        "\$${widget.cartModel.product?.price ?? 0}",
                         style: const TextStyle(
                           color: AppColors.primaryColor,
                           fontSize: 17,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      //ProductCounter(),
+                      ProductCounter(
+                        initialValue: _productQyt,
+                        onChange: (value) {
+                          widget.controller
+                              .updateQuantity(widget.cartModel.id!, value);
+                        },
+                      ),
                     ],
                   )
                 ],
