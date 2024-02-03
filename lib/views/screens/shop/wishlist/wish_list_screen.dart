@@ -1,6 +1,7 @@
 import 'package:crafty_bay/controllers/home/bottom_nav_controller.dart';
 import 'package:crafty_bay/controllers/wishlist/wishlist_controller.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
+import 'package:crafty_bay/utilities/utilities.dart';
 import 'package:crafty_bay/views/widgets/product/product_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -39,7 +40,7 @@ class WishListScreen extends StatelessWidget {
               child: wish.wishlist?.wishList?.isEmpty ?? true
                   ? Center(
                       child: Text(
-                        AppMessages.emptyMessage('wishlist'),
+                        AppMessages.emptyMessage('Wishlist'),
                       ),
                     )
                   : GridView.builder(
@@ -54,13 +55,27 @@ class WishListScreen extends StatelessWidget {
                       itemCount: wish.wishlist?.wishList?.length ?? 0,
                       itemBuilder: (context, index) {
                         var item = wish.wishlist!.wishList![index];
-                        return FittedBox(
-                          child: ProductGrid(
-                            id: item.productId!,
-                            title: item.product!.title!,
-                            price: item.product!.price!,
-                            image: item.product!.image!,
-                            star: item.product!.star!,
+                        return InkWell(
+                          onLongPress: () {
+                            showPopup(
+                              context: context,
+                              onAgree: () {
+                                wish.deleteWishlist(item.productId!);
+                                Get.back();
+                              },
+                              onDisagree: () {
+                                Get.back();
+                              },
+                            );
+                          },
+                          child: FittedBox(
+                            child: ProductGrid(
+                              id: item.productId!,
+                              title: item.product!.title!,
+                              price: item.product!.price!,
+                              image: item.product!.image!,
+                              star: item.product!.star!,
+                            ),
                           ),
                         );
                       },

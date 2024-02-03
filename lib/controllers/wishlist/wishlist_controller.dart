@@ -39,4 +39,21 @@ class WishlistController extends GetxController {
     _inProgress = false;
     update();
   }
+
+  Future<bool> deleteWishlist(int productId) async {
+    bool status = true;
+    _inProgress = true;
+    update();
+    ApiResponse res =
+        await ApiCaller().apiGetRequest(url: Urls.deleteWishList(productId));
+    _inProgress = false;
+    update();
+    if (!res.isSuccess) {
+      status = false;
+    } else {
+      await getWishlist();
+    }
+
+    return status;
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:crafty_bay/controllers/cart/get_cart_list_controller.dart';
 import 'package:crafty_bay/models/cart/cart_model.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
+import 'package:crafty_bay/utilities/utilities.dart';
 import 'package:crafty_bay/views/widgets/product_counter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -82,9 +83,18 @@ class _CartItemState extends State<CartItem> {
                         ],
                       ),
                       IconButton(
-                        onPressed: () async {
-                          Get.find<GetCartListController>()
-                              .deleteCartList(widget.cartModel.productId!);
+                        onPressed: () {
+                          showPopup(
+                            context: context,
+                            onAgree: () async {
+                              await widget.controller
+                                  .deleteCartList(widget.cartModel.productId!);
+                              Get.back();
+                            },
+                            onDisagree: () {
+                              Get.back();
+                            },
+                          );
                         },
                         icon: const Icon(
                           Icons.delete_outline,
