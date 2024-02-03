@@ -1,6 +1,6 @@
 import 'package:crafty_bay/models/product/product_list_model.dart';
 import 'package:crafty_bay/utilities/app_enum.dart';
-import 'package:crafty_bay/views/widgets/product_grid.dart';
+import 'package:crafty_bay/views/widgets/product/product_grid.dart';
 import 'package:flutter/material.dart';
 
 class ProductByRemark extends StatelessWidget {

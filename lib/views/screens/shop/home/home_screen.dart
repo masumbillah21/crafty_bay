@@ -14,7 +14,7 @@ import 'package:crafty_bay/views/screens/shop/product/product_by_remark.dart';
 import 'package:crafty_bay/views/screens/shop/product/special_product_list_screen.dart';
 import 'package:crafty_bay/views/widgets/crafty_app_bar.dart';
 import 'package:crafty_bay/views/widgets/home/home_carousel.dart';
-import 'package:crafty_bay/views/widgets/section_title.dart';
+import 'package:crafty_bay/views/widgets/home/section_title.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

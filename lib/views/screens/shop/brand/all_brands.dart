@@ -1,7 +1,7 @@
 import 'package:crafty_bay/controllers/brand/brand_controller.dart';
 import 'package:crafty_bay/views/screens/shop/brand/brands_screen.dart';
 import 'package:crafty_bay/views/widgets/brand_grid.dart';
-import 'package:crafty_bay/views/widgets/section_title.dart';
+import 'package:crafty_bay/views/widgets/home/section_title.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

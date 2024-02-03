@@ -24,6 +24,8 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   late final int id;
+  int _productQyt = 1;
+
   void addToCard(
       {required int productId,
       required String color,
@@ -111,12 +113,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 ),
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    addToCard(
-                                      productId: id,
-                                      color: product.selectedColor.value,
-                                      size: product.selectedSize.value,
-                                      quantity: product.productQuantity.string,
-                                    );
+                                    if (product.selectedColor.isEmpty) {
+                                      errorToast("Select a color.");
+                                    } else if (product
+                                        .selectedSize.value.isEmpty) {
+                                      errorToast("Select a size.");
+                                    } else {
+                                      addToCard(
+                                        productId: id,
+                                        color: product.selectedColor.value,
+                                        size: product.selectedSize.value,
+                                        quantity: _productQyt.toString(),
+                                      );
+                                    }
                                   },
                                   child: const Text("Add To Cart"),
                                 ),
@@ -162,7 +171,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ),
               ),
               ProductCounter(
-                controller: product,
+                onChange: (int value) {
+                  _productQyt = value;
+                },
               ),
             ],
           ),

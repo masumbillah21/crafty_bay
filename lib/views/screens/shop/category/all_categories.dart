@@ -1,7 +1,7 @@
 import 'package:crafty_bay/controllers/category/category_controller.dart';
 import 'package:crafty_bay/controllers/home/bottom_nav_controller.dart';
 import 'package:crafty_bay/views/widgets/category_grid.dart';
-import 'package:crafty_bay/views/widgets/section_title.dart';
+import 'package:crafty_bay/views/widgets/home/section_title.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
