@@ -21,6 +21,9 @@ class ProductDetailsController extends GetxController {
   RxInt get productQuantity => _productQuantity;
 
   Future<void> getProductDetailsById(int productId) async {
+    _selectedColor.value = '';
+    _selectedSize.value = '';
+    _productQuantity.value = 1;
     _inProgress = true;
     update();
     ApiResponse res =

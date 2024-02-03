@@ -46,7 +46,7 @@ class _BrandProductListScreenState extends State<BrandProductListScreen> {
             child: product.categoryProductList?.productList?.isEmpty ?? true
                 ? Center(
                     child: Text(
-                      AppMessages.emptyMessage('product'),
+                      AppMessages.emptyMessage('Product'),
                     ),
                   )
                 : GridView.builder(

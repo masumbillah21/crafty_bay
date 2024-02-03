@@ -3,11 +3,12 @@ import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ProductCarousel extends StatelessWidget {
-  const ProductCarousel({
+  ProductCarousel({
     super.key,
     required this.productCarousel,
   });
   final List<String> productCarousel;
+  final ValueNotifier<int> _currentIndex = ValueNotifier(0);
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -20,7 +21,7 @@ class ProductCarousel extends StatelessWidget {
             autoPlayInterval: const Duration(seconds: 5),
             autoPlayAnimationDuration: const Duration(seconds: 2),
             onPageChanged: (index, _) {
-              //
+              _currentIndex.value = index;
             },
           ),
           items: productCarousel.map((item) {
@@ -45,23 +46,28 @@ class ProductCarousel extends StatelessWidget {
           bottom: 10,
           left: 0,
           right: 0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: productCarousel.map<Widget>(
-              (i) {
-                String active = i;
-                return Container(
-                  margin: const EdgeInsets.all(5),
-                  width: 20,
-                  height: 20,
-                  decoration: BoxDecoration(
-                    color: active == i ? AppColors.primaryColor : Colors.white,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
+          child: ValueListenableBuilder(
+              valueListenable: _currentIndex,
+              builder: (context, index, _) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: productCarousel.map<Widget>(
+                    (i) {
+                      return Container(
+                        margin: const EdgeInsets.all(5),
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          color: productCarousel[index] == i
+                              ? AppColors.primaryColor
+                              : Colors.white,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                      );
+                    },
+                  ).toList(),
                 );
-              },
-            ).toList(),
-          ),
+              }),
         )
       ],
     );

@@ -11,6 +11,8 @@ class GetCartListController extends GetxController {
 
   List<CartModel>? get cartList => _cartList;
   bool get inProgress => _inProgress;
+  final RxInt _productQuantity = 1.obs;
+  RxInt get productQuantity => _productQuantity;
 
   Future<void> getCartList() async {
     _inProgress = true;
@@ -28,6 +30,16 @@ class GetCartListController extends GetxController {
 
         _cartList = catList;
       }
+    }
+  }
+
+  void increaseQyt() {
+    _productQuantity.value += 1;
+  }
+
+  void decreaseQyt() {
+    if (_productQuantity > 1) {
+      _productQuantity.value -= 1;
     }
   }
 }

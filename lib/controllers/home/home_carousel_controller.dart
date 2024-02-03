@@ -33,9 +33,4 @@ class HomeCarouselController extends GetxController {
       }
     }
   }
-
-  void getCurrentIndex(int index) {
-    _currentIndex = index;
-    update();
-  }
 }

@@ -45,7 +45,7 @@ class _NewProductListScreenState extends State<NewProductListScreen> {
             child: product.remarkProductList?.productList?.isEmpty ?? true
                 ? Center(
                     child: Text(
-                      AppMessages.emptyMessage('product'),
+                      AppMessages.emptyMessage('Product'),
                     ),
                   )
                 : GridView.builder(

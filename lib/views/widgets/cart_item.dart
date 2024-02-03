@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class CartItem extends StatelessWidget {
   final CartModel cartModel;
+
   const CartItem({
     super.key,
     required this.cartModel,

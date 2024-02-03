@@ -6,12 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeCarousel extends StatelessWidget {
-  const HomeCarousel({
+  HomeCarousel({
     super.key,
     required this.homeCarousel,
   });
 
   final HomeCarouselController homeCarousel;
+
+  final ValueNotifier<int> _currentIndex = ValueNotifier(0);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class HomeCarousel extends StatelessWidget {
             autoPlayInterval: const Duration(seconds: 5),
             autoPlayAnimationDuration: const Duration(seconds: 2),
             onPageChanged: (index, _) {
-              homeCarousel.getCurrentIndex(index);
+              _currentIndex.value = index;
             },
           ),
           items: homeCarousel.carouselList?.map((item) {
@@ -104,37 +106,41 @@ class HomeCarousel extends StatelessWidget {
             );
           }).toList(),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: homeCarousel.carouselList!
-              .asMap()
-              .map(
-                (i, e) {
-                  int active = homeCarousel.currentIndex;
-                  return MapEntry(
-                    i,
-                    Container(
-                      margin: const EdgeInsets.all(5),
-                      width: 15,
-                      height: 15,
-                      decoration: BoxDecoration(
-                        color:
-                            active == i ? AppColors.primaryColor : Colors.white,
-                        borderRadius: BorderRadius.circular(50),
-                        border: Border.all(
-                          color: active == i
-                              ? AppColors.primaryColor
-                              : Colors.grey,
-                          width: 1.4,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              )
-              .values
-              .toList(),
-        )
+        ValueListenableBuilder(
+            valueListenable: _currentIndex,
+            builder: (context, index, _) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: homeCarousel.carouselList!
+                    .asMap()
+                    .map(
+                      (i, e) {
+                        return MapEntry(
+                          i,
+                          Container(
+                            margin: const EdgeInsets.all(5),
+                            width: 15,
+                            height: 15,
+                            decoration: BoxDecoration(
+                              color: index == i
+                                  ? AppColors.primaryColor
+                                  : Colors.white,
+                              borderRadius: BorderRadius.circular(50),
+                              border: Border.all(
+                                color: index == i
+                                    ? AppColors.primaryColor
+                                    : Colors.grey,
+                                width: 1.4,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                    .values
+                    .toList(),
+              );
+            })
       ],
     );
   }
