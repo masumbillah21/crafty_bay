@@ -1,7 +1,7 @@
-import 'package:crafty_bay/controllers/auth_controller.dart';
-import 'package:crafty_bay/controllers/create_user_profile_controller.dart';
-import 'package:crafty_bay/controllers/read_user_profile_controller.dart';
-import 'package:crafty_bay/models/customer_model.dart';
+import 'package:crafty_bay/controllers/auth/auth_controller.dart';
+import 'package:crafty_bay/controllers/user/create_user_profile_controller.dart';
+import 'package:crafty_bay/controllers/user/read_user_profile_controller.dart';
+import 'package:crafty_bay/models/user/customer_model.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/assets_path.dart';
 import 'package:crafty_bay/utilities/utilities.dart';

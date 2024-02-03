@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:crafty_bay/controllers/read_user_profile_controller.dart';
-import 'package:crafty_bay/controllers/verify_otp_controller.dart';
+import 'package:crafty_bay/controllers/auth/verify_otp_controller.dart';
+import 'package:crafty_bay/controllers/user/read_user_profile_controller.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/assets_path.dart';

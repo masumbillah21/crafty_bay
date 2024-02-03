@@ -1,42 +1,42 @@
 class Urls {
-  static const baseUrl = 'http://ecom-api.teamrabbil.com/api';
+  static const _baseUrl = 'http://ecom-api.teamrabbil.com/api';
 
   //Users
-  static loginUrl(String email) => "$baseUrl/UserLogin/$email";
+  static loginUrl(String email) => "$_baseUrl/UserLogin/$email";
   static verifyLogin({required String email, required String otp}) =>
-      "$baseUrl/VerifyLogin/$email/$otp";
-  static const createProfile = "$baseUrl/CreateProfile";
-  static const readProfile = "$baseUrl/ReadProfile";
+      "$_baseUrl/VerifyLogin/$email/$otp";
+  static const createProfile = "$_baseUrl/CreateProfile";
+  static const readProfile = "$_baseUrl/ReadProfile";
 
   //Brands
-  static const brandList = "$baseUrl/BrandList";
+  static const brandList = "$_baseUrl/BrandList";
 
   //Categories
-  static const categoryList = "$baseUrl/CategoryList";
+  static const categoryList = "$_baseUrl/CategoryList";
 
   //Products
   static productListByCategory(int categoryId) =>
-      "$baseUrl/ListProductByCategory/$categoryId";
+      "$_baseUrl/ListProductByCategory/$categoryId";
   static productListByBrand(int brandId) =>
-      "$baseUrl/ListProductByBrand/$brandId";
+      "$_baseUrl/ListProductByBrand/$brandId";
   static productListByRemark(String remark) =>
-      "$baseUrl/ListProductByRemark/$remark";
+      "$_baseUrl/ListProductByRemark/$remark";
   static productDetailById(int productId) =>
-      "$baseUrl/ProductDetailsById/$productId";
-  static const listProductSlider = "$baseUrl/ListProductSlider";
+      "$_baseUrl/ProductDetailsById/$productId";
+  static const listProductSlider = "$_baseUrl/ListProductSlider";
 
   //WishList
-  static const productWishList = "$baseUrl/ProductWishList";
-  static createWishList(int productId) => "$baseUrl/CreateWishList/$productId";
+  static const productWishList = "$_baseUrl/ProductWishList";
+  static createWishList(int productId) => "$_baseUrl/CreateWishList/$productId";
 
   //Cart
-  static const createCartList = "$baseUrl/CreateCartList";
-  static const cartList = "$baseUrl/CartList";
+  static const createCartList = "$_baseUrl/CreateCartList";
+  static const cartList = "$_baseUrl/CartList";
   static deleteCartList(String productId) =>
-      "$baseUrl/DeleteCartList/$productId";
+      "$_baseUrl/DeleteCartList/$productId";
 
   // Review
-  static const createProductReview = "$baseUrl/CreateProductReview";
-  static listReviewByProduct(String productId) =>
-      "$baseUrl/ListReviewByProduct/$productId";
+  static const createProductReview = "$_baseUrl/CreateProductReview";
+  static listReviewByProduct(int productId) =>
+      "$_baseUrl/ListReviewByProduct/$productId";
 }

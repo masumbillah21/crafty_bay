@@ -1,5 +1,7 @@
+import 'package:crafty_bay/controllers/wishlist/wishlist_controller.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
-import 'package:crafty_bay/views/screens/shop/product_details_screen.dart';
+import 'package:crafty_bay/utilities/utilities.dart';
+import 'package:crafty_bay/views/screens/shop/product/product_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -98,16 +100,27 @@ class ProductGrid extends StatelessWidget {
                       const SizedBox(
                         width: 8,
                       ),
-                      Container(
-                        padding: const EdgeInsets.all(3),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          color: AppColors.primaryColor,
-                        ),
-                        child: const Icon(
-                          Icons.favorite_border_outlined,
-                          size: 12,
-                          color: Colors.white,
+                      GestureDetector(
+                        onTap: () async {
+                          bool res = await Get.find<WishlistController>()
+                              .createWishlist(id);
+                          if (res) {
+                            successToast("Added to wishlist");
+                          } else {
+                            errorToast("Failed to add");
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(3),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            color: AppColors.primaryColor,
+                          ),
+                          child: const Icon(
+                            Icons.favorite_border_outlined,
+                            size: 12,
+                            color: Colors.white,
+                          ),
                         ),
                       )
                     ],

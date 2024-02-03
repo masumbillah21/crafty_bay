@@ -1,4 +1,4 @@
-import 'package:crafty_bay/controllers/send_email_otp_controller.dart';
+import 'package:crafty_bay/controllers/auth/send_email_otp_controller.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/assets_path.dart';
 import 'package:crafty_bay/utilities/utilities.dart';

@@ -1,5 +1,5 @@
-import 'package:crafty_bay/controllers/bottom_nav_controller.dart';
-import 'package:crafty_bay/controllers/read_cart_list_controller.dart';
+import 'package:crafty_bay/controllers/cart/get_cart_list_controller.dart';
+import 'package:crafty_bay/controllers/home/bottom_nav_controller.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/views/widgets/cart_item.dart';
 import 'package:crafty_bay/views/widgets/fixed_bottom_section.dart';
@@ -12,7 +12,7 @@ class CartListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.find<ReadCartListController>().getCartList();
+    Get.find<GetCartListController>().getCartList();
     return PopScope(
       canPop: false,
       onPopInvoked: (_) {
@@ -29,7 +29,7 @@ class CartListScreen extends StatelessWidget {
           ),
           title: const Text('Cart'),
         ),
-        body: GetBuilder<ReadCartListController>(builder: (cart) {
+        body: GetBuilder<GetCartListController>(builder: (cart) {
           return Visibility(
             visible: !cart.inProgress,
             replacement: const Center(

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:crafty_bay/api/api_response.dart';
-import 'package:crafty_bay/controllers/auth_controller.dart';
+import 'package:crafty_bay/controllers/auth/auth_controller.dart';
 import 'package:crafty_bay/crafty_bay.dart';
 import 'package:crafty_bay/views/screens/authentication/verify_email_screen.dart';
 import 'package:flutter/material.dart';

@@ -12,14 +12,14 @@ class CustomerReviewScreen extends StatefulWidget {
 }
 
 class _CustomerReviewScreenState extends State<CustomerReviewScreen> {
-  final TextEditingController _firstNameTEController = TextEditingController();
-  final TextEditingController _lastNameTEController = TextEditingController();
   final TextEditingController _reviewTEController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    int id = Get.arguments;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Customer Review'),
+        title: Text('Customer Review $id'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -30,38 +30,6 @@ class _CustomerReviewScreenState extends State<CustomerReviewScreen> {
               Form(
                 child: Column(
                   children: [
-                    TextFormField(
-                      controller: _firstNameTEController,
-                      decoration: const InputDecoration(
-                        hintText: 'First Name',
-                      ),
-                      keyboardType: TextInputType.text,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return AppMessages.requiredFirstName;
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextFormField(
-                      controller: _lastNameTEController,
-                      decoration: const InputDecoration(
-                        hintText: 'Last Name',
-                      ),
-                      keyboardType: TextInputType.text,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return AppMessages.requiredLastName;
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
                     TextFormField(
                       controller: _reviewTEController,
                       maxLines: 9,

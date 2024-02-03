@@ -2,18 +2,23 @@ import 'package:crafty_bay/views/screens/authentication/verify_email_screen.dart
 import 'package:crafty_bay/views/screens/authentication/verify_pin_code_screen.dart';
 import 'package:crafty_bay/views/screens/bottom_nav_screen.dart';
 import 'package:crafty_bay/views/screens/customer_review/customer_review_screen.dart';
+import 'package:crafty_bay/views/screens/customer_review/review_list_screen.dart';
 import 'package:crafty_bay/views/screens/onboard/splash_screen.dart';
 import 'package:crafty_bay/views/screens/profile/update_profile_screen.dart';
+import 'package:crafty_bay/views/screens/shop/brand/brands_screen.dart';
 import 'package:crafty_bay/views/screens/shop/cart_list_screen.dart';
-import 'package:crafty_bay/views/screens/shop/categories_screen.dart';
+import 'package:crafty_bay/views/screens/shop/category/categories_screen.dart';
 import 'package:crafty_bay/views/screens/shop/home_screen.dart';
-import 'package:crafty_bay/views/screens/shop/product_details_screen.dart';
+import 'package:crafty_bay/views/screens/shop/product/product_details_screen.dart';
 import 'package:crafty_bay/views/screens/shop/wish_list_screen.dart';
 import 'package:get/get.dart';
 
 class AppRoutes {
   static List<GetPage<dynamic>> appRoutes = [
-    GetPage(name: SplashScreen.routeName, page: () => const SplashScreen()),
+    GetPage(
+      name: SplashScreen.routeName,
+      page: () => const SplashScreen(),
+    ),
     GetPage(
       name: BottomNavScreen.routeName,
       page: () => const BottomNavScreen(),
@@ -27,8 +32,12 @@ class AppRoutes {
       page: () => const CategoriesScreen(),
     ),
     GetPage(
+      name: BrandsScreen.routeName,
+      page: () => const BrandsScreen(),
+    ),
+    GetPage(
       name: ProductDetailsScreen.routeName,
-      page: () => ProductDetailsScreen(),
+      page: () => const ProductDetailsScreen(),
     ),
     GetPage(
       name: CartListScreen.routeName,
@@ -53,6 +62,10 @@ class AppRoutes {
     GetPage(
       name: CustomerReviewScreen.routeName,
       page: () => const CustomerReviewScreen(),
+    ),
+    GetPage(
+      name: ReviewListScreen.routeName,
+      page: () => const ReviewListScreen(),
     ),
   ];
 }
