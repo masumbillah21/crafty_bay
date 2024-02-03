@@ -6,11 +6,11 @@ import 'package:crafty_bay/views/screens/customer_review/review_list_screen.dart
 import 'package:crafty_bay/views/screens/onboard/splash_screen.dart';
 import 'package:crafty_bay/views/screens/profile/update_profile_screen.dart';
 import 'package:crafty_bay/views/screens/shop/brand/brands_screen.dart';
-import 'package:crafty_bay/views/screens/shop/cart_list_screen.dart';
+import 'package:crafty_bay/views/screens/shop/cart/cart_list_screen.dart';
 import 'package:crafty_bay/views/screens/shop/category/categories_screen.dart';
-import 'package:crafty_bay/views/screens/shop/home_screen.dart';
+import 'package:crafty_bay/views/screens/shop/home/home_screen.dart';
 import 'package:crafty_bay/views/screens/shop/product/product_details_screen.dart';
-import 'package:crafty_bay/views/screens/shop/wish_list_screen.dart';
+import 'package:crafty_bay/views/screens/shop/wishlist/wish_list_screen.dart';
 import 'package:get/get.dart';
 
 class AppRoutes {

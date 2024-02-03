@@ -6,10 +6,10 @@ import 'package:crafty_bay/controllers/product/new_product_controller.dart';
 import 'package:crafty_bay/controllers/product/popular_product_controller.dart';
 import 'package:crafty_bay/controllers/product/special_product_controller.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
-import 'package:crafty_bay/views/screens/shop/cart_list_screen.dart';
+import 'package:crafty_bay/views/screens/shop/cart/cart_list_screen.dart';
 import 'package:crafty_bay/views/screens/shop/category/categories_screen.dart';
-import 'package:crafty_bay/views/screens/shop/home_screen.dart';
-import 'package:crafty_bay/views/screens/shop/wish_list_screen.dart';
+import 'package:crafty_bay/views/screens/shop/home/home_screen.dart';
+import 'package:crafty_bay/views/screens/shop/wishlist/wish_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
