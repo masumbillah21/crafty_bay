@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:crafty_bay/controllers/user/read_user_profile_controller.dart';
 import 'package:crafty_bay/models/user/customer_model.dart';
 import 'package:crafty_bay/models/user/user_model.dart';
+import 'package:crafty_bay/views/screens/authentication/verify_email_screen.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -54,5 +56,15 @@ class AuthController extends GetxController {
     await _storage.erase();
     _token = null;
     _customer = null;
+  }
+
+  void checkLogin() async {
+    bool isLogin = false;
+    isLogin = await checkAuthState();
+    if (!isLogin) {
+      Get.offNamed(VerifyEmailScreen.routeName);
+    } else {
+      await Get.find<ReadUserProfileController>().readProfile();
+    }
   }
 }

@@ -33,13 +33,13 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
 
   @override
   void initState() {
+    super.initState();
     Get.find<HomeCarouselController>().getHomeCarousel();
     Get.find<CategoryController>().getCategoryList();
     Get.find<BrandController>().getBrandList();
     Get.find<PopularProductController>().getProductByRemark();
     Get.find<SpecialProductController>().getProductByRemark();
     Get.find<NewProductController>().getProductByRemark();
-    super.initState();
   }
 
   @override
