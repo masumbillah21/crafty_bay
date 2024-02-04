@@ -3,7 +3,7 @@ import 'package:crafty_bay/controllers/home/bottom_nav_controller.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/views/widgets/bottom_section_bg.dart';
-import 'package:crafty_bay/views/widgets/cart_item.dart';
+import 'package:crafty_bay/views/widgets/cart/cart_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -193,11 +193,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               InkWell(
                 onTap: () {
                   Get.to(
-                    BrandProductListScreen(
-                        id: product.productDetails!.productDetailsList![0]
-                            .product!.brand!.id!,
-                        name: product.productDetails!.productDetailsList![0]
-                            .product!.brand!.brandName!),
+                    () => BrandProductListScreen(
+                      id: product.productDetails!.productDetailsList![0]
+                          .product!.brand!.id!,
+                      name: product.productDetails!.productDetailsList![0]
+                          .product!.brand!.brandName!,
+                    ),
                   );
                 },
                 child: Text(

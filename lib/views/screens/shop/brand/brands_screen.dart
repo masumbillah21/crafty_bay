@@ -1,5 +1,5 @@
 import 'package:crafty_bay/controllers/brand/brand_controller.dart';
-import 'package:crafty_bay/views/widgets/brand_grid.dart';
+import 'package:crafty_bay/views/widgets/brand/brand_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

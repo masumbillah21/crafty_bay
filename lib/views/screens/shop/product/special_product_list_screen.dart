@@ -1,6 +1,6 @@
 import 'package:crafty_bay/controllers/product/special_product_controller.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
-import 'package:crafty_bay/views/widgets/product/product_grid.dart';
+import 'package:crafty_bay/views/widgets/product_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
