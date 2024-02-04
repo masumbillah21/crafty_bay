@@ -24,7 +24,7 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   late final int id;
-  final ValueNotifier<int> _productQyt = ValueNotifier(1);
+  int _productQyt = 1;
 
   void addToCard(
       {required int productId,
@@ -123,7 +123,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         productId: id,
                                         color: product.selectedColor.value,
                                         size: product.selectedSize.value,
-                                        quantity: _productQyt.value,
+                                        quantity: _productQyt,
                                       );
                                     }
                                   },
@@ -173,7 +173,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ProductCounter(
                 initialValue: _productQyt,
                 onChange: (v) {
-                  _productQyt.value = v;
+                  _productQyt = v;
                 },
               ),
             ],

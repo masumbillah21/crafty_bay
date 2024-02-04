@@ -20,14 +20,7 @@ class CartItem extends StatefulWidget {
 }
 
 class _CartItemState extends State<CartItem> {
-  final ValueNotifier<int> _productQyt = ValueNotifier(1);
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _productQyt.value = widget.cartModel.qty!;
-    });
-    super.initState();
-  }
+  late final int _productQyt = widget.cartModel.qty!;
 
   @override
   Widget build(BuildContext context) {

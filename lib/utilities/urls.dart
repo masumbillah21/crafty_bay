@@ -39,4 +39,10 @@ class Urls {
   static const createProductReview = "$_baseUrl/CreateProductReview";
   static listReviewByProduct(int productId) =>
       "$_baseUrl/ListReviewByProduct/$productId";
+
+  //Invoice
+  static const createInvoice = "$_baseUrl/InvoiceCreate";
+  static const listInvoice = "$_baseUrl/InvoiceList";
+  static invoiceProductList(int invoiceId) =>
+      "$_baseUrl/InvoiceProductList/$invoiceId";
 }

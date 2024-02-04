@@ -2,6 +2,7 @@ import 'package:crafty_bay/controllers/cart/get_cart_list_controller.dart';
 import 'package:crafty_bay/controllers/home/bottom_nav_controller.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
+import 'package:crafty_bay/views/screens/shop/checkout/checkout_screen.dart';
 import 'package:crafty_bay/views/widgets/bottom_section_bg.dart';
 import 'package:crafty_bay/views/widgets/cart/cart_item.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +81,9 @@ class CartListScreen extends StatelessWidget {
                             SizedBox(
                               width: 100,
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Get.toNamed(CheckoutScreen.routeName);
+                                },
                                 child: const Text("Checkout"),
                               ),
                             ),

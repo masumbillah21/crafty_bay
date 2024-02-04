@@ -5,6 +5,7 @@ import 'package:crafty_bay/controllers/brand/brand_controller.dart';
 import 'package:crafty_bay/controllers/cart/add_to_cart_controller.dart';
 import 'package:crafty_bay/controllers/cart/get_cart_list_controller.dart';
 import 'package:crafty_bay/controllers/category/category_controller.dart';
+import 'package:crafty_bay/controllers/checkout/create_invoice_controller.dart';
 import 'package:crafty_bay/controllers/home/bottom_nav_controller.dart';
 import 'package:crafty_bay/controllers/home/home_carousel_controller.dart';
 import 'package:crafty_bay/controllers/product/new_product_controller.dart';
@@ -41,5 +42,6 @@ class CraftyBayDependency extends Bindings {
     Get.lazyPut(() => GetCartListController(), fenix: true);
     Get.lazyPut(() => GetReviewListController(), fenix: true);
     Get.lazyPut(() => CreateReviewController(), fenix: true);
+    Get.lazyPut(() => CreateInvoiceController(), fenix: true);
   }
 }

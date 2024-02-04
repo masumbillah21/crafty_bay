@@ -2,7 +2,7 @@ import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ProductCounter extends StatelessWidget {
-  final ValueNotifier<int> initialValue;
+  final int initialValue;
   final int minValue;
   final int maxValue;
   final int step;
@@ -18,7 +18,7 @@ class ProductCounter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ValueNotifier<int> value = initialValue;
+    ValueNotifier<int> value = ValueNotifier(initialValue);
     return Row(
       children: [
         InkWell(
@@ -61,7 +61,7 @@ class ProductCounter extends StatelessWidget {
         InkWell(
           onTap: () {
             if (value.value < maxValue) {
-              initialValue.value += 1;
+              value.value += 1;
             }
             onChange(value.value);
           },
