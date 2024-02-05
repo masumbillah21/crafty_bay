@@ -1,48 +1,39 @@
-import 'package:crafty_bay/controllers/product/special_product_controller.dart';
+import 'package:crafty_bay/controllers/product/product_controller.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/views/widgets/product_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SpecialProductListScreen extends StatefulWidget {
-  const SpecialProductListScreen({super.key, required this.name});
-  final String name;
+class CategoryProductListScreen extends StatelessWidget {
+  static const routeName = "/category-products";
+  const CategoryProductListScreen({super.key});
 
-  @override
-  State<SpecialProductListScreen> createState() =>
-      _SpecialProductListScreenState();
-}
-
-class _SpecialProductListScreenState extends State<SpecialProductListScreen> {
-  void getProductList() async {
-    await Get.find<SpecialProductController>().getProductByRemark();
-  }
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      getProductList();
-    });
-
-    super.initState();
+  void getProductList(int id) async {
+    await Get.find<ProductController>().getProductByCategoryId(id);
   }
 
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> arg = Get.arguments;
+    int id = arg['id'];
+    String name = arg['name'];
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      getProductList(id);
+    });
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.name),
+        title: Text(name),
         elevation: 1,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: GetBuilder<SpecialProductController>(builder: (product) {
+        child: GetBuilder<ProductController>(builder: (product) {
           return Visibility(
             visible: product.inProgress == false,
             replacement: const Center(
               child: CircularProgressIndicator(),
             ),
-            child: product.remarkProductList?.productList?.isEmpty ?? true
+            child: product.categoryProductList?.productList?.isEmpty ?? true
                 ? Center(
                     child: Text(
                       AppMessages.emptyMessage('Product'),
@@ -58,9 +49,10 @@ class _SpecialProductListScreenState extends State<SpecialProductListScreen> {
                       crossAxisSpacing: 4,
                     ),
                     itemCount:
-                        product.remarkProductList?.productList?.length ?? 0,
+                        product.categoryProductList?.productList?.length ?? 0,
                     itemBuilder: (context, index) {
-                      var item = product.remarkProductList!.productList![index];
+                      var item =
+                          product.categoryProductList!.productList![index];
                       return FittedBox(
                         child: ProductGrid(
                           id: item.id!,

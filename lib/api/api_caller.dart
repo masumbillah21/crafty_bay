@@ -61,7 +61,16 @@ class ApiCaller {
       );
       print("token: ${AuthController.token.toString()}");
       var resData = jsonDecode(response.body);
-      if (response.statusCode == 200 && resData['msg'] == 'success') {
+
+      if (response.statusCode == 200 &&
+          resData.runtimeType != List &&
+          resData['msg'] == 'success') {
+        return ApiResponse(
+          isSuccess: true,
+          jsonResponse: resData,
+          statusCode: response.statusCode,
+        );
+      } else if (response.statusCode == 200 && resData.runtimeType == List) {
         return ApiResponse(
           isSuccess: true,
           jsonResponse: resData,
@@ -77,6 +86,7 @@ class ApiCaller {
           statusCode: response.statusCode,
         );
       } else {
+        print('get in 2');
         return ApiResponse(
           isSuccess: false,
           jsonResponse: resData,

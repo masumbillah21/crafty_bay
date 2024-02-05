@@ -6,13 +6,11 @@ import 'package:get/get.dart';
 
 class HomeCarouselController extends GetxController {
   List<CarouselModel>? _carouselList = [];
-  int _currentIndex = 0;
 
   bool _inProgress = false;
 
   List<CarouselModel>? get carouselList => _carouselList;
   bool get inProgress => _inProgress;
-  int get currentIndex => _currentIndex;
 
   Future<void> getHomeCarousel() async {
     _inProgress = true;

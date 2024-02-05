@@ -1,7 +1,7 @@
 import 'package:crafty_bay/controllers/wishlist/wishlist_controller.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
-import 'package:crafty_bay/views/screens/shop/product/product_details_screen.dart';
+import 'package:crafty_bay/views/screens/product/product_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

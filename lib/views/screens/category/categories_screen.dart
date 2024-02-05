@@ -34,7 +34,7 @@ class CategoriesScreen extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: GetBuilder<CategoryController>(builder: (category) {
               return Visibility(
-                visible: category.inProgress == false,
+                visible: !category.inProgress,
                 replacement: const Center(
                   child: CircularProgressIndicator(),
                 ),

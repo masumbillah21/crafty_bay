@@ -1,6 +1,5 @@
 import 'package:crafty_bay/utilities/app_colors.dart';
-import 'package:crafty_bay/utilities/app_enum.dart';
-import 'package:crafty_bay/views/screens/shop/product/category_product_list_screen.dart';
+import 'package:crafty_bay/views/screens/category/category_product_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,13 +18,8 @@ class CategoryGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(
-          () => CategoryProductListScreen(
-            id: id,
-            name: categoryName,
-            appEnum: AppEnum.category,
-          ),
-        );
+        Get.toNamed(CategoryProductListScreen.routeName,
+            arguments: {'id': id, 'name': categoryName});
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

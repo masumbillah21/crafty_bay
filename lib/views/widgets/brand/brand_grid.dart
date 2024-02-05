@@ -1,5 +1,5 @@
 import 'package:crafty_bay/utilities/app_colors.dart';
-import 'package:crafty_bay/views/screens/shop/product/brand_product_list_screen.dart';
+import 'package:crafty_bay/views/screens/brand/brand_product_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,12 +18,8 @@ class BrandGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(
-          () => BrandProductListScreen(
-            id: id,
-            name: brandName,
-          ),
-        );
+        Get.toNamed(BrandProductListScreen.routeName,
+            arguments: {'id': id, 'name': brandName});
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

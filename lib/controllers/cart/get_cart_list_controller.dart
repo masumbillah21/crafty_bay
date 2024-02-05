@@ -37,7 +37,7 @@ class GetCartListController extends GetxController {
     ApiResponse res =
         await ApiCaller().apiGetRequest(url: Urls.deleteCartList(productId));
     _inProgress = false;
-    update();
+    //update();
     if (res.isSuccess) {
       await getCartList();
     }

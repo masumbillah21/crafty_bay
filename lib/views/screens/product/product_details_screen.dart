@@ -6,25 +6,17 @@ import 'package:crafty_bay/models/product/product_details_model.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
+import 'package:crafty_bay/views/screens/brand/brand_product_list_screen.dart';
 import 'package:crafty_bay/views/screens/customer_review/review_list_screen.dart';
-import 'package:crafty_bay/views/screens/shop/product/brand_product_list_screen.dart';
 import 'package:crafty_bay/views/widgets/bottom_section_bg.dart';
 import 'package:crafty_bay/views/widgets/product/product_carousel.dart';
 import 'package:crafty_bay/views/widgets/product_counter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ProductDetailsScreen extends StatefulWidget {
+class ProductDetailsScreen extends StatelessWidget {
   static const routeName = '/product-details';
   const ProductDetailsScreen({super.key});
-
-  @override
-  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
-}
-
-class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-  late final int id;
-  int _productQyt = 1;
 
   void addToCard(
       {required int productId,
@@ -42,16 +34,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   @override
-  void initState() {
+  Widget build(BuildContext context) {
+    int id = Get.arguments;
+    int productQyt = 1;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      id = Get.arguments;
       Get.find<ProductDetailsController>().getProductDetailsById(id);
     });
-    super.initState();
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Product Details"),
@@ -74,7 +63,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               productCarousel:
                                   product.productDetails?.carouselImages ?? [],
                             ),
-                            productDetailsBody(product),
+                            productDetailsBody(
+                              product: product,
+                              productQyt: productQyt,
+                            ),
                           ],
                         ),
                       ),
@@ -123,7 +115,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         productId: id,
                                         color: product.selectedColor.value,
                                         size: product.selectedSize.value,
-                                        quantity: _productQyt,
+                                        quantity: productQyt,
                                       );
                                     }
                                   },
@@ -147,7 +139,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Padding productDetailsBody(ProductDetailsController product) {
+  Padding productDetailsBody(
+      {required ProductDetailsController product, required int productQyt}) {
     ProductDetailsModel productDetails =
         product.productDetails?.productDetailsList?[0] ?? ProductDetailsModel();
     return Padding(
@@ -171,9 +164,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ),
               ),
               ProductCounter(
-                initialValue: _productQyt,
+                initialValue: productQyt,
                 onChange: (v) {
-                  _productQyt = v;
+                  productQyt = v;
                 },
               ),
             ],
@@ -192,14 +185,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
               InkWell(
                 onTap: () {
-                  Get.to(
-                    () => BrandProductListScreen(
-                      id: product.productDetails!.productDetailsList![0]
-                          .product!.brand!.id!,
-                      name: product.productDetails!.productDetailsList![0]
-                          .product!.brand!.brandName!,
-                    ),
-                  );
+                  Get.toNamed(BrandProductListScreen.routeName, arguments: {
+                    'id': product.productDetails!.productDetailsList![0]
+                        .product!.brand!.id!,
+                    'name': product.productDetails!.productDetailsList![0]
+                        .product!.brand!.brandName!,
+                  });
                 },
                 child: Text(
                   product.productDetails!.productDetailsList![0].product!.brand!

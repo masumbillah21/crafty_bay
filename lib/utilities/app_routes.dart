@@ -1,18 +1,22 @@
 import 'package:crafty_bay/views/screens/authentication/verify_email_screen.dart';
 import 'package:crafty_bay/views/screens/authentication/verify_pin_code_screen.dart';
 import 'package:crafty_bay/views/screens/bottom_nav_screen.dart';
+import 'package:crafty_bay/views/screens/brand/brand_product_list_screen.dart';
+import 'package:crafty_bay/views/screens/brand/brands_screen.dart';
+import 'package:crafty_bay/views/screens/cart/cart_list_screen.dart';
+import 'package:crafty_bay/views/screens/category/categories_screen.dart';
+import 'package:crafty_bay/views/screens/category/category_product_list_screen.dart';
+import 'package:crafty_bay/views/screens/checkout/checkout_screen.dart';
+import 'package:crafty_bay/views/screens/checkout/payment_web_view_screen.dart';
 import 'package:crafty_bay/views/screens/customer_review/customer_review_screen.dart';
 import 'package:crafty_bay/views/screens/customer_review/review_list_screen.dart';
+import 'package:crafty_bay/views/screens/home/home_screen.dart';
+import 'package:crafty_bay/views/screens/invoice/invoice_product_screen.dart';
+import 'package:crafty_bay/views/screens/invoice/invoice_screen.dart';
 import 'package:crafty_bay/views/screens/onboard/splash_screen.dart';
+import 'package:crafty_bay/views/screens/product/product_details_screen.dart';
 import 'package:crafty_bay/views/screens/profile/update_profile_screen.dart';
-import 'package:crafty_bay/views/screens/shop/brand/brands_screen.dart';
-import 'package:crafty_bay/views/screens/shop/cart/cart_list_screen.dart';
-import 'package:crafty_bay/views/screens/shop/category/categories_screen.dart';
-import 'package:crafty_bay/views/screens/shop/checkout/checkout_screen.dart';
-import 'package:crafty_bay/views/screens/shop/checkout/payment_webview_screen.dart';
-import 'package:crafty_bay/views/screens/shop/home/home_screen.dart';
-import 'package:crafty_bay/views/screens/shop/product/product_details_screen.dart';
-import 'package:crafty_bay/views/screens/shop/wishlist/wish_list_screen.dart';
+import 'package:crafty_bay/views/screens/wishlist/wish_list_screen.dart';
 import 'package:get/get.dart';
 
 class AppRoutes {
@@ -34,8 +38,16 @@ class AppRoutes {
       page: () => const CategoriesScreen(),
     ),
     GetPage(
+      name: CategoryProductListScreen.routeName,
+      page: () => const CategoryProductListScreen(),
+    ),
+    GetPage(
       name: BrandsScreen.routeName,
       page: () => const BrandsScreen(),
+    ),
+    GetPage(
+      name: BrandProductListScreen.routeName,
+      page: () => const BrandProductListScreen(),
     ),
     GetPage(
       name: ProductDetailsScreen.routeName,
@@ -76,6 +88,14 @@ class AppRoutes {
     GetPage(
       name: PaymentWebViewScreen.routeName,
       page: () => const PaymentWebViewScreen(),
+    ),
+    GetPage(
+      name: InvoiceScreen.routeName,
+      page: () => const InvoiceScreen(),
+    ),
+    GetPage(
+      name: InvoiceProductScreen.routeName,
+      page: () => const InvoiceProductScreen(),
     ),
   ];
 }

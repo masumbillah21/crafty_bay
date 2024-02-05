@@ -80,9 +80,9 @@ class _CartItemState extends State<CartItem> {
                           showPopup(
                             context: context,
                             onAgree: () async {
+                              Get.back();
                               await widget.controller
                                   .deleteCartList(widget.cartModel.productId!);
-                              Get.back();
                             },
                             onDisagree: () {
                               Get.back();
