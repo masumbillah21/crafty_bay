@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:crafty_bay/controllers/auth/verify_otp_controller.dart';
 import 'package:crafty_bay/controllers/user/read_user_profile_controller.dart';
+import 'package:crafty_bay/controllers/wishlist/wishlist_controller.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/assets_path.dart';
@@ -68,6 +69,9 @@ class _VerifyPinCodeScreenState extends State<VerifyPinCodeScreen> {
         var readProfile = Get.find<ReadUserProfileController>();
         await readProfile.readProfile();
         bool hasProfile = readProfile.hasProfileData;
+
+        //Load wishlist
+        await Get.find<WishlistController>().getWishlist();
 
         if (hasProfile) {
           Get.offNamedUntil(BottomNavScreen.routeName, (route) => false);

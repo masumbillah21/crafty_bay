@@ -18,11 +18,7 @@ class ProductByRemark extends StatelessWidget {
         itemBuilder: (context, index) {
           var item = product.productList![index];
           return ProductGrid(
-            id: item.id!,
-            title: item.title!,
-            price: item.price!,
-            image: item.image!,
-            star: item.star!,
+            productModel: item,
           );
         },
       ),

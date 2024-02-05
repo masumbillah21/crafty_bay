@@ -1,4 +1,5 @@
 import 'package:crafty_bay/controllers/wishlist/wishlist_controller.dart';
+import 'package:crafty_bay/models/product/product_model.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
 import 'package:crafty_bay/views/screens/product/product_details_screen.dart';
@@ -6,25 +7,43 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProductGrid extends StatelessWidget {
-  final int id;
-  final String title;
-  final String price;
-  final String image;
-  final int star;
+  final ProductModel productModel;
   const ProductGrid({
     super.key,
-    required this.id,
-    required this.title,
-    required this.price,
-    required this.image,
-    required this.star,
+    required this.productModel,
   });
+
+  void _addToWishList() async {
+    bool res =
+        await Get.find<WishlistController>().createWishlist(productModel.id!);
+    if (res) {
+      successToast("Added to wishlist");
+    } else {
+      errorToast("Failed to add");
+    }
+  }
+
+  void _deleteFromWishlist(context) {
+    showPopup(
+      context: context,
+      onAgree: () {
+        Get.back();
+        Get.find<WishlistController>().deleteWishlist(productModel.id!);
+      },
+      onDisagree: () {
+        Get.back();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    bool hasInWishList = Get.find<WishlistController>()
+        .wishListProductIds()
+        .contains(productModel.id);
     return InkWell(
       onTap: () {
-        Get.toNamed(ProductDetailsScreen.routeName, arguments: id);
+        Get.toNamed(ProductDetailsScreen.routeName, arguments: productModel.id);
       },
       borderRadius: BorderRadius.circular(15),
       child: Card(
@@ -39,7 +58,7 @@ class ProductGrid extends StatelessWidget {
               height: 100,
               child: ClipRRect(
                 child: Image.network(
-                  image,
+                  productModel.image ?? '',
                   fit: BoxFit.contain,
                 ),
               ),
@@ -60,7 +79,7 @@ class ProductGrid extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title,
+                    productModel.title ?? '',
                     maxLines: 1,
                     style: const TextStyle(
                       color: Colors.black,
@@ -75,7 +94,7 @@ class ProductGrid extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "\$$price",
+                        "\$${productModel.price}",
                         style: const TextStyle(
                           color: AppColors.primaryColor,
                           fontWeight: FontWeight.w500,
@@ -93,36 +112,41 @@ class ProductGrid extends StatelessWidget {
                             color: Colors.yellow,
                           ),
                           Text(
-                            "$star",
+                            "${productModel.star}",
                           ),
                         ],
                       ),
                       const SizedBox(
                         width: 8,
                       ),
-                      GestureDetector(
-                        onTap: () async {
-                          bool res = await Get.find<WishlistController>()
-                              .createWishlist(id);
-                          if (res) {
-                            successToast("Added to wishlist");
-                          } else {
-                            errorToast("Failed to add");
-                          }
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                            color: AppColors.primaryColor,
+                      GetBuilder<WishlistController>(builder: (wishlist) {
+                        hasInWishList = wishlist
+                            .wishListProductIds()
+                            .contains(productModel.id!);
+                        return GestureDetector(
+                          onTap: () async {
+                            if (hasInWishList) {
+                              _deleteFromWishlist(context);
+                            } else {
+                              _addToWishList();
+                            }
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(3),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              color: AppColors.primaryColor,
+                            ),
+                            child: Icon(
+                              hasInWishList
+                                  ? Icons.delete
+                                  : Icons.favorite_border_outlined,
+                              size: 12,
+                              color: Colors.white,
+                            ),
                           ),
-                          child: const Icon(
-                            Icons.favorite_border_outlined,
-                            size: 12,
-                            color: Colors.white,
-                          ),
-                        ),
-                      )
+                        );
+                      }),
                     ],
                   )
                 ],

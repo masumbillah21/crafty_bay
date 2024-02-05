@@ -22,6 +22,8 @@ class WishlistController extends GetxController {
     update();
     if (!res.isSuccess) {
       status = false;
+    } else {
+      getWishlist();
     }
 
     return status;
@@ -34,6 +36,7 @@ class WishlistController extends GetxController {
     if (res.isSuccess) {
       if (res.jsonResponse['data'] != null) {
         _wishlist = WishlistListModel.fromJson(res.jsonResponse);
+        wishListProductIds();
       }
     }
     _inProgress = false;
@@ -55,5 +58,14 @@ class WishlistController extends GetxController {
     }
 
     return status;
+  }
+
+  List<int> wishListProductIds() {
+    List<int> list = [];
+    _wishlist?.wishList?.forEach((element) {
+      list.add(element.productId!);
+    });
+
+    return list;
   }
 }

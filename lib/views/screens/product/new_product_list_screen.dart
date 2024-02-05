@@ -50,11 +50,7 @@ class NewProductListScreen extends StatelessWidget {
                             product.remarkProductList!.productList![index];
                         return FittedBox(
                           child: ProductGrid(
-                            id: item.id!,
-                            title: item.title!,
-                            price: item.price!,
-                            image: item.image!,
-                            star: item.star!,
+                            productModel: item,
                           ),
                         );
                       },
