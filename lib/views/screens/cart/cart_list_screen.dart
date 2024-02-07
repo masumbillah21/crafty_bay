@@ -30,6 +30,16 @@ class CartListScreen extends StatelessWidget {
             icon: const Icon(Icons.arrow_back),
           ),
           title: const Text('Cart'),
+          actions: [
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.update_rounded),
+                ),
+              ],
+            ),
+          ],
         ),
         body: GetBuilder<GetCartListController>(
             init: Get.find<GetCartListController>(),

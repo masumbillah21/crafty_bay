@@ -14,9 +14,16 @@ import 'package:crafty_bay/views/widgets/product_counter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ProductDetailsScreen extends StatelessWidget {
+class ProductDetailsScreen extends StatefulWidget {
   static const routeName = '/product-details';
   const ProductDetailsScreen({super.key});
+
+  @override
+  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
+}
+
+class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  int productQyt = 1;
 
   void addToCard(
       {required int productId,
@@ -33,10 +40,14 @@ class ProductDetailsScreen extends StatelessWidget {
     }
   }
 
+  void updateProductQty(int value) {
+    productQyt = value;
+  }
+
   @override
   Widget build(BuildContext context) {
     int id = Get.arguments;
-    int productQyt = 1;
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Get.find<ProductDetailsController>().getProductDetailsById(id);
     });
@@ -64,9 +75,9 @@ class ProductDetailsScreen extends StatelessWidget {
                                   product.productDetails?.carouselImages ?? [],
                             ),
                             productDetailsBody(
-                              product: product,
-                              productQyt: productQyt,
-                            ),
+                                product: product,
+                                productQyt: productQyt,
+                                onQytUpdate: updateProductQty),
                           ],
                         ),
                       ),
@@ -140,7 +151,9 @@ class ProductDetailsScreen extends StatelessWidget {
   }
 
   Padding productDetailsBody(
-      {required ProductDetailsController product, required int productQyt}) {
+      {required ProductDetailsController product,
+      required int productQyt,
+      required Function(int) onQytUpdate}) {
     ProductDetailsModel productDetails =
         product.productDetails?.productDetailsList?[0] ?? ProductDetailsModel();
     return Padding(
@@ -166,7 +179,7 @@ class ProductDetailsScreen extends StatelessWidget {
               ProductCounter(
                 initialValue: productQyt,
                 onChange: (v) {
-                  productQyt = v;
+                  onQytUpdate(v);
                 },
               ),
             ],

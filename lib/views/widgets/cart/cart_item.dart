@@ -6,7 +6,7 @@ import 'package:crafty_bay/views/widgets/product_counter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CartItem extends StatefulWidget {
+class CartItem extends StatelessWidget {
   final CartModel cartModel;
   final GetCartListController controller;
   const CartItem({
@@ -16,14 +16,8 @@ class CartItem extends StatefulWidget {
   });
 
   @override
-  State<CartItem> createState() => _CartItemState();
-}
-
-class _CartItemState extends State<CartItem> {
-  late final int _productQyt = widget.cartModel.qty!;
-
-  @override
   Widget build(BuildContext context) {
+    print(cartModel.qty);
     return Card(
       color: Colors.white,
       child: Row(
@@ -39,7 +33,7 @@ class _CartItemState extends State<CartItem> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Image.network(
-                  widget.cartModel.product?.image ?? '',
+                  cartModel.product?.image ?? '',
                 ),
               ),
             ),
@@ -57,7 +51,7 @@ class _CartItemState extends State<CartItem> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.cartModel.product?.title ?? '',
+                            cartModel.product?.title ?? '',
                             maxLines: 1,
                             style: const TextStyle(
                               fontSize: 17,
@@ -68,9 +62,9 @@ class _CartItemState extends State<CartItem> {
                           ),
                           Row(
                             children: [
-                              Text("Color: ${widget.cartModel.color}"),
+                              Text("Color: ${cartModel.color}"),
                               const Text(", "),
-                              Text("Size: ${widget.cartModel.size}"),
+                              Text("Size: ${cartModel.size}"),
                             ],
                           ),
                         ],
@@ -81,8 +75,8 @@ class _CartItemState extends State<CartItem> {
                             context: context,
                             onAgree: () async {
                               Get.back();
-                              await widget.controller
-                                  .deleteCartList(widget.cartModel.productId!);
+                              await controller
+                                  .deleteCartList(cartModel.productId!);
                             },
                             onDisagree: () {
                               Get.back();
@@ -103,7 +97,7 @@ class _CartItemState extends State<CartItem> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "\$${widget.cartModel.product?.price ?? 0}",
+                        "\$${cartModel.product?.price ?? 0}",
                         style: const TextStyle(
                           color: AppColors.primaryColor,
                           fontSize: 17,
@@ -111,10 +105,9 @@ class _CartItemState extends State<CartItem> {
                         ),
                       ),
                       ProductCounter(
-                        initialValue: _productQyt,
+                        initialValue: cartModel.qty ?? 2,
                         onChange: (value) {
-                          widget.controller
-                              .updateQuantity(widget.cartModel.id!, value);
+                          controller.updateQuantity(cartModel.id!, value);
                         },
                       ),
                     ],

@@ -17,21 +17,23 @@ class WishlistController extends GetxController {
   Future<bool> createWishlist(int productId) async {
     bool status = true;
     _inProgress = true;
-    Get.find<WishlistStoreController>().toggleProgress();
-    print('tring to update');
+    Get.find<WishlistStoreController>().toggleProgress(productId);
+    print('trying to update');
     update();
     ApiResponse res = await ApiCaller().apiGetRequest(
       url: Urls.createWishList(productId),
       token: AuthController.token.toString(),
     );
-    _inProgress = false;
-    Get.find<WishlistStoreController>().toggleProgress();
-    update();
+
     if (res.isSuccess) {
-      getWishlist();
+      await getWishlist();
     } else {
       status = false;
     }
+
+    _inProgress = false;
+    Get.find<WishlistStoreController>().toggleProgress(0);
+    update();
 
     return status;
   }
@@ -55,7 +57,8 @@ class WishlistController extends GetxController {
   Future<bool> deleteWishlist(int productId) async {
     bool status = true;
     _inProgress = true;
-    Get.find<WishlistStoreController>().toggleProgress();
+
+    Get.find<WishlistStoreController>().toggleProgress(productId);
     update();
     ApiResponse res = await ApiCaller().apiGetRequest(
       url: Urls.deleteWishList(productId),
@@ -68,7 +71,8 @@ class WishlistController extends GetxController {
       status = false;
     }
     _inProgress = false;
-    Get.find<WishlistStoreController>().toggleProgress();
+    Get.find<WishlistStoreController>().toggleProgress(0);
+
     update();
     return status;
   }

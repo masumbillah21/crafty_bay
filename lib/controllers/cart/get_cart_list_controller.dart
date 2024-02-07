@@ -36,8 +36,9 @@ class GetCartListController extends GetxController {
   Future<void> deleteCartList(int productId) async {
     _inProgress = true;
     update();
-    ApiResponse res =
-        await ApiCaller().apiGetRequest(url: Urls.deleteCartList(productId));
+    ApiResponse res = await ApiCaller().apiGetRequest(
+        url: Urls.deleteCartList(productId),
+        token: AuthController.token.toString());
     _inProgress = false;
     //update();
     if (res.isSuccess) {

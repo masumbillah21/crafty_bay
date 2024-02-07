@@ -107,9 +107,11 @@ class ProductGrid extends StatelessWidget {
                       GetBuilder<WishlistStoreController>(builder: (stored) {
                         final hasInWishList = stored.productListInWishlist
                             .contains(productModel.id);
-                        print('in grid: ${stored.inProgress}');
+
+                        print('in grid id: ${stored.productId}');
+
                         return Visibility(
-                          visible: !stored.inProgress,
+                          visible: stored.productId != productModel.id,
                           replacement: const SizedBox(
                             height: 10,
                             width: 10,

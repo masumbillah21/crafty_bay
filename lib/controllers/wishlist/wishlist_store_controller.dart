@@ -3,18 +3,17 @@ import 'package:get_storage/get_storage.dart';
 
 class WishlistStoreController extends GetxController {
   static List<dynamic> _productListInWishlist = [];
-  bool _inProgress = false;
+
   static final _storage = GetStorage();
+  int _productId = 0;
 
   List<dynamic> get productListInWishlist => _productListInWishlist;
-  bool get inProgress => _inProgress;
+
+  int get productId => _productId;
 
   Future<void> saveWishListProduct({required List<int> productIdList}) async {
-    print("Before saving $inProgress}");
     await _storage.write("wishlist", productIdList);
     _productListInWishlist = _storage.read('wishlist') ?? [];
-    _inProgress = false;
-    print("After saving $inProgress}");
   }
 
   Future<void> initializeWishListProduct() async {
@@ -26,8 +25,8 @@ class WishlistStoreController extends GetxController {
     _productListInWishlist = [];
   }
 
-  void toggleProgress() {
-    _inProgress = !_inProgress;
+  void toggleProgress(int id) {
+    _productId = id;
     update();
   }
 }
