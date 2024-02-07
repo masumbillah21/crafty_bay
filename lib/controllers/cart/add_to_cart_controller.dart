@@ -1,5 +1,6 @@
 import 'package:crafty_bay/api/api_caller.dart';
 import 'package:crafty_bay/api/api_response.dart';
+import 'package:crafty_bay/controllers/auth/auth_controller.dart';
 import 'package:crafty_bay/models/cart/cart_model.dart';
 import 'package:crafty_bay/utilities/urls.dart';
 import 'package:get/get.dart';
@@ -14,7 +15,10 @@ class AddToCartController extends GetxController {
     _inProgress = true;
     update();
     ApiResponse res = await ApiCaller().apiPostRequest(
-        url: Urls.createCartList, formValue: formValue.toJson());
+      url: Urls.createCartList,
+      formValue: formValue.toJson(),
+      token: AuthController.token.toString(),
+    );
     _inProgress = false;
     update();
     if (!res.isSuccess) {

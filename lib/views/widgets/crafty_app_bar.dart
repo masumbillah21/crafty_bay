@@ -1,3 +1,4 @@
+import 'package:crafty_bay/utilities/app_enum.dart';
 import 'package:crafty_bay/utilities/assets_path.dart';
 import 'package:crafty_bay/utilities/styles.dart';
 import 'package:crafty_bay/views/screens/profile/update_profile_screen.dart';
@@ -6,8 +7,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class CraftyAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final AppEnum? appEnum;
   const CraftyAppBar({
     super.key,
+    this.appEnum,
   });
 
   @override
@@ -20,7 +23,11 @@ class CraftyAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
           onPressed: () {
-            Get.toNamed(UpdateProfileScreen.routeName);
+            if (appEnum != AppEnum.profile) {
+              Get.toNamed(
+                UpdateProfileScreen.routeName,
+              );
+            }
           },
           icon: const Icon(
             Icons.person_2_outlined,

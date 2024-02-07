@@ -18,7 +18,10 @@ class ReadUserProfileController extends GetxController {
     _inProgress = true;
     update();
 
-    ApiResponse res = await ApiCaller().apiGetRequest(url: Urls.readProfile);
+    ApiResponse res = await ApiCaller().apiGetRequest(
+      url: Urls.readProfile,
+      token: AuthController.token.toString(),
+    );
 
     _inProgress = false;
     update();

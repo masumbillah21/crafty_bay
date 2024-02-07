@@ -1,1 +1,1 @@
-enum AppEnum { New, Popular, Special, category, brand }
+enum AppEnum { New, Popular, Special, category, brand, profile }

@@ -16,13 +16,14 @@ class CreateUserProfileController extends GetxController {
     _inProgress = true;
     update();
 
-    ApiResponse res = await ApiCaller()
-        .apiPostRequest(url: Urls.createProfile, formValue: formValue.toJson());
+    ApiResponse res = await ApiCaller().apiPostRequest(
+      url: Urls.createProfile,
+      formValue: formValue.toJson(),
+      token: AuthController.token.toString(),
+    );
 
     _inProgress = false;
     update();
-    print(res.errorMessage);
-    print("token: ${AuthController.token.toString()}");
     if (res.isSuccess) {
       await _authController.saveCustomerData(model: formValue);
       return true;

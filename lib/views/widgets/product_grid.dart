@@ -1,4 +1,5 @@
 import 'package:crafty_bay/controllers/wishlist/wishlist_controller.dart';
+import 'package:crafty_bay/controllers/wishlist/wishlist_store_controller.dart';
 import 'package:crafty_bay/models/product/product_model.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
@@ -8,22 +9,19 @@ import 'package:get/get.dart';
 
 class ProductGrid extends StatelessWidget {
   final ProductModel productModel;
+
   const ProductGrid({
     super.key,
     required this.productModel,
   });
 
   void _addToWishList() async {
-    bool res =
+    bool success =
         await Get.find<WishlistController>().createWishlist(productModel.id!);
-    if (res) {
-      successToast("Added to wishlist");
-    } else {
-      errorToast("Failed to add");
-    }
+    success ? successToast("Added to wishlist") : errorToast("Failed to add");
   }
 
-  void _deleteFromWishlist(context) {
+  void _deleteFromWishlist(BuildContext context) {
     showPopup(
       context: context,
       onAgree: () {
@@ -38,9 +36,6 @@ class ProductGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool hasInWishList = Get.find<WishlistController>()
-        .wishListProductIds()
-        .contains(productModel.id);
     return InkWell(
       onTap: () {
         Get.toNamed(ProductDetailsScreen.routeName, arguments: productModel.id);
@@ -63,9 +58,7 @@ class ProductGrid extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 6,
-            ),
+            const SizedBox(height: 6),
             Container(
               padding: const EdgeInsets.all(7),
               decoration: const BoxDecoration(
@@ -88,9 +81,7 @@ class ProductGrid extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  const SizedBox(
-                    height: 8,
-                  ),
+                  const SizedBox(height: 8),
                   Row(
                     children: [
                       Text(
@@ -101,9 +92,7 @@ class ProductGrid extends StatelessWidget {
                           fontSize: 12,
                         ),
                       ),
-                      const SizedBox(
-                        width: 6,
-                      ),
+                      const SizedBox(width: 6),
                       Wrap(
                         crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
@@ -111,44 +100,52 @@ class ProductGrid extends StatelessWidget {
                             Icons.star,
                             color: Colors.yellow,
                           ),
-                          Text(
-                            "${productModel.star}",
-                          ),
+                          Text("${productModel.star}"),
                         ],
                       ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      GetBuilder<WishlistController>(builder: (wishlist) {
-                        hasInWishList = wishlist
-                            .wishListProductIds()
-                            .contains(productModel.id!);
-                        return GestureDetector(
-                          onTap: () async {
-                            if (hasInWishList) {
-                              _deleteFromWishlist(context);
-                            } else {
-                              _addToWishList();
-                            }
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(3),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4),
-                              color: AppColors.primaryColor,
+                      const SizedBox(width: 8),
+                      GetBuilder<WishlistStoreController>(builder: (stored) {
+                        final hasInWishList = stored.productListInWishlist
+                            .contains(productModel.id);
+                        print('in grid: ${stored.inProgress}');
+                        return Visibility(
+                          visible: !stored.inProgress,
+                          replacement: const SizedBox(
+                            height: 10,
+                            width: 10,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
                             ),
-                            child: Icon(
-                              hasInWishList
-                                  ? Icons.delete
-                                  : Icons.favorite_border_outlined,
-                              size: 12,
-                              color: Colors.white,
+                          ),
+                          child: GestureDetector(
+                            onTap: () async {
+                              if (hasInWishList) {
+                                _deleteFromWishlist(context);
+                              } else {
+                                _addToWishList();
+                              }
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(3),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                color: hasInWishList
+                                    ? Colors.red
+                                    : AppColors.primaryColor,
+                              ),
+                              child: Icon(
+                                hasInWishList
+                                    ? Icons.delete
+                                    : Icons.favorite_border_outlined,
+                                size: 12,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         );
-                      }),
+                      })
                     ],
-                  )
+                  ),
                 ],
               ),
             ),

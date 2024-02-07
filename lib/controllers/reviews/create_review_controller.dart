@@ -1,5 +1,6 @@
 import 'package:crafty_bay/api/api_caller.dart';
 import 'package:crafty_bay/api/api_response.dart';
+import 'package:crafty_bay/controllers/auth/auth_controller.dart';
 import 'package:crafty_bay/models/reviews/review_model.dart';
 import 'package:crafty_bay/utilities/urls.dart';
 import 'package:get/get.dart';
@@ -15,7 +16,10 @@ class CreateReviewController extends GetxController {
     update();
 
     ApiResponse res = await ApiCaller().apiPostRequest(
-        url: Urls.createProductReview, formValue: reviewModel.toJson());
+      url: Urls.createProductReview,
+      formValue: reviewModel.toJson(),
+      token: AuthController.token.toString(),
+    );
     _inProgress = false;
     update();
 

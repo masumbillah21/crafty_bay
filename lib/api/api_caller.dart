@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:crafty_bay/api/api_response.dart';
 import 'package:crafty_bay/controllers/auth/auth_controller.dart';
@@ -8,20 +9,20 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class ApiCaller {
-  final requestHeader = {
-    "Content-Type": "application/json",
-    'token': AuthController.token.toString(),
-  };
-
   Future<ApiResponse> apiPostRequest({
     required String url,
     required String formValue,
+    String token = '',
   }) async {
     try {
       var uri = Uri.parse(url);
-      print("token: ${AuthController.token.toString()}");
-      var response =
-          await http.post(uri, headers: requestHeader, body: formValue);
+      log("post token: $token");
+      var response = await http.post(uri,
+          headers: {
+            "Content-Type": "application/json",
+            'token': token,
+          },
+          body: formValue);
       var resData = jsonDecode(response.body);
 
       if (response.statusCode == 200 && resData['msg'] == 'success') {
@@ -52,14 +53,18 @@ class ApiCaller {
   Future<ApiResponse> apiGetRequest({
     required String url,
     bool isLogin = false,
+    String token = '',
   }) async {
     try {
       var uri = Uri.parse(url);
       var response = await http.get(
         uri,
-        headers: requestHeader,
+        headers: {
+          "Content-Type": "application/json",
+          'token': token,
+        },
       );
-      print("token: ${AuthController.token.toString()}");
+      log("get token: $token");
       var resData = jsonDecode(response.body);
 
       if (response.statusCode == 200 &&
@@ -86,7 +91,6 @@ class ApiCaller {
           statusCode: response.statusCode,
         );
       } else {
-        print('get in 2');
         return ApiResponse(
           isSuccess: false,
           jsonResponse: resData,

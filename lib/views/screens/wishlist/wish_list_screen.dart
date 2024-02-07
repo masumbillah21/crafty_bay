@@ -32,7 +32,7 @@ class WishListScreen extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: GetBuilder<WishlistController>(builder: (wish) {
             return Visibility(
-              visible: wish.inProgress == false,
+              visible: !wish.inProgress,
               replacement: const Center(
                 child: CircularProgressIndicator(),
               ),

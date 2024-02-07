@@ -1,5 +1,6 @@
 import 'package:crafty_bay/api/api_caller.dart';
 import 'package:crafty_bay/api/api_response.dart';
+import 'package:crafty_bay/controllers/auth/auth_controller.dart';
 import 'package:crafty_bay/models/invoice/invoice_details_model.dart';
 import 'package:crafty_bay/utilities/urls.dart';
 import 'package:get/get.dart';
@@ -15,8 +16,10 @@ class InvoiceDetailsController extends GetxController {
     bool status = true;
     _inProgress = true;
     update();
-    ApiResponse res = await ApiCaller()
-        .apiGetRequest(url: Urls.invoiceProductList(invoiceId));
+    ApiResponse res = await ApiCaller().apiGetRequest(
+      url: Urls.invoiceProductList(invoiceId),
+      token: AuthController.token.toString(),
+    );
     _inProgress = false;
     update();
     if (res.isSuccess) {

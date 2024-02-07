@@ -20,6 +20,7 @@ import 'package:crafty_bay/controllers/reviews/get_review_list_controller.dart';
 import 'package:crafty_bay/controllers/user/create_user_profile_controller.dart';
 import 'package:crafty_bay/controllers/user/read_user_profile_controller.dart';
 import 'package:crafty_bay/controllers/wishlist/wishlist_controller.dart';
+import 'package:crafty_bay/controllers/wishlist/wishlist_store_controller.dart';
 import 'package:get/get.dart';
 
 class CraftyBayDependency extends Bindings {
@@ -35,6 +36,7 @@ class CraftyBayDependency extends Bindings {
     Get.lazyPut(() => ProductController(), fenix: true);
     Get.lazyPut(() => ProductDetailsController(), fenix: true);
     Get.lazyPut(() => WishlistController(), fenix: true);
+    Get.lazyPut(() => WishlistStoreController(), fenix: true);
     Get.lazyPut(() => AuthController(), fenix: true);
     Get.lazyPut(() => SendEmailOTPController(), fenix: true);
     Get.lazyPut(() => VerifyOTPController(), fenix: true);

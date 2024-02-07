@@ -6,6 +6,8 @@ import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/assets_path.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
 import 'package:crafty_bay/views/screens/authentication/verify_email_screen.dart';
+import 'package:crafty_bay/views/widgets/app_navigation_drawer_widget.dart';
+import 'package:crafty_bay/views/widgets/crafty_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -106,6 +108,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const CraftyAppBar(),
+      drawer: const AppNavigationDrawerWidget(),
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
