@@ -3,7 +3,9 @@ import 'package:crafty_bay/controllers/auth/send_email_otp_controller.dart';
 import 'package:crafty_bay/controllers/auth/verify_otp_controller.dart';
 import 'package:crafty_bay/controllers/brand/brand_controller.dart';
 import 'package:crafty_bay/controllers/cart/add_to_cart_controller.dart';
+import 'package:crafty_bay/controllers/cart/delete_cart_controller.dart';
 import 'package:crafty_bay/controllers/cart/get_cart_list_controller.dart';
+import 'package:crafty_bay/controllers/cart/update_cart_controller.dart';
 import 'package:crafty_bay/controllers/category/category_controller.dart';
 import 'package:crafty_bay/controllers/checkout/create_invoice_controller.dart';
 import 'package:crafty_bay/controllers/home/bottom_nav_controller.dart';
@@ -44,6 +46,8 @@ class CraftyBayDependency extends Bindings {
     Get.lazyPut(() => CreateUserProfileController(), fenix: true);
     Get.lazyPut(() => AddToCartController(), fenix: true);
     Get.lazyPut(() => GetCartListController(), fenix: true);
+    Get.lazyPut(() => DeleteCartController(), fenix: true);
+    Get.lazyPut(() => UpdateCartController(), fenix: true);
     Get.lazyPut(() => GetReviewListController(), fenix: true);
     Get.lazyPut(() => CreateReviewController(), fenix: true);
     Get.lazyPut(() => CreateInvoiceController(), fenix: true);

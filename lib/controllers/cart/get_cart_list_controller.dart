@@ -2,12 +2,13 @@ import 'package:crafty_bay/api/api_caller.dart';
 import 'package:crafty_bay/api/api_response.dart';
 import 'package:crafty_bay/controllers/auth/auth_controller.dart';
 import 'package:crafty_bay/models/cart/cart_list_model.dart';
+import 'package:crafty_bay/models/cart/cart_model.dart';
 import 'package:crafty_bay/utilities/urls.dart';
 import 'package:get/get.dart';
 
 class GetCartListController extends GetxController {
   CartListModel? _cartList = CartListModel();
-
+  final Set<int> productIdList = {};
   bool _inProgress = false;
 
   CartListModel? get cartList => _cartList;
@@ -33,22 +34,11 @@ class GetCartListController extends GetxController {
     }
   }
 
-  Future<void> deleteCartList(int productId) async {
-    _inProgress = true;
-    update();
-    ApiResponse res = await ApiCaller().apiGetRequest(
-        url: Urls.deleteCartList(productId),
-        token: AuthController.token.toString());
-    _inProgress = false;
-    //update();
-    if (res.isSuccess) {
-      await getCartList();
-    }
-  }
-
-  void updateQuantity(int id, int quantity) {
-    _cartList?.cartList?.firstWhere((element) => element.id == id).qty =
-        quantity;
+  void updateQuantity(int id, int quantity) async {
+    CartModel? cartModel =
+        _cartList?.cartList?.firstWhere((element) => element.id == id);
+    cartModel!.qty = quantity;
+    productIdList.add(cartModel.productId!);
     _totalPrice.value = _calculateTotalPrice;
   }
 

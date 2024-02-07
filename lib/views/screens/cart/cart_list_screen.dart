@@ -1,7 +1,9 @@
 import 'package:crafty_bay/controllers/cart/get_cart_list_controller.dart';
+import 'package:crafty_bay/controllers/cart/update_cart_controller.dart';
 import 'package:crafty_bay/controllers/home/bottom_nav_controller.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
+import 'package:crafty_bay/utilities/utilities.dart';
 import 'package:crafty_bay/views/screens/checkout/checkout_screen.dart';
 import 'package:crafty_bay/views/widgets/bottom_section_bg.dart';
 import 'package:crafty_bay/views/widgets/cart/cart_item.dart';
@@ -34,8 +36,22 @@ class CartListScreen extends StatelessWidget {
             Row(
               children: [
                 IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.update_rounded),
+                  onPressed: () async {
+                    bool res =
+                        await Get.find<UpdateCartController>().updateCartList();
+                    if (res) {
+                      successToast("Cart updated");
+                    } else {
+                      errorToast("Failed to update cart");
+                    }
+                  },
+                  icon: GetBuilder<UpdateCartController>(builder: (updateCart) {
+                    return Visibility(
+                      visible: !updateCart.inProgress,
+                      replacement: const CircularProgressIndicator(),
+                      child: const Icon(Icons.update_rounded),
+                    );
+                  }),
                 ),
               ],
             ),
@@ -94,7 +110,23 @@ class CartListScreen extends StatelessWidget {
                                   width: 100,
                                   child: ElevatedButton(
                                     onPressed: () {
-                                      Get.toNamed(CheckoutScreen.routeName);
+                                      if (cart.productIdList.isEmpty) {
+                                        Get.toNamed(CheckoutScreen.routeName);
+                                      } else {
+                                        showPopup(
+                                            context: context,
+                                            content:
+                                                'You changed cart quantity but have not updated yet. Do you want to continue to checkout?',
+                                            agreeText: 'Continue',
+                                            onAgree: () {
+                                              Get.back();
+                                              Get.toNamed(
+                                                  CheckoutScreen.routeName);
+                                            },
+                                            onDisagree: () {
+                                              Get.back();
+                                            });
+                                      }
                                     },
                                     child: const Text("Checkout"),
                                   ),

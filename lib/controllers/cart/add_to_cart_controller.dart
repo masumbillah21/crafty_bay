@@ -14,6 +14,7 @@ class AddToCartController extends GetxController {
     bool status = true;
     _inProgress = true;
     update();
+
     ApiResponse res = await ApiCaller().apiPostRequest(
       url: Urls.createCartList,
       formValue: formValue.toJson(),
@@ -22,6 +23,7 @@ class AddToCartController extends GetxController {
     _inProgress = false;
     update();
     if (!res.isSuccess) {
+      print(res.errorMessage);
       status = false;
     }
     return status;

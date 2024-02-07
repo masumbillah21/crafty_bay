@@ -1,3 +1,4 @@
+import 'package:crafty_bay/controllers/cart/delete_cart_controller.dart';
 import 'package:crafty_bay/controllers/cart/get_cart_list_controller.dart';
 import 'package:crafty_bay/models/cart/cart_model.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
@@ -17,7 +18,6 @@ class CartItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(cartModel.qty);
     return Card(
       color: Colors.white,
       child: Row(
@@ -75,7 +75,7 @@ class CartItem extends StatelessWidget {
                             context: context,
                             onAgree: () async {
                               Get.back();
-                              await controller
+                              await Get.find<DeleteCartController>()
                                   .deleteCartList(cartModel.productId!);
                             },
                             onDisagree: () {
