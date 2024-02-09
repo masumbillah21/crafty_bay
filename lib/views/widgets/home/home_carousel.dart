@@ -41,7 +41,9 @@ class HomeCarousel extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage(item.image ?? ''),
+                      image: NetworkImage(
+                        item.image ?? '',
+                      ),
                     ),
                   ),
                   child: Column(

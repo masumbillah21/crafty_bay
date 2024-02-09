@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
+import 'package:crafty_bay/utilities/assets_path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ProductCarousel extends StatelessWidget {
   ProductCarousel({
@@ -36,6 +38,8 @@ class ProductCarousel extends StatelessWidget {
                   child: Image.network(
                     item,
                     fit: BoxFit.cover,
+                    errorBuilder: (context, _, __) =>
+                        SvgPicture.asset(AssetsPath.logo),
                   ),
                 );
               },

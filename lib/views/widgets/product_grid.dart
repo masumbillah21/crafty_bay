@@ -2,9 +2,11 @@ import 'package:crafty_bay/controllers/wishlist/wishlist_controller.dart';
 import 'package:crafty_bay/controllers/wishlist/wishlist_store_controller.dart';
 import 'package:crafty_bay/models/product/product_model.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
+import 'package:crafty_bay/utilities/assets_path.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
 import 'package:crafty_bay/views/screens/product/product_details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class ProductGrid extends StatelessWidget {
@@ -54,7 +56,9 @@ class ProductGrid extends StatelessWidget {
               child: ClipRRect(
                 child: Image.network(
                   productModel.image ?? '',
-                  fit: BoxFit.contain,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, _, __) =>
+                      SvgPicture.asset(AssetsPath.logo),
                 ),
               ),
             ),

@@ -11,7 +11,10 @@ class WishListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.find<WishlistController>().getWishlist();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Get.find<WishlistController>().getWishlist();
+    });
+
     return PopScope(
       canPop: false,
       onPopInvoked: (_) {

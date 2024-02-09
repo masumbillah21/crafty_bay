@@ -2,9 +2,11 @@ import 'package:crafty_bay/controllers/cart/delete_cart_controller.dart';
 import 'package:crafty_bay/controllers/cart/get_cart_list_controller.dart';
 import 'package:crafty_bay/models/cart/cart_model.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
+import 'package:crafty_bay/utilities/assets_path.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
 import 'package:crafty_bay/views/widgets/product_counter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class CartItem extends StatelessWidget {
@@ -32,8 +34,12 @@ class CartItem extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Image.network(
-                  cartModel.product?.image ?? '',
+                child: ClipRRect(
+                  child: Image.network(
+                    cartModel.product?.image ?? '',
+                    errorBuilder: (context, _, __) =>
+                        SvgPicture.asset(AssetsPath.logo),
+                  ),
                 ),
               ),
             ),

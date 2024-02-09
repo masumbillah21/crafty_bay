@@ -1,6 +1,8 @@
 import 'package:crafty_bay/utilities/app_colors.dart';
+import 'package:crafty_bay/utilities/assets_path.dart';
 import 'package:crafty_bay/views/screens/brand/brand_product_list_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class BrandGrid extends StatelessWidget {
@@ -35,6 +37,8 @@ class BrandGrid extends StatelessWidget {
             child: Image.network(
               brandImg,
               fit: BoxFit.cover,
+              errorBuilder: (context, _, __) =>
+                  SvgPicture.asset(AssetsPath.logo),
             ),
           ),
           const SizedBox(
