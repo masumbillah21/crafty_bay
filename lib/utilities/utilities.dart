@@ -73,7 +73,12 @@ void showPopup({
   showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      title: Text(title),
+      title: Text(
+        title,
+        style: const TextStyle(
+          color: Colors.black,
+        ),
+      ),
       content: Text(content),
       actions: [
         TextButton(onPressed: firstButtonAction, child: Text(firstButtonText)),

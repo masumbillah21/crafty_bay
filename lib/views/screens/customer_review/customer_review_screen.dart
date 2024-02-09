@@ -3,6 +3,7 @@ import 'package:crafty_bay/controllers/reviews/create_review_controller.dart';
 import 'package:crafty_bay/models/reviews/review_model.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
+import 'package:crafty_bay/views/screens/authentication/verify_email_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -38,9 +39,16 @@ class _CustomerReviewScreenState extends State<CustomerReviewScreen> {
     }
   }
 
+  void _isLogin() async {
+    bool login = await Get.find<AuthController>().isLogin();
+    if (login) {
+      Get.offAndToNamed(VerifyEmailScreen.routeName);
+    }
+  }
+
   @override
   void initState() {
-    Get.find<AuthController>().checkLogin();
+    _isLogin();
     super.initState();
   }
 

@@ -23,7 +23,7 @@ class InvoiceScreen extends StatelessWidget {
     callInvoice();
     return Scaffold(
       appBar: const CraftyAppBar(),
-      drawer: const AppNavigationDrawerWidget(),
+      drawer: AppNavigationDrawerWidget(),
       body: RefreshIndicator(
         onRefresh: () async {
           await Get.find<InvoiceController>().getInvoiceList();
@@ -48,7 +48,8 @@ class InvoiceScreen extends StatelessWidget {
                         child: ListView.builder(
                           itemCount: invoice.invoiceList?.length ?? 0,
                           itemBuilder: (context, index) {
-                            InvoiceModel item = invoice.invoiceList![index];
+                            InvoiceModel item =
+                                invoice.invoiceList!.reversed.toList()[index];
                             return ListTile(
                               onTap: () {
                                 Get.toNamed(InvoiceProductScreen.routeName,

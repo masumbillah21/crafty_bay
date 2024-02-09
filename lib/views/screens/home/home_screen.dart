@@ -47,7 +47,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CraftyAppBar(),
-      drawer: const AppNavigationDrawerWidget(),
+      drawer: AppNavigationDrawerWidget(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

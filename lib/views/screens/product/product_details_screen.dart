@@ -1,3 +1,4 @@
+import 'package:crafty_bay/controllers/auth/auth_controller.dart';
 import 'package:crafty_bay/controllers/cart/add_to_cart_controller.dart';
 import 'package:crafty_bay/controllers/product/product_details_controller.dart';
 import 'package:crafty_bay/controllers/wishlist/wishlist_controller.dart';
@@ -6,6 +7,7 @@ import 'package:crafty_bay/models/product/product_details_model.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
+import 'package:crafty_bay/views/screens/authentication/verify_email_screen.dart';
 import 'package:crafty_bay/views/screens/brand/brand_product_list_screen.dart';
 import 'package:crafty_bay/views/screens/customer_review/review_list_screen.dart';
 import 'package:crafty_bay/views/widgets/bottom_section_bg.dart';
@@ -24,6 +26,12 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   int productQyt = 1;
+
+  final ValueNotifier<bool> _login = ValueNotifier(false);
+
+  void _isLogin() async {
+    _login.value = await Get.find<AuthController>().isLogin();
+  }
 
   void addToCard(
       {required int productId,
@@ -49,6 +57,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     int id = Get.arguments;
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _isLogin();
       Get.find<ProductDetailsController>().getProductDetailsById(id);
     });
 
@@ -114,24 +123,33 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 replacement: const Center(
                                   child: CircularProgressIndicator(),
                                 ),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    if (product.selectedColor.isEmpty) {
-                                      errorToast("Select a color.");
-                                    } else if (product
-                                        .selectedSize.value.isEmpty) {
-                                      errorToast("Select a size.");
-                                    } else {
-                                      addToCard(
-                                        productId: id,
-                                        color: product.selectedColor.value,
-                                        size: product.selectedSize.value,
-                                        quantity: productQyt,
-                                      );
-                                    }
-                                  },
-                                  child: const Text("Add To Cart"),
-                                ),
+                                child: (_login.value)
+                                    ? ElevatedButton(
+                                        onPressed: () {
+                                          if (product.selectedColor.isEmpty) {
+                                            errorToast("Select a color.");
+                                          } else if (product
+                                              .selectedSize.value.isEmpty) {
+                                            errorToast("Select a size.");
+                                          } else {
+                                            addToCard(
+                                              productId: id,
+                                              color:
+                                                  product.selectedColor.value,
+                                              size: product.selectedSize.value,
+                                              quantity: productQyt,
+                                            );
+                                          }
+                                        },
+                                        child: const Text("Add To Cart"),
+                                      )
+                                    : ElevatedButton(
+                                        onPressed: () {
+                                          Get.offAndToNamed(
+                                              VerifyEmailScreen.routeName);
+                                        },
+                                        child: const Text("Login"),
+                                      ),
                               );
                             }),
                           ),

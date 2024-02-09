@@ -70,7 +70,6 @@ class _VerifyPinCodeScreenState extends State<VerifyPinCodeScreen> {
         await readProfile.readProfile();
         bool hasProfile = readProfile.hasProfileData;
 
-        //Load wishlist
         await Get.find<WishlistController>().getWishlist();
 
         if (hasProfile) {

@@ -1,5 +1,7 @@
 import 'package:crafty_bay/controllers/invoice/invoice_details_controller.dart';
+import 'package:crafty_bay/utilities/assets_path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class InvoiceProductScreen extends StatelessWidget {
@@ -20,7 +22,11 @@ class InvoiceProductScreen extends StatelessWidget {
           itemBuilder: (context, index) {
             var item = details.invoiceDetailsList![index];
             return ListTile(
-              leading: Image.network(item.product?.image ?? ''),
+              leading: Image.network(
+                item.product?.image ?? '',
+                errorBuilder: (context, _, __) =>
+                    SvgPicture.asset(AssetsPath.logo),
+              ),
               title: Text(item.product?.title ?? ''),
               subtitle: Text("Qyt: ${item.qty} | Total: \$${item.salePrice}"),
             );

@@ -1,6 +1,5 @@
 import 'package:crafty_bay/controllers/auth/auth_controller.dart';
 import 'package:crafty_bay/controllers/user/create_user_profile_controller.dart';
-import 'package:crafty_bay/controllers/user/read_user_profile_controller.dart';
 import 'package:crafty_bay/models/user/customer_model.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/assets_path.dart';
@@ -61,19 +60,16 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     }
   }
 
-  bool _isLogin = false;
-  Future<void> _checkLogin() async {
-    _isLogin = await Get.find<AuthController>().checkAuthState();
-    if (!_isLogin) {
-      Get.offNamed(VerifyEmailScreen.routeName);
-    } else {
-      await Get.find<ReadUserProfileController>().readProfile();
+  void _isLogin() async {
+    bool login = await Get.find<AuthController>().isLogin();
+    if (!login) {
+      Get.offAndToNamed(VerifyEmailScreen.routeName);
     }
   }
 
   @override
   void initState() {
-    _checkLogin();
+    _isLogin();
     var customer = Get.find<AuthController>().customer;
     _cusNameTEController.text = customer?.cusName ?? '';
     _cusAddTEController.text = customer?.cusAdd ?? '';
@@ -109,7 +105,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CraftyAppBar(),
-      drawer: const AppNavigationDrawerWidget(),
+      drawer: AppNavigationDrawerWidget(),
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
