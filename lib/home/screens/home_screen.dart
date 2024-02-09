@@ -57,60 +57,15 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              SizedBox(
-                height: 230,
-                child: GetBuilder<HomeCarouselController>(
-                    init: Get.find<HomeCarouselController>(),
-                    builder: (carousel) {
-                      return Visibility(
-                        visible: !carousel.inProgress,
-                        replacement: const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                        child: HomeCarousel(
-                          homeCarousel: carousel,
-                        ),
-                      );
-                    }),
-              ),
+              homeCarousel,
               const SizedBox(
                 height: 10,
               ),
-              SizedBox(
-                height: 180,
-                child: GetBuilder<BrandController>(
-                    init: Get.find<BrandController>(),
-                    builder: (brand) {
-                      return Visibility(
-                        visible: !brand.inProgress,
-                        replacement: const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                        child: AllBrands(
-                          brand: brand,
-                        ),
-                      );
-                    }),
-              ),
+              brandSection,
               const SizedBox(
                 height: 10,
               ),
-              SizedBox(
-                height: 180,
-                child: GetBuilder<CategoryController>(
-                    init: Get.find<CategoryController>(),
-                    builder: (category) {
-                      return Visibility(
-                        visible: !category.inProgress,
-                        replacement: const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                        child: AllCategories(
-                          category: category,
-                        ),
-                      );
-                    }),
-              ),
+              categorySection,
               const SizedBox(
                 height: 10,
               ),
@@ -149,80 +104,143 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              SizedBox(
-                height: 240,
-                child: GetBuilder<SpecialProductController>(
-                    init: Get.find<SpecialProductController>(),
-                    builder: (special) {
-                      return Visibility(
-                        visible: !special.inProgress,
-                        replacement: const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                        child: Column(
-                          children: [
-                            SectionTitle(
-                              title: AppEnum.Special.name,
-                              onPressed: () {
-                                Get.to(
-                                  () => SpecialProductListScreen(
-                                    name: AppEnum.Special.name,
-                                  ),
-                                );
-                              },
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            ProductByRemark(
-                              appEnum: AppEnum.Special,
-                              product: special.remarkProductList ??
-                                  ProductListModel(),
-                            ),
-                          ],
-                        ),
-                      );
-                    }),
-              ),
+              specialProductSection,
               const SizedBox(
                 height: 10,
               ),
-              SizedBox(
-                height: 260,
-                child: GetBuilder<NewProductController>(
-                    init: Get.find<NewProductController>(),
-                    builder: (newProduct) {
-                      return Visibility(
-                        visible: !newProduct.inProgress,
-                        replacement: const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                        child: Column(
-                          children: [
-                            SectionTitle(
-                              title: AppEnum.New.name,
-                              onPressed: () {
-                                Get.to(
-                                  () => NewProductListScreen(
-                                    name: AppEnum.New.name,
-                                  ),
-                                );
-                              },
-                            ),
-                            ProductByRemark(
-                              appEnum: AppEnum.New,
-                              product: newProduct.remarkProductList ??
-                                  ProductListModel(),
-                            ),
-                          ],
-                        ),
-                      );
-                    }),
-              ),
+              newProductSection,
             ],
           ),
         ),
       ),
+    );
+  }
+
+  SizedBox get newProductSection {
+    return SizedBox(
+      height: 260,
+      child: GetBuilder<NewProductController>(
+          init: Get.find<NewProductController>(),
+          builder: (newProduct) {
+            return Visibility(
+              visible: !newProduct.inProgress,
+              replacement: const Center(
+                child: CircularProgressIndicator(),
+              ),
+              child: Column(
+                children: [
+                  SectionTitle(
+                    title: AppEnum.New.name,
+                    onPressed: () {
+                      Get.to(
+                        () => NewProductListScreen(
+                          name: AppEnum.New.name,
+                        ),
+                      );
+                    },
+                  ),
+                  ProductByRemark(
+                    appEnum: AppEnum.New,
+                    product: newProduct.remarkProductList ?? ProductListModel(),
+                  ),
+                ],
+              ),
+            );
+          }),
+    );
+  }
+
+  SizedBox get specialProductSection {
+    return SizedBox(
+      height: 240,
+      child: GetBuilder<SpecialProductController>(
+          init: Get.find<SpecialProductController>(),
+          builder: (special) {
+            return Visibility(
+              visible: !special.inProgress,
+              replacement: const Center(
+                child: CircularProgressIndicator(),
+              ),
+              child: Column(
+                children: [
+                  SectionTitle(
+                    title: AppEnum.Special.name,
+                    onPressed: () {
+                      Get.to(
+                        () => SpecialProductListScreen(
+                          name: AppEnum.Special.name,
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ProductByRemark(
+                    appEnum: AppEnum.Special,
+                    product: special.remarkProductList ?? ProductListModel(),
+                  ),
+                ],
+              ),
+            );
+          }),
+    );
+  }
+
+  SizedBox get categorySection {
+    return SizedBox(
+      height: 180,
+      child: GetBuilder<CategoryController>(
+          init: Get.find<CategoryController>(),
+          builder: (category) {
+            return Visibility(
+              visible: !category.inProgress,
+              replacement: const Center(
+                child: CircularProgressIndicator(),
+              ),
+              child: AllCategories(
+                category: category,
+              ),
+            );
+          }),
+    );
+  }
+
+  SizedBox get brandSection {
+    return SizedBox(
+      height: 180,
+      child: GetBuilder<BrandController>(
+          init: Get.find<BrandController>(),
+          builder: (brand) {
+            return Visibility(
+              visible: !brand.inProgress,
+              replacement: const Center(
+                child: CircularProgressIndicator(),
+              ),
+              child: AllBrands(
+                brand: brand,
+              ),
+            );
+          }),
+    );
+  }
+
+  SizedBox get homeCarousel {
+    return SizedBox(
+      height: 230,
+      child: GetBuilder<HomeCarouselController>(
+          init: Get.find<HomeCarouselController>(),
+          builder: (carousel) {
+            return Visibility(
+              visible: !carousel.inProgress,
+              replacement: const Center(
+                child: CircularProgressIndicator(),
+              ),
+              child: HomeCarousel(
+                homeCarousel: carousel,
+              ),
+            );
+          }),
     );
   }
 }
