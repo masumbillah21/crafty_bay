@@ -8,11 +8,13 @@ import 'package:crafty_bay/views/screens/category/categories_screen.dart';
 import 'package:crafty_bay/views/screens/category/category_product_list_screen.dart';
 import 'package:crafty_bay/views/screens/checkout/checkout_screen.dart';
 import 'package:crafty_bay/views/screens/checkout/payment_web_view_screen.dart';
+import 'package:crafty_bay/views/screens/contact/contact_screen.dart';
 import 'package:crafty_bay/views/screens/customer_review/customer_review_screen.dart';
 import 'package:crafty_bay/views/screens/customer_review/review_list_screen.dart';
 import 'package:crafty_bay/views/screens/home/home_screen.dart';
 import 'package:crafty_bay/views/screens/invoice/invoice_product_screen.dart';
 import 'package:crafty_bay/views/screens/invoice/invoice_screen.dart';
+import 'package:crafty_bay/views/screens/notification/notification_screen.dart';
 import 'package:crafty_bay/views/screens/onboard/splash_screen.dart';
 import 'package:crafty_bay/views/screens/product/product_details_screen.dart';
 import 'package:crafty_bay/views/screens/profile/update_profile_screen.dart';
@@ -32,6 +34,14 @@ class AppRoutes {
     GetPage(
       name: HomeScreen.routeName,
       page: () => const HomeScreen(),
+    ),
+    GetPage(
+      name: NotificationScreen.routeName,
+      page: () => const NotificationScreen(),
+    ),
+    GetPage(
+      name: ContactScreen.routeName,
+      page: () => const ContactScreen(),
     ),
     GetPage(
       name: CategoriesScreen.routeName,

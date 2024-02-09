@@ -1,6 +1,8 @@
 import 'package:crafty_bay/utilities/app_enum.dart';
 import 'package:crafty_bay/utilities/assets_path.dart';
 import 'package:crafty_bay/utilities/styles.dart';
+import 'package:crafty_bay/views/screens/contact/contact_screen.dart';
+import 'package:crafty_bay/views/screens/notification/notification_screen.dart';
 import 'package:crafty_bay/views/screens/profile/update_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -35,14 +37,22 @@ class CraftyAppBar extends StatelessWidget implements PreferredSizeWidget {
           style: iconButtonStyle,
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Get.toNamed(
+              ContactScreen.routeName,
+            );
+          },
           icon: const Icon(
             Icons.phone_outlined,
           ),
           style: iconButtonStyle,
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Get.toNamed(
+              NotificationScreen.routeName,
+            );
+          },
           icon: const Icon(
             Icons.notifications_none_outlined,
           ),
