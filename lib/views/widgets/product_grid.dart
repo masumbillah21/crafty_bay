@@ -89,7 +89,7 @@ class ProductGrid extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "\$${productModel.price}",
+                        "৳${productModel.price}",
                         style: const TextStyle(
                           color: AppColors.primaryColor,
                           fontWeight: FontWeight.w500,

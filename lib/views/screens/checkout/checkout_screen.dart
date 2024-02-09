@@ -32,7 +32,7 @@ class CheckoutScreen extends StatelessWidget {
                   children: [
                     const Text("Total: "),
                     Text(
-                        "\$${invoice.paymentGatewayList?.paymentList?.first.total ?? 0}"),
+                        "৳${invoice.paymentGatewayList?.paymentList?.first.total ?? 0}"),
                   ],
                 ),
                 const SizedBox(
@@ -43,7 +43,7 @@ class CheckoutScreen extends StatelessWidget {
                   children: [
                     const Text("VAT: "),
                     Text(
-                        "(+) \$${invoice.paymentGatewayList?.paymentList?.first.vat ?? 0}"),
+                        "(+) ৳${invoice.paymentGatewayList?.paymentList?.first.vat ?? 0}"),
                   ],
                 ),
                 const Divider(),
@@ -58,7 +58,7 @@ class CheckoutScreen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "\$${invoice.paymentGatewayList?.paymentList?.first.payable ?? 0}",
+                      "৳${invoice.paymentGatewayList?.paymentList?.first.payable ?? 0}",
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black,

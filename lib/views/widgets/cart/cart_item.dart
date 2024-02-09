@@ -103,7 +103,7 @@ class CartItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "\$${cartModel.product?.price ?? 0}",
+                        "৳${cartModel.product?.price ?? 0}",
                         style: const TextStyle(
                           color: AppColors.primaryColor,
                           fontSize: 17,

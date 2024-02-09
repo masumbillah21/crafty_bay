@@ -71,7 +71,7 @@ class InvoiceScreen extends StatelessWidget {
                                 ),
                               ),
                               title: Text(
-                                  'Pay: ${item.paymentStatus} (\$${item.payable})'),
+                                  'Pay: ${item.paymentStatus} (৳${item.payable})'),
                               subtitle:
                                   Text('Delivery: ${item.deliveryStatus}'),
                               trailing: const Icon(Icons.arrow_forward_rounded),

@@ -105,7 +105,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 ),
                               ),
                               Text(
-                                "\$${product.productDetails?.productDetailsList?[0].product?.price ?? 0}",
+                                "৳${product.productDetails?.productDetailsList?[0].product?.price ?? 0}",
                                 style: const TextStyle(
                                   color: AppColors.primaryColor,
                                   fontSize: 20,

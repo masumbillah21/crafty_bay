@@ -100,7 +100,7 @@ class CartListScreen extends StatelessWidget {
                                   ),
                                   Obx(
                                     () => Text(
-                                      "\$${cart.totalPrice}",
+                                      "৳${cart.totalPrice}",
                                       style: const TextStyle(
                                         color: AppColors.primaryColor,
                                         fontSize: 20,

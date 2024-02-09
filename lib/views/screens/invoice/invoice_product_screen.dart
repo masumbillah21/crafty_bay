@@ -28,7 +28,7 @@ class InvoiceProductScreen extends StatelessWidget {
                     SvgPicture.asset(AssetsPath.logo),
               ),
               title: Text(item.product?.title ?? ''),
-              subtitle: Text("Qyt: ${item.qty} | Total: \$${item.salePrice}"),
+              subtitle: Text("Qyt: ${item.qty} | Total: ৳${item.salePrice}"),
             );
           },
           separatorBuilder: (_, __) => const Divider(),
