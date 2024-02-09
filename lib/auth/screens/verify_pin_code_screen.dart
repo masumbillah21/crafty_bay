@@ -9,7 +9,7 @@ import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/assets_path.dart';
 import 'package:crafty_bay/utilities/styles.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
-import 'package:crafty_bay/wishlist/controllers/wishlist_controller.dart';
+import 'package:crafty_bay/wishlist/controllers/get_wishlist_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -70,7 +70,7 @@ class _VerifyPinCodeScreenState extends State<VerifyPinCodeScreen> {
         await readProfile.readProfile();
         bool hasProfile = readProfile.hasProfileData;
 
-        await Get.find<WishlistController>().getWishlist();
+        await Get.find<GetWishlistController>().getWishlist();
 
         if (hasProfile) {
           Get.offNamedUntil(BottomNavScreen.routeName, (route) => false);

@@ -12,7 +12,8 @@ import 'package:crafty_bay/reviews/screens/review_list_screen.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
-import 'package:crafty_bay/wishlist/controllers/wishlist_controller.dart';
+import 'package:crafty_bay/wishlist/controllers/add_wishlist_controller.dart';
+import 'package:crafty_bay/wishlist/controllers/delete_wishlist_controller.dart';
 import 'package:crafty_bay/wishlist/controllers/wishlist_store_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,6 +28,7 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   int productQyt = 1;
+  int id = Get.arguments;
 
   final ValueNotifier<bool> _login = ValueNotifier(false);
 
@@ -34,11 +36,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     _login.value = await Get.find<AuthController>().isLogin();
   }
 
-  void addToCard(
-      {required int productId,
-      required String color,
-      required String size,
-      required int quantity}) async {
+  void _addToCard({
+    required int productId,
+    required String color,
+    required String size,
+    required int quantity,
+  }) async {
     CartModel cartModel = CartModel(
         productId: productId, color: color, size: size, qty: quantity);
     bool res = await Get.find<AddToCartController>().addToCart(cartModel);
@@ -49,19 +52,45 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     }
   }
 
-  void updateProductQty(int value) {
+  void _updateProductQty(int value) {
     productQyt = value;
+  }
+
+  void _addToWishList(int productId) async {
+    bool success =
+        await Get.find<AddWishlistController>().createWishlist(productId);
+    success ? successToast("Added to wishlist") : errorToast("Failed to add");
+  }
+
+  void _deleteFromWishlist(
+      {required BuildContext context, required int productId}) {
+    showPopup(
+      context: context,
+      firstButtonAction: () async {
+        Get.back();
+        bool success = await Get.find<DeleteWishlistController>()
+            .deleteWishlist(productId);
+        success
+            ? successToast("Delete from wishlist.")
+            : errorToast("Failed to remove.");
+      },
+      secondButtonAction: () {
+        Get.back();
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _isLogin();
+      Get.find<ProductDetailsController>().getProductDetailsById(id);
+    });
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    int id = Get.arguments;
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _isLogin();
-      Get.find<ProductDetailsController>().getProductDetailsById(id);
-    });
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Product Details"),
@@ -87,7 +116,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             productDetailsBody(
                               product: product,
                               productQyt: productQyt,
-                              onQytUpdate: updateProductQty,
+                              onQytUpdate: _updateProductQty,
                             ),
                           ],
                         ),
@@ -149,7 +178,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           } else if (product.selectedSize.value.isEmpty) {
                             errorToast("Select a size.");
                           } else {
-                            addToCard(
+                            _addToCard(
                               productId: id,
                               color: product.selectedColor.value,
                               size: product.selectedSize.value,
@@ -353,31 +382,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         child: GestureDetector(
           onTap: () async {
             if (isInWish) {
-              showPopup(
-                context: context,
-                firstButtonAction: () async {
-                  Get.back();
-                  bool res = await Get.find<WishlistController>()
-                      .deleteWishlist(productDetails.productId!);
-
-                  if (res) {
-                    successToast("Deleted from wishlist");
-                  } else {
-                    errorToast("Failed to delete");
-                  }
-                },
-                secondButtonAction: () {
-                  Get.back();
-                },
-              );
+              _deleteFromWishlist(
+                  context: context, productId: productDetails.productId!);
             } else {
-              bool res = await Get.find<WishlistController>()
-                  .createWishlist(productDetails.productId!);
-              if (res) {
-                successToast("Add to wishlist");
-              } else {
-                errorToast("Failed to add");
-              }
+              _addToWishList(productDetails.productId!);
             }
           },
           child: Container(

@@ -1,5 +1,5 @@
 import 'package:crafty_bay/global/widgets/product_grid.dart';
-import 'package:crafty_bay/products/controllers/product_controller.dart';
+import 'package:crafty_bay/products/controllers/product_category_controller.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +9,7 @@ class CategoryProductListScreen extends StatelessWidget {
   const CategoryProductListScreen({super.key});
 
   void getProductList(int id) async {
-    await Get.find<ProductController>().getProductByCategoryId(id);
+    await Get.find<ProductCategoryController>().getProductByCategoryId(id);
   }
 
   @override
@@ -27,7 +27,7 @@ class CategoryProductListScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: GetBuilder<ProductController>(builder: (product) {
+        child: GetBuilder<ProductCategoryController>(builder: (product) {
           return Visibility(
             visible: product.inProgress == false,
             replacement: const Center(

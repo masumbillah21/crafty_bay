@@ -6,37 +6,13 @@ import 'package:crafty_bay/wishlist/controllers/wishlist_store_controller.dart';
 import 'package:crafty_bay/wishlist/models/wishlist_list_model.dart';
 import 'package:get/get.dart';
 
-class WishlistController extends GetxController {
+class GetWishlistController extends GetxController {
   WishlistListModel? _wishlist = WishlistListModel();
 
   bool _inProgress = false;
 
   WishlistListModel? get wishlist => _wishlist;
   bool get inProgress => _inProgress;
-
-  Future<bool> createWishlist(int productId) async {
-    bool status = true;
-    _inProgress = true;
-    Get.find<WishlistStoreController>().toggleProgress(productId);
-
-    update();
-    ApiResponse res = await ApiCaller().apiGetRequest(
-      url: Urls.createWishList(productId),
-      token: AuthController.token.toString(),
-    );
-
-    if (res.isSuccess) {
-      await getWishlist();
-    } else {
-      status = false;
-    }
-
-    _inProgress = false;
-    Get.find<WishlistStoreController>().toggleProgress(0);
-    update();
-
-    return status;
-  }
 
   Future<void> getWishlist() async {
     _inProgress = true;
@@ -53,29 +29,6 @@ class WishlistController extends GetxController {
     }
     _inProgress = false;
     update();
-  }
-
-  Future<bool> deleteWishlist(int productId) async {
-    bool status = true;
-    _inProgress = true;
-
-    Get.find<WishlistStoreController>().toggleProgress(productId);
-    update();
-    ApiResponse res = await ApiCaller().apiGetRequest(
-      url: Urls.deleteWishList(productId),
-      token: AuthController.token.toString(),
-    );
-
-    if (res.isSuccess) {
-      await getWishlist();
-    } else {
-      status = false;
-    }
-    _inProgress = false;
-    Get.find<WishlistStoreController>().toggleProgress(0);
-
-    update();
-    return status;
   }
 
   void wishListProductIds() {

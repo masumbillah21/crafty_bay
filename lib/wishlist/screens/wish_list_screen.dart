@@ -1,7 +1,7 @@
 import 'package:crafty_bay/global/widgets/product_grid.dart';
 import 'package:crafty_bay/home/controllers/bottom_nav_controller.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
-import 'package:crafty_bay/wishlist/controllers/wishlist_controller.dart';
+import 'package:crafty_bay/wishlist/controllers/get_wishlist_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,7 +12,7 @@ class WishListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Get.find<WishlistController>().getWishlist();
+      Get.find<GetWishlistController>().getWishlist();
     });
 
     return PopScope(
@@ -33,11 +33,11 @@ class WishListScreen extends StatelessWidget {
         ),
         body: RefreshIndicator(
           onRefresh: () async {
-            await Get.find<WishlistController>().getWishlist();
+            await Get.find<GetWishlistController>().getWishlist();
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: GetBuilder<WishlistController>(builder: (wish) {
+            child: GetBuilder<GetWishlistController>(builder: (wish) {
               return Visibility(
                 visible: !wish.inProgress,
                 replacement: const Center(

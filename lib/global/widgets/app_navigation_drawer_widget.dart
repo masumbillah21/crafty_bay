@@ -38,7 +38,7 @@ class AppNavigationDrawerWidget extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: SvgPicture.asset(
-                      AssetsPath.navLogo,
+                      AssetsPath.logo,
                     ),
                   ),
                 ),

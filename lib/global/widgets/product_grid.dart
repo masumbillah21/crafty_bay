@@ -3,7 +3,8 @@ import 'package:crafty_bay/products/screens/product_details_screen.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:crafty_bay/utilities/assets_path.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
-import 'package:crafty_bay/wishlist/controllers/wishlist_controller.dart';
+import 'package:crafty_bay/wishlist/controllers/add_wishlist_controller.dart';
+import 'package:crafty_bay/wishlist/controllers/delete_wishlist_controller.dart';
 import 'package:crafty_bay/wishlist/controllers/wishlist_store_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,17 +19,21 @@ class ProductGrid extends StatelessWidget {
   });
 
   void _addToWishList() async {
-    bool success =
-        await Get.find<WishlistController>().createWishlist(productModel.id!);
+    bool success = await Get.find<AddWishlistController>()
+        .createWishlist(productModel.id!);
     success ? successToast("Added to wishlist") : errorToast("Failed to add");
   }
 
   void _deleteFromWishlist(BuildContext context) {
     showPopup(
       context: context,
-      firstButtonAction: () {
+      firstButtonAction: () async {
         Get.back();
-        Get.find<WishlistController>().deleteWishlist(productModel.id!);
+        bool success = await Get.find<DeleteWishlistController>()
+            .deleteWishlist(productModel.id!);
+        success
+            ? successToast("Delete from wishlist.")
+            : errorToast("Failed to remove.");
       },
       secondButtonAction: () {
         Get.back();
