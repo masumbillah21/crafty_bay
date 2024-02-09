@@ -85,59 +85,7 @@ class CartListScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        BottomSectionBg(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    "Total Price",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Obx(
-                                    () => Text(
-                                      "৳${cart.totalPrice}",
-                                      style: const TextStyle(
-                                        color: AppColors.primaryColor,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                width: 100,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    if (cart.productIdList.isEmpty) {
-                                      Get.toNamed(CheckoutScreen.routeName);
-                                    } else {
-                                      showPopup(
-                                          context: context,
-                                          content:
-                                              'You changed cart quantity but have not updated yet. Do you want to continue to checkout?',
-                                          firstButtonText: 'Continue',
-                                          firstButtonAction: () {
-                                            Get.back();
-                                            Get.toNamed(
-                                                CheckoutScreen.routeName);
-                                          },
-                                          secondButtonAction: () {
-                                            Get.back();
-                                          });
-                                    }
-                                  },
-                                  child: const Text("Checkout"),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
+                        buildBottomSectionBg(cart, context)
                       ],
                     )
                   : Center(
@@ -148,6 +96,62 @@ class CartListScreen extends StatelessWidget {
             );
           }),
         ),
+      ),
+    );
+  }
+
+  BottomSectionBg buildBottomSectionBg(
+      GetCartListController cart, BuildContext context) {
+    return BottomSectionBg(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Total Price",
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              Obx(
+                () => Text(
+                  "৳${cart.totalPrice}",
+                  style: const TextStyle(
+                    color: AppColors.primaryColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            width: 100,
+            child: ElevatedButton(
+              onPressed: () {
+                if (cart.productIdList.isEmpty) {
+                  Get.toNamed(CheckoutScreen.routeName);
+                } else {
+                  showPopup(
+                      context: context,
+                      content:
+                          'You changed cart quantity but have not updated yet. Do you want to continue to checkout?',
+                      firstButtonText: 'Continue',
+                      firstButtonAction: () {
+                        Get.back();
+                        Get.toNamed(CheckoutScreen.routeName);
+                      },
+                      secondButtonAction: () {
+                        Get.back();
+                      });
+                }
+              },
+              child: const Text("Checkout"),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -50,10 +50,12 @@ class CategoriesScreen extends StatelessWidget {
                   itemCount: category.categoryList?.length ?? 0,
                   itemBuilder: (context, index) {
                     var cat = category.categoryList![index];
-                    return CategoryGrid(
-                      id: cat.id!,
-                      categoryName: cat.categoryName!,
-                      categoryImg: cat.categoryImg!,
+                    return FittedBox(
+                      child: CategoryGrid(
+                        id: cat.id!,
+                        categoryName: cat.categoryName!,
+                        categoryImg: cat.categoryImg!,
+                      ),
                     );
                   },
                 ),

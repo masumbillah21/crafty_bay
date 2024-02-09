@@ -2,6 +2,7 @@ import 'package:crafty_bay/controllers/auth/auth_controller.dart';
 import 'package:crafty_bay/controllers/cart/add_to_cart_controller.dart';
 import 'package:crafty_bay/controllers/product/product_details_controller.dart';
 import 'package:crafty_bay/controllers/wishlist/wishlist_controller.dart';
+import 'package:crafty_bay/controllers/wishlist/wishlist_store_controller.dart';
 import 'package:crafty_bay/models/cart/cart_model.dart';
 import 'package:crafty_bay/models/product/product_details_model.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
@@ -84,78 +85,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   product.productDetails?.carouselImages ?? [],
                             ),
                             productDetailsBody(
-                                product: product,
-                                productQyt: productQyt,
-                                onQytUpdate: updateProductQty),
+                              product: product,
+                              productQyt: productQyt,
+                              onQytUpdate: updateProductQty,
+                            ),
                           ],
                         ),
                       ),
                     ),
-                    BottomSectionBg(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                "Price",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                "৳${product.productDetails?.productDetailsList?[0].product?.price ?? 0}",
-                                style: const TextStyle(
-                                  color: AppColors.primaryColor,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            width: 150,
-                            child: GetBuilder<AddToCartController>(
-                                builder: (cart) {
-                              return Visibility(
-                                visible: !cart.inProgress,
-                                replacement: const Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                                child: (_login.value)
-                                    ? ElevatedButton(
-                                        onPressed: () {
-                                          if (product.selectedColor.isEmpty) {
-                                            errorToast("Select a color.");
-                                          } else if (product
-                                              .selectedSize.value.isEmpty) {
-                                            errorToast("Select a size.");
-                                          } else {
-                                            addToCard(
-                                              productId: id,
-                                              color:
-                                                  product.selectedColor.value,
-                                              size: product.selectedSize.value,
-                                              quantity: productQyt,
-                                            );
-                                          }
-                                        },
-                                        child: const Text("Add To Cart"),
-                                      )
-                                    : ElevatedButton(
-                                        onPressed: () {
-                                          Get.offAndToNamed(
-                                              VerifyEmailScreen.routeName);
-                                        },
-                                        child: const Text("Login"),
-                                      ),
-                              );
-                            }),
-                          ),
-                        ],
-                      ),
-                    ),
+                    buildBottomSectionBg(product, id),
                   ],
                 )
               : Center(
@@ -168,12 +106,81 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Padding productDetailsBody(
-      {required ProductDetailsController product,
-      required int productQyt,
-      required Function(int) onQytUpdate}) {
+  Widget buildBottomSectionBg(
+    ProductDetailsController product,
+    int id,
+  ) {
+    return BottomSectionBg(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Price",
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              Text(
+                "৳${product.productDetails?.productDetailsList?[0].product?.price ?? 0}",
+                style: const TextStyle(
+                  color: AppColors.primaryColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            width: 150,
+            child: GetBuilder<AddToCartController>(builder: (cart) {
+              return Visibility(
+                visible: !cart.inProgress,
+                replacement: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                child: (_login.value)
+                    ? ElevatedButton(
+                        onPressed: () {
+                          if (product.selectedColor.isEmpty) {
+                            errorToast("Select a color.");
+                          } else if (product.selectedSize.value.isEmpty) {
+                            errorToast("Select a size.");
+                          } else {
+                            addToCard(
+                              productId: id,
+                              color: product.selectedColor.value,
+                              size: product.selectedSize.value,
+                              quantity: productQyt,
+                            );
+                          }
+                        },
+                        child: const Text("Add To Cart"),
+                      )
+                    : ElevatedButton(
+                        onPressed: () {
+                          Get.offAndToNamed(VerifyEmailScreen.routeName);
+                        },
+                        child: const Text("Login"),
+                      ),
+              );
+            }),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget productDetailsBody({
+    required ProductDetailsController product,
+    required int productQyt,
+    required Function(int) onQytUpdate,
+  }) {
     ProductDetailsModel productDetails =
         product.productDetails?.productDetailsList?[0] ?? ProductDetailsModel();
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -274,29 +281,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               const SizedBox(
                 width: 10,
               ),
-              GestureDetector(
-                onTap: () async {
-                  bool res = await Get.find<WishlistController>()
-                      .createWishlist(productDetails.productId!);
-                  if (res) {
-                    successToast("Added to wishlist");
-                  } else {
-                    errorToast("Failed to add");
-                  }
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(3),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    color: AppColors.primaryColor,
-                  ),
-                  child: const Icon(
-                    Icons.favorite_border_outlined,
-                    size: 17,
-                    color: Colors.white,
-                  ),
-                ),
-              )
+              wishListSection(productDetails),
             ],
           ),
           const SizedBox(
@@ -352,7 +337,67 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Row sizeSelector(
+  Widget wishListSection(ProductDetailsModel productDetails) {
+    return GetBuilder<WishlistStoreController>(builder: (store) {
+      bool isInWish =
+          store.productListInWishlist.contains(productDetails.productId!);
+      return Visibility(
+        visible: store.productId != productDetails.productId!,
+        replacement: const SizedBox(
+          height: 10,
+          width: 10,
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+          ),
+        ),
+        child: GestureDetector(
+          onTap: () async {
+            if (isInWish) {
+              showPopup(
+                context: context,
+                firstButtonAction: () async {
+                  Get.back();
+                  bool res = await Get.find<WishlistController>()
+                      .deleteWishlist(productDetails.productId!);
+
+                  if (res) {
+                    successToast("Deleted from wishlist");
+                  } else {
+                    errorToast("Failed to delete");
+                  }
+                },
+                secondButtonAction: () {
+                  Get.back();
+                },
+              );
+            } else {
+              bool res = await Get.find<WishlistController>()
+                  .createWishlist(productDetails.productId!);
+              if (res) {
+                successToast("Add to wishlist");
+              } else {
+                errorToast("Failed to add");
+              }
+            }
+          },
+          child: Container(
+            padding: const EdgeInsets.all(3),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4),
+              color: isInWish ? Colors.red : AppColors.primaryColor,
+            ),
+            child: Icon(
+              isInWish ? Icons.delete : Icons.favorite_border_outlined,
+              size: 17,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      );
+    });
+  }
+
+  Widget sizeSelector(
       ProductDetailsModel productDetails, ProductDetailsController product) {
     return Row(
       children: productDetails.size!
@@ -396,7 +441,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Row colorSelector(ProductDetailsController product) {
+  Widget colorSelector(ProductDetailsController product) {
     return Row(
       children: product.productDetails!.productDetailsList![0].color!
           .split(",")

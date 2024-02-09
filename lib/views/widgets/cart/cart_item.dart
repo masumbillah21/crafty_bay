@@ -60,7 +60,7 @@ class CartItem extends StatelessWidget {
                             cartModel.product?.title ?? '',
                             maxLines: 1,
                             style: const TextStyle(
-                              fontSize: 17,
+                              fontSize: 15,
                               color: Colors.black,
                               fontWeight: FontWeight.w700,
                               overflow: TextOverflow.ellipsis,

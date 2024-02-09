@@ -38,16 +38,17 @@ class BrandsScreen extends StatelessWidget {
                   crossAxisCount: 4,
                   mainAxisSpacing: 8,
                   crossAxisSpacing: 8,
-                  // width / height: fixed for *all* items
                   childAspectRatio: 0.75,
                 ),
                 itemCount: brand.brandList?.length ?? 0,
                 itemBuilder: (context, index) {
                   var item = brand.brandList![index];
-                  return BrandGrid(
-                    id: item.id ?? 0,
-                    brandName: item.brandName ?? '',
-                    brandImg: item.brandImg ?? '',
+                  return FittedBox(
+                    child: BrandGrid(
+                      id: item.id ?? 0,
+                      brandName: item.brandName ?? '',
+                      brandImg: item.brandImg ?? '',
+                    ),
                   );
                 },
               ),
