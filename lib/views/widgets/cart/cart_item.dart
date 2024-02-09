@@ -73,12 +73,12 @@ class CartItem extends StatelessWidget {
                         onPressed: () {
                           showPopup(
                             context: context,
-                            onAgree: () async {
+                            firstButtonAction: () async {
                               Get.back();
                               await Get.find<DeleteCartController>()
                                   .deleteCartList(cartModel.productId!);
                             },
-                            onDisagree: () {
+                            secondButtonAction: () {
                               Get.back();
                             },
                           );

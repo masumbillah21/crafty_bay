@@ -1,3 +1,7 @@
+import 'package:crafty_bay/controllers/home/bottom_nav_controller.dart';
+import 'package:crafty_bay/utilities/utilities.dart';
+import 'package:crafty_bay/views/screens/bottom_nav_screen.dart';
+import 'package:crafty_bay/views/screens/invoice/invoice_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -22,14 +26,41 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
       ..setBackgroundColor(const Color(0x00000000))
       ..setNavigationDelegate(
         NavigationDelegate(
-          onProgress: (int progress) {
-            // Update loading bar.
-          },
+          onProgress: (int progress) {},
           onPageStarted: (String url) {},
           onPageFinished: (String url) {},
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
-            if (request.url.startsWith('https://www.youtube.com/')) {
+            if (request.url.endsWith('success') ||
+                request.url.endsWith('success&risk_level=1')) {
+              showPopup(
+                title: "Success",
+                context: context,
+                content: "Your payment has been succeeded.",
+                firstButtonText: 'Continue',
+                firstButtonAction: () {
+                  Get.offAllNamed(InvoiceScreen.routeName);
+                },
+                secondButtonAction: () {
+                  Get.offAllNamed(BottomNavScreen.routeName);
+                  Get.find<BottomNavController>().backToHome();
+                },
+              );
+              return NavigationDecision.prevent;
+            } else if (request.url.endsWith('Failed')) {
+              showPopup(
+                title: "Failed",
+                context: context,
+                content: "Your payment failed to proceed.",
+                firstButtonText: 'Continue',
+                firstButtonAction: () {
+                  Get.offAllNamed(InvoiceScreen.routeName);
+                },
+                secondButtonAction: () {
+                  Get.offAllNamed(BottomNavScreen.routeName);
+                  Get.find<BottomNavController>().backToHome();
+                },
+              );
               return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;

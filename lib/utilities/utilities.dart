@@ -61,22 +61,24 @@ Color hexColor(String hexColor) {
   return Color(int.parse(hexColor));
 }
 
-void showPopup(
-    {required BuildContext context,
-    required VoidCallback onAgree,
-    String agreeText = 'Delete',
-    required VoidCallback onDisagree,
-    String disAgreeText = 'Close',
-    String title = 'Warning',
-    String content = 'Do you want to delete?'}) {
+void showPopup({
+  required BuildContext context,
+  required VoidCallback firstButtonAction,
+  String firstButtonText = 'Delete',
+  VoidCallback? secondButtonAction,
+  String secondButtonText = 'Close',
+  String title = 'Warning',
+  String content = 'Do you want to delete?',
+}) {
   showDialog(
     context: context,
     builder: (context) => AlertDialog(
       title: Text(title),
       content: Text(content),
       actions: [
-        TextButton(onPressed: onDisagree, child: Text(disAgreeText)),
-        TextButton(onPressed: onAgree, child: Text(agreeText)),
+        TextButton(onPressed: firstButtonAction, child: Text(firstButtonText)),
+        TextButton(
+            onPressed: secondButtonAction, child: Text(secondButtonText)),
       ],
     ),
   );

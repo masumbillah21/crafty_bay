@@ -1,4 +1,7 @@
+import 'package:crafty_bay/controllers/auth/auth_controller.dart';
+import 'package:crafty_bay/controllers/home/bottom_nav_controller.dart';
 import 'package:crafty_bay/utilities/assets_path.dart';
+import 'package:crafty_bay/utilities/utilities.dart';
 import 'package:crafty_bay/views/screens/bottom_nav_screen.dart';
 import 'package:crafty_bay/views/screens/invoice/invoice_screen.dart';
 import 'package:crafty_bay/views/screens/profile/update_profile_screen.dart';
@@ -72,11 +75,20 @@ class AppNavigationDrawerWidget extends StatelessWidget {
             title: const Text('Logout'),
             trailing: const Icon(Icons.arrow_forward_rounded),
             onTap: () {
-              if (Get.currentRoute == UpdateProfileScreen.routeName) {
-                Get.back();
-              } else {
-                Get.toNamed(UpdateProfileScreen.routeName);
-              }
+              showPopup(
+                context: context,
+                content: "Do you want to logout?",
+                firstButtonText: "Logout",
+                firstButtonAction: () async {
+                  Get.back();
+                  await AuthController.clearAuthData();
+                  Get.offAndToNamed(BottomNavScreen.routeName);
+                  Get.find<BottomNavController>().backToHome();
+                },
+                secondButtonAction: () {
+                  Get.back();
+                },
+              );
             },
           ),
         ],

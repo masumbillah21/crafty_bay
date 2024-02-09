@@ -18,7 +18,7 @@ class WishlistController extends GetxController {
     bool status = true;
     _inProgress = true;
     Get.find<WishlistStoreController>().toggleProgress(productId);
-    print('trying to update');
+
     update();
     ApiResponse res = await ApiCaller().apiGetRequest(
       url: Urls.createWishList(productId),
@@ -40,6 +40,7 @@ class WishlistController extends GetxController {
 
   Future<void> getWishlist() async {
     _inProgress = true;
+    update();
     ApiResponse res = await ApiCaller().apiGetRequest(
       url: Urls.productWishList,
       token: AuthController.token.toString(),

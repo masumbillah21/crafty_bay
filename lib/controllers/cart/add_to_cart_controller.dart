@@ -11,7 +11,7 @@ class AddToCartController extends GetxController {
   bool get inProgress => _inProgress;
 
   Future<bool> addToCart(CartModel formValue) async {
-    bool status = true;
+    bool status = false;
     _inProgress = true;
     update();
 
@@ -22,9 +22,10 @@ class AddToCartController extends GetxController {
     );
     _inProgress = false;
     update();
-    if (!res.isSuccess) {
-      print(res.errorMessage);
-      status = false;
+    print(res.errorMessage);
+    print(res.statusCode);
+    if (res.isSuccess) {
+      status = true;
     }
     return status;
   }

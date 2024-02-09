@@ -24,11 +24,11 @@ class ProductGrid extends StatelessWidget {
   void _deleteFromWishlist(BuildContext context) {
     showPopup(
       context: context,
-      onAgree: () {
+      firstButtonAction: () {
         Get.back();
         Get.find<WishlistController>().deleteWishlist(productModel.id!);
       },
-      onDisagree: () {
+      secondButtonAction: () {
         Get.back();
       },
     );
@@ -107,8 +107,6 @@ class ProductGrid extends StatelessWidget {
                       GetBuilder<WishlistStoreController>(builder: (stored) {
                         final hasInWishList = stored.productListInWishlist
                             .contains(productModel.id);
-
-                        print('in grid id: ${stored.productId}');
 
                         return Visibility(
                           visible: stored.productId != productModel.id,

@@ -16,7 +16,9 @@ class CartListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.find<GetCartListController>().getCartList();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Get.find<GetCartListController>().getCartList();
+    });
     return PopScope(
       canPop: false,
       onPopInvoked: (_) {
@@ -33,116 +35,119 @@ class CartListScreen extends StatelessWidget {
           ),
           title: const Text('Cart'),
           actions: [
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () async {
-                    bool res =
-                        await Get.find<UpdateCartController>().updateCartList();
-                    if (res) {
-                      successToast("Cart updated");
-                    } else {
-                      errorToast("Failed to update cart");
-                    }
-                  },
-                  icon: GetBuilder<UpdateCartController>(builder: (updateCart) {
-                    return Visibility(
-                      visible: !updateCart.inProgress,
-                      replacement: const CircularProgressIndicator(),
-                      child: const Icon(Icons.update_rounded),
-                    );
-                  }),
-                ),
-              ],
+            IconButton(
+              enableFeedback: true,
+              onPressed: () async {
+                bool res =
+                    await Get.find<UpdateCartController>().updateCartList();
+                if (res) {
+                  successToast("Cart updated");
+                } else {
+                  errorToast("Failed to update cart");
+                }
+              },
+              icon: GetBuilder<UpdateCartController>(builder: (updateCart) {
+                return Visibility(
+                  visible: !updateCart.inProgress,
+                  replacement: const CircularProgressIndicator(),
+                  child: const Icon(
+                    Icons.update_rounded,
+                    color: AppColors.primaryColor,
+                  ),
+                );
+              }),
             ),
           ],
         ),
-        body: GetBuilder<GetCartListController>(
-            init: Get.find<GetCartListController>(),
-            builder: (cart) {
-              return Visibility(
-                visible: !cart.inProgress,
-                replacement: const Center(
-                  child: CircularProgressIndicator(),
-                ),
-                child: cart.cartList?.cartList?.isNotEmpty ?? false
-                    ? Column(
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: cart.cartList?.cartList?.length ?? 0,
-                                itemBuilder: (context, index) => CartItem(
-                                  cartModel: cart.cartList!.cartList![index],
-                                  controller: cart,
-                                ),
+        body: RefreshIndicator(
+          onRefresh: () async {
+            await Get.find<GetCartListController>().getCartList();
+          },
+          child: GetBuilder<GetCartListController>(builder: (cart) {
+            return Visibility(
+              visible: !cart.inProgress,
+              replacement: const Center(
+                child: CircularProgressIndicator(),
+              ),
+              child: cart.cartList?.cartList?.isNotEmpty ?? false
+                  ? Column(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: cart.cartList?.cartList?.length ?? 0,
+                              itemBuilder: (context, index) => CartItem(
+                                cartModel: cart.cartList!.cartList![index],
+                                controller: cart,
                               ),
                             ),
                           ),
-                          BottomSectionBg(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      "Total Price",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    Obx(
-                                      () => Text(
-                                        "\$${cart.totalPrice}",
-                                        style: const TextStyle(
-                                          color: AppColors.primaryColor,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: 100,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      if (cart.productIdList.isEmpty) {
-                                        Get.toNamed(CheckoutScreen.routeName);
-                                      } else {
-                                        showPopup(
-                                            context: context,
-                                            content:
-                                                'You changed cart quantity but have not updated yet. Do you want to continue to checkout?',
-                                            agreeText: 'Continue',
-                                            onAgree: () {
-                                              Get.back();
-                                              Get.toNamed(
-                                                  CheckoutScreen.routeName);
-                                            },
-                                            onDisagree: () {
-                                              Get.back();
-                                            });
-                                      }
-                                    },
-                                    child: const Text("Checkout"),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      )
-                    : Center(
-                        child: Text(
-                          AppMessages.emptyMessage("Cart"),
                         ),
+                        BottomSectionBg(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    "Total Price",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Obx(
+                                    () => Text(
+                                      "\$${cart.totalPrice}",
+                                      style: const TextStyle(
+                                        color: AppColors.primaryColor,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                width: 100,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    if (cart.productIdList.isEmpty) {
+                                      Get.toNamed(CheckoutScreen.routeName);
+                                    } else {
+                                      showPopup(
+                                          context: context,
+                                          content:
+                                              'You changed cart quantity but have not updated yet. Do you want to continue to checkout?',
+                                          firstButtonText: 'Continue',
+                                          firstButtonAction: () {
+                                            Get.back();
+                                            Get.toNamed(
+                                                CheckoutScreen.routeName);
+                                          },
+                                          secondButtonAction: () {
+                                            Get.back();
+                                          });
+                                    }
+                                  },
+                                  child: const Text("Checkout"),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    )
+                  : Center(
+                      child: Text(
+                        AppMessages.emptyMessage("Cart"),
                       ),
-              );
-            }),
+                    ),
+            );
+          }),
+        ),
       ),
     );
   }

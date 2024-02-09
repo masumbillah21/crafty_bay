@@ -28,41 +28,46 @@ class WishListScreen extends StatelessWidget {
           ),
           title: const Text('Wishlist'),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: GetBuilder<WishlistController>(builder: (wish) {
-            return Visibility(
-              visible: !wish.inProgress,
-              replacement: const Center(
-                child: CircularProgressIndicator(),
-              ),
-              child: wish.wishlist?.wishList?.isNotEmpty ?? true
-                  ? GridView.builder(
-                      shrinkWrap: true,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.90,
-                        mainAxisSpacing: 4,
-                        crossAxisSpacing: 4,
+        body: RefreshIndicator(
+          onRefresh: () async {
+            await Get.find<WishlistController>().getWishlist();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GetBuilder<WishlistController>(builder: (wish) {
+              return Visibility(
+                visible: !wish.inProgress,
+                replacement: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                child: wish.wishlist?.wishList?.isNotEmpty ?? true
+                    ? GridView.builder(
+                        shrinkWrap: true,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.90,
+                          mainAxisSpacing: 4,
+                          crossAxisSpacing: 4,
+                        ),
+                        itemCount: wish.wishlist?.wishList?.length ?? 0,
+                        itemBuilder: (context, index) {
+                          var item = wish.wishlist!.wishList![index];
+                          return FittedBox(
+                            child: ProductGrid(
+                              productModel: item.product!,
+                            ),
+                          );
+                        },
+                      )
+                    : Center(
+                        child: Text(
+                          AppMessages.emptyMessage('Wishlist'),
+                        ),
                       ),
-                      itemCount: wish.wishlist?.wishList?.length ?? 0,
-                      itemBuilder: (context, index) {
-                        var item = wish.wishlist!.wishList![index];
-                        return FittedBox(
-                          child: ProductGrid(
-                            productModel: item.product!,
-                          ),
-                        );
-                      },
-                    )
-                  : Center(
-                      child: Text(
-                        AppMessages.emptyMessage('Wishlist'),
-                      ),
-                    ),
-            );
-          }),
+              );
+            }),
+          ),
         ),
       ),
     );
