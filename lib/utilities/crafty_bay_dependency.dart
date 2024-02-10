@@ -30,13 +30,13 @@ import 'package:get/get.dart';
 class CraftyBayDependency extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => BottomNavController(), fenix: true);
-    Get.lazyPut(() => HomeCarouselController(), fenix: true);
-    Get.lazyPut(() => BrandController(), fenix: true);
-    Get.lazyPut(() => CategoryController(), fenix: true);
-    Get.lazyPut(() => PopularProductController(), fenix: true);
-    Get.lazyPut(() => SpecialProductController(), fenix: true);
-    Get.lazyPut(() => NewProductController(), fenix: true);
+    Get.put(BottomNavController());
+    Get.put(HomeCarouselController());
+    Get.put(BrandController());
+    Get.put(CategoryController());
+    Get.put(PopularProductController());
+    Get.put(SpecialProductController());
+    Get.put(NewProductController());
     Get.lazyPut(() => ProductCategoryController(), fenix: true);
     Get.lazyPut(() => ProductDetailsController(), fenix: true);
     Get.lazyPut(() => GetWishlistController(), fenix: true);

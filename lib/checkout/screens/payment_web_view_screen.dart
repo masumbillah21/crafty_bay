@@ -53,6 +53,8 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
                 context: context,
                 content: "Your payment failed to proceed.",
                 firstButtonText: 'Continue',
+                titleColor: Colors.red,
+                contentColor: Colors.red,
                 firstButtonAction: () {
                   Get.offAllNamed(InvoiceScreen.routeName);
                 },

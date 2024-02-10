@@ -1,11 +1,9 @@
+import 'package:crafty_bay/global/widgets/product_star_widget.dart';
+import 'package:crafty_bay/global/widgets/wishlist_widget.dart';
 import 'package:crafty_bay/products/models/product_model.dart';
 import 'package:crafty_bay/products/screens/product_details_screen.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:crafty_bay/utilities/assets_path.dart';
-import 'package:crafty_bay/utilities/utilities.dart';
-import 'package:crafty_bay/wishlist/controllers/add_wishlist_controller.dart';
-import 'package:crafty_bay/wishlist/controllers/delete_wishlist_controller.dart';
-import 'package:crafty_bay/wishlist/controllers/wishlist_store_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -17,29 +15,6 @@ class ProductGrid extends StatelessWidget {
     super.key,
     required this.productModel,
   });
-
-  void _addToWishList() async {
-    bool success = await Get.find<AddWishlistController>()
-        .createWishlist(productModel.id!);
-    success ? successToast("Added to wishlist") : errorToast("Failed to add");
-  }
-
-  void _deleteFromWishlist(BuildContext context) {
-    showPopup(
-      context: context,
-      firstButtonAction: () async {
-        Get.back();
-        bool success = await Get.find<DeleteWishlistController>()
-            .deleteWishlist(productModel.id!);
-        success
-            ? successToast("Delete from wishlist.")
-            : errorToast("Failed to remove.");
-      },
-      secondButtonAction: () {
-        Get.back();
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,57 +77,9 @@ class ProductGrid extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 6),
-                      Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.star,
-                            color: Colors.yellow,
-                          ),
-                          Text("${productModel.star}"),
-                        ],
-                      ),
+                      ProductStarWidget(productStar: productModel.star ?? 0),
                       const SizedBox(width: 8),
-                      GetBuilder<WishlistStoreController>(builder: (stored) {
-                        final hasInWishList = stored.productListInWishlist
-                            .contains(productModel.id);
-
-                        return Visibility(
-                          visible: stored.productId != productModel.id,
-                          replacement: const SizedBox(
-                            height: 10,
-                            width: 10,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                            ),
-                          ),
-                          child: GestureDetector(
-                            onTap: () async {
-                              if (hasInWishList) {
-                                _deleteFromWishlist(context);
-                              } else {
-                                _addToWishList();
-                              }
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(3),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4),
-                                color: hasInWishList
-                                    ? Colors.red
-                                    : AppColors.primaryColor,
-                              ),
-                              child: Icon(
-                                hasInWishList
-                                    ? Icons.delete
-                                    : Icons.favorite_border_outlined,
-                                size: 12,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        );
-                      })
+                      WishlistWidget(productId: productModel.id!)
                     ],
                   ),
                 ],

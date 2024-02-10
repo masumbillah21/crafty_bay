@@ -139,6 +139,8 @@ class CartListScreen extends StatelessWidget {
                       content:
                           'You changed cart quantity but have not updated yet. Do you want to continue to checkout?',
                       firstButtonText: 'Continue',
+                      titleColor: Colors.red,
+                      contentColor: Colors.red,
                       firstButtonAction: () {
                         Get.back();
                         Get.toNamed(CheckoutScreen.routeName);

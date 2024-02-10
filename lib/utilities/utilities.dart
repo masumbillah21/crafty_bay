@@ -69,17 +69,24 @@ void showPopup({
   String secondButtonText = 'Close',
   String title = 'Warning',
   String content = 'Do you want to delete?',
+  Color titleColor = Colors.black,
+  Color contentColor = Colors.black,
 }) {
   showDialog(
     context: context,
     builder: (context) => AlertDialog(
       title: Text(
         title,
-        style: const TextStyle(
-          color: Colors.black,
-        ),
+        style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+              color: titleColor,
+            ),
       ),
-      content: Text(content),
+      content: Text(
+        content,
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: contentColor,
+            ),
+      ),
       actions: [
         TextButton(onPressed: firstButtonAction, child: Text(firstButtonText)),
         TextButton(
