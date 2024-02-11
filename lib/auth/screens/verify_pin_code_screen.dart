@@ -65,7 +65,6 @@ class _VerifyPinCodeScreenState extends State<VerifyPinCodeScreen> {
       bool res = await Get.find<VerifyOTPController>()
           .verifyOTP(_pinCodeCTEController.text.trim());
       if (res) {
-        successToast(AppMessages.otpSuccess);
         var readProfile = Get.find<ReadUserProfileController>();
         await readProfile.readProfile();
         bool hasProfile = readProfile.hasProfileData;
@@ -77,6 +76,7 @@ class _VerifyPinCodeScreenState extends State<VerifyPinCodeScreen> {
         } else {
           Get.offNamedUntil(UpdateProfileScreen.routeName, (route) => false);
         }
+        successToast(AppMessages.otpSuccess);
       } else {
         errorToast(AppMessages.otpFailed);
       }

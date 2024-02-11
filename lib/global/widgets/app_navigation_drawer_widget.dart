@@ -52,6 +52,7 @@ class AppNavigationDrawerWidget extends StatelessWidget {
                       Get.back();
                     } else {
                       Get.toNamed(BottomNavScreen.routeName);
+                      Get.find<BottomNavController>().backToHome();
                     }
                   },
                 ),
