@@ -38,18 +38,27 @@ class CartListScreen extends StatelessWidget {
             IconButton(
               enableFeedback: true,
               onPressed: () async {
-                bool res =
-                    await Get.find<UpdateCartController>().updateCartList();
-                if (res) {
-                  successToast("Cart updated");
+                bool isChangedCart =
+                    Get.find<GetCartListController>().productIdList.isNotEmpty;
+                if (isChangedCart) {
+                  bool res =
+                      await Get.find<UpdateCartController>().updateCartList();
+                  if (res) {
+                    successToast("Cart updated");
+                  } else {
+                    errorToast("Failed to update cart");
+                  }
                 } else {
-                  errorToast("Failed to update cart");
+                  errorToast("There is nothing to update.");
                 }
               },
               icon: GetBuilder<UpdateCartController>(builder: (updateCart) {
                 return Visibility(
                   visible: !updateCart.inProgress,
-                  replacement: const CircularProgressIndicator(),
+                  replacement: const SizedBox(
+                      height: 15,
+                      width: 15,
+                      child: CircularProgressIndicator()),
                   child: const Icon(
                     Icons.update_rounded,
                     color: AppColors.primaryColor,

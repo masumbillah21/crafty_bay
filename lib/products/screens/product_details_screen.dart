@@ -342,11 +342,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               .map(
                 (e) => Obx(() => Padding(
                       padding: const EdgeInsets.only(right: 8.0),
-                      child: InkWell(
+                      child: GestureDetector(
                         onTap: () {
                           product.selectedColor(e);
                         },
-                        borderRadius: BorderRadius.circular(50),
                         child: Container(
                           height: 40,
                           width: 40,
@@ -399,11 +398,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               .split(',')
               .map(
                 (e) => Obx(
-                  () => InkWell(
+                  () => GestureDetector(
                     onTap: () {
                       product.selectedSize(e);
                     },
-                    borderRadius: BorderRadius.circular(50),
                     child: Container(
                       height: 40,
                       width: 40,

@@ -1,3 +1,4 @@
+import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:flutter/material.dart';
 
 class NotificationScreen extends StatelessWidget {
@@ -10,8 +11,8 @@ class NotificationScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Notification'),
       ),
-      body: const Center(
-        child: Text('Coming Soon'),
+      body: Center(
+        child: Text(AppMessages.emptyMessage("Notification")),
       ),
     );
   }

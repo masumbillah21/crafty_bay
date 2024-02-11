@@ -29,7 +29,6 @@ class UpdateCartController extends GetxController {
     await Future.delayed(const Duration(seconds: 1));
     _inProgress = false;
     update();
-    //await getCartListController.getCartList();
     getCartListController.productIdList.clear();
 
     return status;
