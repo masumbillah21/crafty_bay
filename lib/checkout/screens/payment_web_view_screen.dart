@@ -1,6 +1,7 @@
 import 'package:crafty_bay/global/screens/bottom_nav_screen.dart';
 import 'package:crafty_bay/home/controllers/bottom_nav_controller.dart';
 import 'package:crafty_bay/invoices/screens/invoice_screen.dart';
+import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -36,7 +37,7 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
               showPopup(
                 title: "Success",
                 context: context,
-                content: "Your payment has been succeeded.",
+                content: AppMessages.paymentSuccess,
                 firstButtonText: 'Continue',
                 firstButtonAction: () {
                   Get.offAllNamed(InvoiceScreen.routeName);
@@ -51,7 +52,7 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
               showPopup(
                 title: "Failed",
                 context: context,
-                content: "Your payment failed to proceed.",
+                content: AppMessages.paymentFailed,
                 firstButtonText: 'Continue',
                 titleColor: Colors.red,
                 contentColor: Colors.red,

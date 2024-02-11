@@ -44,12 +44,12 @@ class CartListScreen extends StatelessWidget {
                   bool res =
                       await Get.find<UpdateCartController>().updateCartList();
                   if (res) {
-                    successToast("Cart updated");
+                    successToast(AppMessages.cartUpdateSuccess);
                   } else {
-                    errorToast("Failed to update cart");
+                    errorToast(AppMessages.cartUpdateFailed);
                   }
                 } else {
-                  errorToast("There is nothing to update.");
+                  errorToast(AppMessages.notingToUpdate);
                 }
               },
               icon: GetBuilder<UpdateCartController>(builder: (updateCart) {
@@ -99,7 +99,7 @@ class CartListScreen extends StatelessWidget {
                     )
                   : Center(
                       child: Text(
-                        AppMessages.emptyMessage("Cart"),
+                        AppMessages.emptyMessage("Cart item"),
                       ),
                     ),
             );
@@ -145,8 +145,7 @@ class CartListScreen extends StatelessWidget {
                 } else {
                   showPopup(
                       context: context,
-                      content:
-                          'You changed cart quantity but have not updated yet. Do you want to continue to checkout?',
+                      content: AppMessages.cartQytChanged,
                       firstButtonText: 'Continue',
                       titleColor: Colors.red,
                       contentColor: Colors.red,

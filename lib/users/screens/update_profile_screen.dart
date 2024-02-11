@@ -155,7 +155,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         textInputAction: TextInputAction.next,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return AppMessages.requiredFirstName;
+                            return AppMessages.requiredCustomerName;
                           }
                           return null;
                         },
@@ -172,7 +172,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         keyboardType: TextInputType.text,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return AppMessages.requiredLastName;
+                            return AppMessages.requiredCustomerAddress;
                           }
                           return null;
                         },
@@ -189,7 +189,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         keyboardType: TextInputType.text,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return AppMessages.requiredCity;
+                            return AppMessages.requiredCustomerCity;
                           }
                           return null;
                         },
@@ -206,7 +206,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         keyboardType: TextInputType.text,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return AppMessages.requiredCity;
+                            return AppMessages.requiredCustomerPostalCode;
                           }
                           return null;
                         },
@@ -223,7 +223,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         keyboardType: TextInputType.text,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return AppMessages.requiredMobileNumber;
+                            return AppMessages.requiredCustomerMobileNumber;
                           } else if (value.length < 11) {
                             return AppMessages.invalidMobileNumber;
                           } else if (!validatePhoneNumber(value)) {
@@ -251,7 +251,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         textInputAction: TextInputAction.next,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return AppMessages.requiredFirstName;
+                            return AppMessages.requiredShippingName;
                           }
                           return null;
                         },
@@ -268,7 +268,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         keyboardType: TextInputType.text,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return AppMessages.requiredLastName;
+                            return AppMessages.requiredShippingAddress;
                           }
                           return null;
                         },
@@ -285,7 +285,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         keyboardType: TextInputType.text,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return AppMessages.requiredCity;
+                            return AppMessages.requiredShippingCity;
                           }
                           return null;
                         },
@@ -302,7 +302,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         keyboardType: TextInputType.text,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return AppMessages.requiredCity;
+                            return AppMessages.requiredShippingPostalCode;
                           }
                           return null;
                         },
@@ -319,7 +319,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         keyboardType: TextInputType.text,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return AppMessages.requiredMobileNumber;
+                            return AppMessages.requiredShippingMobileNumber;
                           } else if (value.length < 11) {
                             return AppMessages.invalidMobileNumber;
                           } else if (!validatePhoneNumber(value)) {

@@ -18,7 +18,7 @@ class BrandsScreen extends StatelessWidget {
           },
           icon: const Icon(Icons.arrow_back),
         ),
-        title: const Text('All Brands'),
+        title: const Text('Brands'),
       ),
       body: RefreshIndicator(
         onRefresh: () async {

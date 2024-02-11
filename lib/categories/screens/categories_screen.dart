@@ -24,7 +24,7 @@ class CategoriesScreen extends StatelessWidget {
             },
             icon: const Icon(Icons.arrow_back),
           ),
-          title: const Text('All Categories'),
+          title: const Text('Categories'),
         ),
         body: RefreshIndicator(
           onRefresh: () async {

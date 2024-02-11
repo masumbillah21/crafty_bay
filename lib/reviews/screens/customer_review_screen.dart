@@ -32,9 +32,9 @@ class _CustomerReviewScreenState extends State<CustomerReviewScreen> {
           await Get.find<CreateReviewController>().createReview(reviewModel);
       if (res) {
         _reviewTEController.clear();
-        successToast("Review added successfully.");
+        successToast(AppMessages.reviewSuccess);
       } else {
-        errorToast("Failed to add review, try again later.");
+        errorToast(AppMessages.reviewFailed);
       }
     }
   }

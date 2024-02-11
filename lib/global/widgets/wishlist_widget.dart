@@ -1,4 +1,5 @@
 import 'package:crafty_bay/utilities/app_colors.dart';
+import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
 import 'package:crafty_bay/wishlist/controllers/add_wishlist_controller.dart';
 import 'package:crafty_bay/wishlist/controllers/delete_wishlist_controller.dart';
@@ -19,7 +20,9 @@ class WishlistWidget extends StatelessWidget {
   void _addToWishList() async {
     bool success =
         await Get.find<AddWishlistController>().createWishlist(productId);
-    success ? successToast("Added to wishlist") : errorToast("Failed to add");
+    success
+        ? successToast(AppMessages.wishlistAddSuccess)
+        : errorToast(AppMessages.wishlistAddFailed);
   }
 
   void _deleteFromWishlist(BuildContext context) {
@@ -32,8 +35,8 @@ class WishlistWidget extends StatelessWidget {
         bool success = await Get.find<DeleteWishlistController>()
             .deleteWishlist(productId);
         success
-            ? successToast("Delete from wishlist.")
-            : errorToast("Failed to remove.");
+            ? successToast(AppMessages.wishlistRemoveSuccess)
+            : errorToast(AppMessages.wishlistRemoveFailed);
       },
       secondButtonAction: () {
         Get.back();
