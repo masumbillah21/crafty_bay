@@ -38,6 +38,5 @@ class GetWishlistController extends GetxController {
     });
     Get.find<WishlistStoreController>()
         .saveWishListProduct(productIdList: list);
-    //return list;
   }
 }
