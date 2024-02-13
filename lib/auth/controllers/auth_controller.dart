@@ -56,7 +56,7 @@ class AuthController extends GetxController {
     _customer = null;
   }
 
-  Future<bool> isLogin() async {
+  static Future<bool> isLogin() async {
     String? token = _storage.read('token');
     if (token != null) {
       return true;

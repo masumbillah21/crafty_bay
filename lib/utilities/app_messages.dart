@@ -14,22 +14,12 @@ class AppMessages {
   static const String profileUpdateSuccess = "Profile updated.";
   static const String profileUpdateFailed = "Failed to update profile.";
 
-  static const String requiredCustomerName = 'Billing Name is required';
-  static const String requiredCustomerAddress = 'Billing Address is required';
-  static const String requiredCustomerCity = 'Billing City is required';
-  static const String requiredCustomerPostalCode =
-      'Billing Postal Code is required';
-  static const String requiredCustomerMobileNumber =
-      'Billing Mobile number is required';
+  static const String requiredName = 'Name is required';
+  static const String requiredAddress = 'Address is required';
+  static const String requiredCity = 'City is required';
+  static const String requiredPostalCode = 'Postal Code is required';
+  static const String requiredMobileNumber = 'Mobile number is required';
   static const String invalidMobileNumber = 'Invalid mobile number';
-
-  static const String requiredShippingName = 'Shipping Name is required';
-  static const String requiredShippingAddress = 'Shipping Address is required';
-  static const String requiredShippingCity = 'Shipping City is required';
-  static const String requiredShippingPostalCode =
-      'Shipping Postal Code is required';
-  static const String requiredShippingMobileNumber =
-      'Shipping Mobile number is required';
 
   static const String cartUpdateSuccess = 'Cart updated successfully.';
   static const String cartUpdateFailed = 'Failed to update cart.';
@@ -41,6 +31,8 @@ class AppMessages {
   static const String paymentSuccess = 'Your payment has been succeeded.';
   static const String paymentFailed = 'Your payment failed to proceed.';
 
+  static const String reviewDetailsRequired = 'Review is required.';
+  static const String reviewStarRequired = 'Star is required.';
   static const String reviewSuccess = 'Review added successfully.';
   static const String reviewFailed = 'Failed to add review, try again later.';
 

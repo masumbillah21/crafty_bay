@@ -32,7 +32,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   final ValueNotifier<bool> _login = ValueNotifier(false);
 
   void _isLogin() async {
-    _login.value = await Get.find<AuthController>().isLogin();
+    _login.value = await AuthController.isLogin();
   }
 
   void _addToCard({

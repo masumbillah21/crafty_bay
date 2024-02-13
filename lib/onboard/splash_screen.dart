@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
       const Duration(seconds: 2),
     );
     await Get.find<AuthController>().initializeUserCache();
-    if (await Get.find<AuthController>().isLogin()) {
+    if (await AuthController.isLogin()) {
       await Get.find<WishlistStoreController>().initializeWishListProduct();
     }
 

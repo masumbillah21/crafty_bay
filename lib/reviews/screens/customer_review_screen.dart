@@ -2,6 +2,7 @@ import 'package:crafty_bay/auth/controllers/auth_controller.dart';
 import 'package:crafty_bay/auth/screens/verify_email_screen.dart';
 import 'package:crafty_bay/reviews/controllers/create_review_controller.dart';
 import 'package:crafty_bay/reviews/models/review_model.dart';
+import 'package:crafty_bay/users/screens/update_profile_screen.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,7 @@ class _CustomerReviewScreenState extends State<CustomerReviewScreen> {
           await Get.find<CreateReviewController>().createReview(reviewModel);
       if (res) {
         _reviewTEController.clear();
+        Get.back();
         successToast(AppMessages.reviewSuccess);
       } else {
         errorToast(AppMessages.reviewFailed);
@@ -40,9 +42,12 @@ class _CustomerReviewScreenState extends State<CustomerReviewScreen> {
   }
 
   void _isLogin() async {
-    bool login = await Get.find<AuthController>().isLogin();
-    if (login) {
-      Get.offAndToNamed(VerifyEmailScreen.routeName);
+    bool login = await AuthController.isLogin();
+    var customer = Get.find<AuthController>().customer;
+    if (!login) {
+      Get.toNamed(VerifyEmailScreen.routeName);
+    } else if (customer?.cusName?.isEmpty ?? true) {
+      Get.toNamed(UpdateProfileScreen.routeName);
     }
   }
 
@@ -63,7 +68,7 @@ class _CustomerReviewScreenState extends State<CustomerReviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Customer Review $_productId'),
+        title: const Text('Customer Review'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -85,7 +90,7 @@ class _CustomerReviewScreenState extends State<CustomerReviewScreen> {
                       keyboardType: TextInputType.text,
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return AppMessages.requiredShippingAddress;
+                          return AppMessages.reviewDetailsRequired;
                         }
                         return null;
                       },
@@ -103,7 +108,7 @@ class _CustomerReviewScreenState extends State<CustomerReviewScreen> {
                     Row(
                       children: [1, 2, 3, 4, 5]
                           .map(
-                            (e) => InkWell(
+                            (e) => GestureDetector(
                               onTap: () {
                                 _rating.value = e;
                               },

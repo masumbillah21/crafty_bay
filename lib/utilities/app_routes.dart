@@ -89,7 +89,7 @@ class AppRoutes {
     ),
     GetPage(
       name: ReviewListScreen.routeName,
-      page: () => const ReviewListScreen(),
+      page: () => ReviewListScreen(),
     ),
     GetPage(
       name: CheckoutScreen.routeName,

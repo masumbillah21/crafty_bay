@@ -8,36 +8,48 @@ import 'package:get/get.dart';
 
 class ReviewListScreen extends StatelessWidget {
   static const routeName = '/reviews';
-  const ReviewListScreen({super.key});
+  ReviewListScreen({super.key});
+
+  final int id = Get.arguments;
+
+  void fetchReviewList() async {
+    await Get.find<GetReviewListController>().getReviewList(id);
+  }
 
   @override
   Widget build(BuildContext context) {
-    int id = Get.arguments;
-    Get.find<GetReviewListController>().getReviewList(id);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      fetchReviewList();
+    });
     return Scaffold(
       appBar: AppBar(
         title: const Text('Reviews'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: GetBuilder<GetReviewListController>(builder: (review) {
-          return Visibility(
-            visible: !review.inProgress,
-            replacement: const Center(
-              child: CircularProgressIndicator(),
-            ),
-            child: review.reviewList?.reviewList?.isNotEmpty ?? false
-                ? Column(
-                    children: [
-                      reviewListSection(review),
-                      reviewBottomSection(review, id),
-                    ],
-                  )
-                : Center(
-                    child: Text(AppMessages.emptyMessage("Review")),
-                  ),
-          );
-        }),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await Get.find<GetReviewListController>().getReviewList(id);
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: GetBuilder<GetReviewListController>(builder: (review) {
+            return Visibility(
+              visible: !review.inProgress,
+              replacement: const Center(
+                child: CircularProgressIndicator(),
+              ),
+              child: review.reviewList?.reviewList?.isNotEmpty ?? false
+                  ? Column(
+                      children: [
+                        reviewListSection(review),
+                        reviewBottomSection(review, id),
+                      ],
+                    )
+                  : Center(
+                      child: Text(AppMessages.emptyMessage("Review")),
+                    ),
+            );
+          }),
+        ),
       ),
     );
   }
@@ -47,13 +59,19 @@ class ReviewListScreen extends StatelessWidget {
       child: ListView.builder(
           itemCount: review.reviewList?.reviewList?.length ?? 0,
           itemBuilder: (context, index) {
-            var item = review.reviewList!.reviewList![index];
+            var item = review.reviewList!.reviewList!.reversed.toList()[index];
             return Card(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ListTile(
-                    leading: const CircleAvatar(),
+                    leading: const CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.grey,
+                      ),
+                    ),
                     title: Text(item.profile?.cusName ?? ''),
                   ),
                   Padding(
@@ -86,8 +104,9 @@ class ReviewListScreen extends StatelessWidget {
             ],
           ),
           InkWell(
-            onTap: () {
-              Get.toNamed(CustomerReviewScreen.routeName, arguments: id);
+            onTap: () async {
+              await Get.toNamed(CustomerReviewScreen.routeName, arguments: id)
+                  ?.then((value) => fetchReviewList());
             },
             borderRadius: BorderRadius.circular(50),
             child: Container(
