@@ -1,11 +1,7 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:crafty_bay/api/api_response.dart';
 import 'package:crafty_bay/auth/controllers/auth_controller.dart';
-import 'package:crafty_bay/auth/screens/verify_email_screen.dart';
-import 'package:crafty_bay/crafty_bay.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class ApiCaller {
@@ -16,7 +12,6 @@ class ApiCaller {
   }) async {
     try {
       var uri = Uri.parse(url);
-      log("post token: $token");
       var response = await http.post(uri,
           headers: {
             "Content-Type": "application/json",
@@ -64,7 +59,6 @@ class ApiCaller {
           'token': token,
         },
       );
-      log("get token: $token");
       var resData = jsonDecode(response.body);
 
       if (response.statusCode == 200 &&
@@ -104,7 +98,6 @@ class ApiCaller {
 
   Future<void> backToLogin() async {
     await AuthController.clearAuthData();
-    Navigator.pushNamedAndRemoveUntil(CraftyBay.navigationKey.currentContext!,
-        VerifyEmailScreen.routeName, (route) => false);
+    AuthController.goToLogin();
   }
 }

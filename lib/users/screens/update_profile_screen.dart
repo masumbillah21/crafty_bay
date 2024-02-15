@@ -1,5 +1,4 @@
 import 'package:crafty_bay/auth/controllers/auth_controller.dart';
-import 'package:crafty_bay/auth/screens/verify_email_screen.dart';
 import 'package:crafty_bay/global/widgets/app_navigation_drawer_widget.dart';
 import 'package:crafty_bay/global/widgets/crafty_app_bar.dart';
 import 'package:crafty_bay/users/controllers/create_user_profile_controller.dart';
@@ -63,7 +62,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   void _isLogin() async {
     bool login = await AuthController.isLogin();
     if (!login) {
-      Get.offAndToNamed(VerifyEmailScreen.routeName);
+      AuthController.goToLogin();
     }
   }
 

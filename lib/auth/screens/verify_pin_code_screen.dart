@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:crafty_bay/auth/controllers/verify_otp_controller.dart';
-import 'package:crafty_bay/global/screens/bottom_nav_screen.dart';
+import 'package:crafty_bay/auth/screens/verify_email_screen.dart';
 import 'package:crafty_bay/users/controllers/read_user_profile_controller.dart';
 import 'package:crafty_bay/users/screens/update_profile_screen.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
@@ -72,9 +72,10 @@ class _VerifyPinCodeScreenState extends State<VerifyPinCodeScreen> {
         await Get.find<GetWishlistController>().getWishlist();
 
         if (hasProfile) {
-          Get.offNamedUntil(BottomNavScreen.routeName, (route) => false);
+          Get.back();
+          // Get.offNamedUntil(BottomNavScreen.routeName, (route) => false);
         } else {
-          Get.offNamedUntil(UpdateProfileScreen.routeName, (route) => false);
+          Get.offNamed(UpdateProfileScreen.routeName);
         }
         successToast(AppMessages.otpSuccess);
       } else {
@@ -183,7 +184,7 @@ class _VerifyPinCodeScreenState extends State<VerifyPinCodeScreen> {
                 TextButton(
                   onPressed: () {
                     if (_start == 0) {
-                      Get.back();
+                      Get.offAndToNamed(VerifyEmailScreen.routeName);
                     }
                   },
                   style: TextButton.styleFrom(

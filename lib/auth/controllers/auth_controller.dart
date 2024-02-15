@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:crafty_bay/auth/screens/verify_email_screen.dart';
 import 'package:crafty_bay/users/models/customer_model.dart';
 import 'package:crafty_bay/users/models/user_model.dart';
 import 'package:get/get.dart';
@@ -63,5 +64,9 @@ class AuthController extends GetxController {
     } else {
       return false;
     }
+  }
+
+  static Future<void> goToLogin() async {
+    Get.toNamed(VerifyEmailScreen.routeName);
   }
 }

@@ -38,10 +38,11 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
                 title: "Success",
                 context: context,
                 content: AppMessages.paymentSuccess,
-                firstButtonText: 'Continue',
+                firstButtonText: 'Invoice',
                 firstButtonAction: () {
                   Get.offAllNamed(InvoiceScreen.routeName);
                 },
+                secondButtonText: 'Home',
                 secondButtonAction: () {
                   Get.offAllNamed(BottomNavScreen.routeName);
                   Get.find<BottomNavController>().backToHome();
@@ -53,12 +54,13 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
                 title: "Failed",
                 context: context,
                 content: AppMessages.paymentFailed,
-                firstButtonText: 'Continue',
+                firstButtonText: 'Invoice',
                 titleColor: Colors.red,
                 contentColor: Colors.red,
                 firstButtonAction: () {
                   Get.offAllNamed(InvoiceScreen.routeName);
                 },
+                secondButtonText: 'Home',
                 secondButtonAction: () {
                   Get.offAllNamed(BottomNavScreen.routeName);
                   Get.find<BottomNavController>().backToHome();

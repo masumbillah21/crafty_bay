@@ -1,3 +1,4 @@
+import 'package:crafty_bay/cart/controllers/delete_cart_controller.dart';
 import 'package:crafty_bay/cart/controllers/get_cart_list_controller.dart';
 import 'package:crafty_bay/cart/controllers/update_cart_controller.dart';
 import 'package:crafty_bay/cart/widgets/cart_item.dart';
@@ -14,10 +15,23 @@ class CartListScreen extends StatelessWidget {
   static const routeName = '/cart';
   const CartListScreen({super.key});
 
+  void _deleteCart(int id) async {
+    bool res = await Get.find<DeleteCartController>().deleteCartList(id);
+    if (res) {
+      successToast(AppMessages.cartDeleteSuccess);
+    } else {
+      errorToast(AppMessages.cartDeleteFailed);
+    }
+  }
+
+  void _getCartList() async {
+    await Get.find<GetCartListController>().getCartList();
+  }
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Get.find<GetCartListController>().getCartList();
+      _getCartList();
     });
     return PopScope(
       canPop: false,
@@ -90,6 +104,10 @@ class CartListScreen extends StatelessWidget {
                               itemBuilder: (context, index) => CartItem(
                                 cartModel: cart.cartList!.cartList![index],
                                 controller: cart,
+                                delete: () {
+                                  _deleteCart(cart
+                                      .cartList!.cartList![index].productId!);
+                                },
                               ),
                             ),
                           ),

@@ -55,11 +55,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     productQyt = value;
   }
 
+  void _getProductDetails() async {
+    await Get.find<ProductDetailsController>().getProductDetailsById(id);
+  }
+
   @override
   void initState() {
+    _isLogin();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _isLogin();
-      Get.find<ProductDetailsController>().getProductDetailsById(id);
+      _getProductDetails();
     });
     super.initState();
   }
@@ -70,7 +74,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       appBar: AppBar(
         title: const Text("Product Details"),
       ),
-      body: GetBuilder<ProductDetailsController>(builder: (product) {
+      body: GetBuilder<ProductDetailsController>( builder: (product) {
         return Visibility(
           visible: !product.inProgress,
           replacement: const Center(
@@ -139,14 +143,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ),
           SizedBox(
             width: 150,
-            child: GetBuilder<AddToCartController>(builder: (cart) {
-              return Visibility(
-                visible: !cart.inProgress,
-                replacement: const Center(
-                  child: CircularProgressIndicator(),
-                ),
-                child: (_login.value)
-                    ? ElevatedButton(
+            child: _login.value
+                ? GetBuilder<AddToCartController>(builder: (cart) {
+                    return Visibility(
+                      visible: !cart.inProgress,
+                      replacement: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      child: ElevatedButton(
                         onPressed: () {
                           if (product.selectedColor.isEmpty) {
                             errorToast("Select a color.");
@@ -162,15 +166,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           }
                         },
                         child: const Text("Add To Cart"),
-                      )
-                    : ElevatedButton(
-                        onPressed: () {
-                          Get.offAndToNamed(VerifyEmailScreen.routeName);
-                        },
-                        child: const Text("Login"),
                       ),
-              );
-            }),
+                    );
+                  })
+                : ElevatedButton(
+                    onPressed: () {
+                      Get.toNamed(VerifyEmailScreen.routeName)?.then((value) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          _getProductDetails();
+                        });
+                      });
+                    },
+                    child: const Text("Login"),
+                  ),
           ),
         ],
       ),

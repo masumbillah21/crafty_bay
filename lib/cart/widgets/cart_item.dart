@@ -1,4 +1,3 @@
-import 'package:crafty_bay/cart/controllers/delete_cart_controller.dart';
 import 'package:crafty_bay/cart/controllers/get_cart_list_controller.dart';
 import 'package:crafty_bay/cart/models/cart_model.dart';
 import 'package:crafty_bay/global/widgets/product_counter.dart';
@@ -12,10 +11,12 @@ import 'package:get/get.dart';
 class CartItem extends StatelessWidget {
   final CartModel cartModel;
   final GetCartListController controller;
+  final VoidCallback delete;
   const CartItem({
     super.key,
     required this.cartModel,
     required this.controller,
+    required this.delete,
   });
 
   @override
@@ -81,8 +82,7 @@ class CartItem extends StatelessWidget {
                             context: context,
                             firstButtonAction: () async {
                               Get.back();
-                              await Get.find<DeleteCartController>()
-                                  .deleteCartList(cartModel.productId!);
+                              delete();
                             },
                             secondButtonAction: () {
                               Get.back();

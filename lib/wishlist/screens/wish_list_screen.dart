@@ -9,12 +9,15 @@ class WishListScreen extends StatelessWidget {
   static const routeName = '/wish-list';
   const WishListScreen({super.key});
 
+  void _getWishList() async {
+    await Get.find<GetWishlistController>().getWishlist();
+  }
+
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Get.find<GetWishlistController>().getWishlist();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _getWishList();
     });
-
     return PopScope(
       canPop: false,
       onPopInvoked: (_) {
@@ -33,7 +36,7 @@ class WishListScreen extends StatelessWidget {
         ),
         body: RefreshIndicator(
           onRefresh: () async {
-            await Get.find<GetWishlistController>().getWishlist();
+            _getWishList();
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),

@@ -1,7 +1,6 @@
+import 'package:crafty_bay/global/widgets/product_grid.dart';
 import 'package:crafty_bay/invoices/controllers/invoice_details_controller.dart';
-import 'package:crafty_bay/utilities/assets_path.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class InvoiceProductScreen extends StatelessWidget {
@@ -17,21 +16,23 @@ class InvoiceProductScreen extends StatelessWidget {
         title: const Text('Invoice Product'),
       ),
       body: GetBuilder<InvoiceDetailsController>(builder: (details) {
-        return ListView.separated(
+        return GridView.builder(
+          shrinkWrap: true,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 0.90,
+            mainAxisSpacing: 4,
+            crossAxisSpacing: 4,
+          ),
           itemCount: details.invoiceDetailsList?.length ?? 0,
           itemBuilder: (context, index) {
             var item = details.invoiceDetailsList![index];
-            return ListTile(
-              leading: Image.network(
-                item.product?.image ?? '',
-                errorBuilder: (context, _, __) =>
-                    SvgPicture.asset(AssetsPath.logo),
+            return FittedBox(
+              child: ProductGrid(
+                productModel: item.product!,
               ),
-              title: Text(item.product?.title ?? ''),
-              subtitle: Text("Qyt: ${item.qty} | Total: ৳${item.salePrice}"),
             );
           },
-          separatorBuilder: (_, __) => const Divider(),
         );
       }),
     );

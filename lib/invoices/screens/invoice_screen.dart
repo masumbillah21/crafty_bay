@@ -12,7 +12,7 @@ class InvoiceScreen extends StatelessWidget {
   static const routeName = "/invoice";
   const InvoiceScreen({super.key});
 
-  void callInvoice() {
+  void _callInvoice() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Get.find<InvoiceController>().getInvoiceList();
     });
@@ -20,7 +20,9 @@ class InvoiceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    callInvoice();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _callInvoice();
+    });
     return Scaffold(
       appBar: const CraftyAppBar(),
       drawer: AppNavigationDrawerWidget(),

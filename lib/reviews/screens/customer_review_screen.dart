@@ -1,5 +1,4 @@
 import 'package:crafty_bay/auth/controllers/auth_controller.dart';
-import 'package:crafty_bay/auth/screens/verify_email_screen.dart';
 import 'package:crafty_bay/reviews/controllers/create_review_controller.dart';
 import 'package:crafty_bay/reviews/models/review_model.dart';
 import 'package:crafty_bay/users/screens/update_profile_screen.dart';
@@ -45,7 +44,7 @@ class _CustomerReviewScreenState extends State<CustomerReviewScreen> {
     bool login = await AuthController.isLogin();
     var customer = Get.find<AuthController>().customer;
     if (!login) {
-      Get.toNamed(VerifyEmailScreen.routeName);
+      AuthController.goToLogin();
     } else if (customer?.cusName?.isEmpty ?? true) {
       Get.toNamed(UpdateProfileScreen.routeName);
     }

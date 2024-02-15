@@ -12,14 +12,14 @@ class ReviewListScreen extends StatelessWidget {
 
   final int id = Get.arguments;
 
-  void fetchReviewList() async {
+  void _fetchReviewList() async {
     await Get.find<GetReviewListController>().getReviewList(id);
   }
 
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      fetchReviewList();
+      _fetchReviewList();
     });
     return Scaffold(
       appBar: AppBar(
@@ -106,7 +106,7 @@ class ReviewListScreen extends StatelessWidget {
           InkWell(
             onTap: () async {
               await Get.toNamed(CustomerReviewScreen.routeName, arguments: id)
-                  ?.then((value) => fetchReviewList());
+                  ?.then((value) => _fetchReviewList());
             },
             borderRadius: BorderRadius.circular(50),
             child: Container(

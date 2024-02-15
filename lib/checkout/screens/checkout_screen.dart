@@ -8,10 +8,14 @@ class CheckoutScreen extends StatelessWidget {
   static const routeName = '/checkout';
   const CheckoutScreen({super.key});
 
+  void _getPaymentDetailsAndMethod() async {
+    await Get.find<CreateInvoiceController>().createInvoice();
+  }
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Get.find<CreateInvoiceController>().createInvoice();
+      _getPaymentDetailsAndMethod();
     });
     return Scaffold(
       appBar: AppBar(

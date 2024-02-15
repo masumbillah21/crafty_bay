@@ -8,7 +8,7 @@ class CategoryProductListScreen extends StatelessWidget {
   static const routeName = "/category-products";
   const CategoryProductListScreen({super.key});
 
-  void getProductList(int id) async {
+  void _getProductList(int id) async {
     await Get.find<ProductCategoryController>().getProductByCategoryId(id);
   }
 
@@ -18,7 +18,7 @@ class CategoryProductListScreen extends StatelessWidget {
     int id = arg['id'];
     String name = arg['name'];
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      getProductList(id);
+      _getProductList(id);
     });
     return Scaffold(
       appBar: AppBar(

@@ -24,12 +24,11 @@ class DeleteWishlistController extends GetxController {
 
     if (res.isSuccess) {
       await Get.find<GetWishlistController>().getWishlist();
+      update();
     } else {
       status = false;
     }
-    _inProgress = false;
     Get.find<WishlistStoreController>().toggleProgress(0);
-
     update();
     return status;
   }

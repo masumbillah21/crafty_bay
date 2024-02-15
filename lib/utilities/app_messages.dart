@@ -25,6 +25,8 @@ class AppMessages {
   static const String cartUpdateFailed = 'Failed to update cart.';
   static const String cartQytChanged =
       'You changed cart quantity but have not updated yet. Do you want to continue to checkout?';
+  static const String cartDeleteSuccess = 'Cart Item Deleted';
+  static const String cartDeleteFailed = 'Cart Item Failed To Delete';
 
   static const String notingToUpdate = 'There is nothing to update.';
 

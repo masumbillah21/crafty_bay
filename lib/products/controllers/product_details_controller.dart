@@ -21,39 +21,19 @@ class ProductDetailsController extends GetxController {
   RxInt get productQuantity => _productQuantity;
 
   Future<void> getProductDetailsById(int productId) async {
-    _selectedColor.value = '';
-    _selectedSize.value = '';
-    _productQuantity.value = 1;
     _inProgress = true;
     update();
     ApiResponse res =
         await ApiCaller().apiGetRequest(url: Urls.productDetailById(productId));
-    _inProgress = false;
 
-    update();
     if (res.isSuccess) {
       if (res.jsonResponse['data'] != null) {
         _productDetailsList =
             ProductDetailsListModel.fromJson(res.jsonResponse);
       }
     }
-  }
 
-  void selectColor(String color) {
-    _selectedColor.value = color;
-  }
-
-  void selectSize(String size) {
-    _selectedSize.value = size;
-  }
-
-  void increaseQyt() {
-    _productQuantity.value += 1;
-  }
-
-  void decreaseQyt() {
-    if (_productQuantity > 1) {
-      _productQuantity.value -= 1;
-    }
+    _inProgress = false;
+    update();
   }
 }
