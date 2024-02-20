@@ -25,7 +25,7 @@ class ReadUserProfileController extends GetxController {
     );
 
     if (res.isSuccess) {
-      if (res.jsonResponse['data'] != null ||
+      if (res.jsonResponse['data'] != null &&
           res.jsonResponse['data'].isNotEmpty) {
         CustomerModel customerModel =
             CustomerModel.fromJson(res.jsonResponse['data']);

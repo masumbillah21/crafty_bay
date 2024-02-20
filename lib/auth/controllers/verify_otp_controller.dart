@@ -1,7 +1,9 @@
 import 'package:crafty_bay/api/api_caller.dart';
 import 'package:crafty_bay/api/api_response.dart';
 import 'package:crafty_bay/auth/controllers/auth_controller.dart';
+import 'package:crafty_bay/users/controllers/read_user_profile_controller.dart';
 import 'package:crafty_bay/utilities/urls.dart';
+import 'package:crafty_bay/wishlist/controllers/get_wishlist_controller.dart';
 import 'package:get/get.dart';
 
 class VerifyOTPController extends GetxController {
@@ -23,6 +25,8 @@ class VerifyOTPController extends GetxController {
 
     if (res.isSuccess) {
       await _authController.saveUserToken(res.jsonResponse['data']);
+      await Get.find<GetWishlistController>().getWishlist();
+      await Get.find<ReadUserProfileController>().readProfile();
       status = true;
     }
     _inProgress = false;

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:crafty_bay/api/api_response.dart';
 import 'package:crafty_bay/auth/controllers/auth_controller.dart';
@@ -61,7 +60,6 @@ class ApiCaller {
         },
       );
 
-      log("Token: $token");
       var resData = jsonDecode(response.body);
 
       if (response.statusCode == 200 &&

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:crafty_bay/cart/controllers/add_to_cart_controller.dart';
 import 'package:crafty_bay/cart/controllers/get_cart_list_controller.dart';
 import 'package:crafty_bay/cart/models/cart_model.dart';
@@ -9,8 +11,8 @@ class UpdateCartController extends GetxController {
   bool get inProgress => _inProgress;
 
   Future<bool> updateCartList() async {
-    bool status = false;
     _inProgress = true;
+    bool status = false;
     update();
 
     GetCartListController getCartListController =
@@ -23,14 +25,16 @@ class UpdateCartController extends GetxController {
         bool res = await Get.find<AddToCartController>().addToCart(formValue);
         if (res) {
           status = true;
+          log("update in res cart: $status");
+          update();
         }
       }
     });
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 2));
     _inProgress = false;
-    update();
     getCartListController.productIdList.clear();
-
+    update();
+    log("update cart: $status");
     return status;
   }
 }

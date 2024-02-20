@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:crafty_bay/auth/screens/verify_email_screen.dart';
 import 'package:crafty_bay/users/models/customer_model.dart';
@@ -59,7 +58,6 @@ class AuthController extends GetxController {
   }
 
   static Future<void> goToLogin() async {
-    Get.toNamed(VerifyEmailScreen.routeName)
-        ?.then((value) => log("On back: $value"));
+    Get.offNamedUntil(VerifyEmailScreen.routeName, (route) => false);
   }
 }

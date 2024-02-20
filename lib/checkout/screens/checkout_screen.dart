@@ -1,6 +1,10 @@
+import 'package:crafty_bay/auth/controllers/auth_controller.dart';
 import 'package:crafty_bay/checkout/controllers/create_invoice_controller.dart';
 import 'package:crafty_bay/checkout/screens/payment_web_view_screen.dart';
+import 'package:crafty_bay/users/screens/update_profile_screen.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
+import 'package:crafty_bay/utilities/app_messages.dart';
+import 'package:crafty_bay/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,8 +16,20 @@ class CheckoutScreen extends StatelessWidget {
     await Get.find<CreateInvoiceController>().createInvoice();
   }
 
+  void _isLogin() async {
+    bool login = await AuthController().checkAuthState();
+    var customer = Get.find<AuthController>().customer;
+    if (!login) {
+      AuthController.goToLogin();
+    } else if (customer?.cusName?.isEmpty ?? true) {
+      Get.offNamedUntil(UpdateProfileScreen.routeName, (route) => false);
+      errorToast(AppMessages.emptyMessage("profile"));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    _isLogin();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _getPaymentDetailsAndMethod();
     });

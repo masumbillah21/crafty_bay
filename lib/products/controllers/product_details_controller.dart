@@ -30,6 +30,9 @@ class ProductDetailsController extends GetxController {
       if (res.jsonResponse['data'] != null) {
         _productDetailsList =
             ProductDetailsListModel.fromJson(res.jsonResponse);
+        _selectedColor.value = '';
+        _selectedSize.value = '';
+        _productQuantity.value = 0;
       }
     }
 

@@ -14,9 +14,9 @@ class CategoryProductListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> arg = Get.arguments;
-    int id = arg['id'];
-    String name = arg['name'];
+    Map<String, dynamic> arg = Get.arguments ?? {};
+    int id = arg['id'] ?? 0;
+    String name = arg['name'] ?? '';
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _getProductList(id);
     });

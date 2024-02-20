@@ -46,7 +46,8 @@ class _CustomerReviewScreenState extends State<CustomerReviewScreen> {
     if (!login) {
       AuthController.goToLogin();
     } else if (customer?.cusName?.isEmpty ?? true) {
-      Get.toNamed(UpdateProfileScreen.routeName);
+      Get.offNamedUntil(UpdateProfileScreen.routeName, (route) => false);
+      errorToast(AppMessages.emptyMessage("profile"));
     }
   }
 

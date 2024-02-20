@@ -28,6 +28,21 @@ class CartListScreen extends StatelessWidget {
     await Get.find<GetCartListController>().getCartList();
   }
 
+  void _updateCard() async {
+    bool isChangedCart =
+        Get.find<GetCartListController>().productIdList.isNotEmpty;
+    if (isChangedCart) {
+      bool res = await Get.find<UpdateCartController>().updateCartList();
+      if (res) {
+        successToast(AppMessages.cartUpdateSuccess);
+      } else {
+        errorToast(AppMessages.cartUpdateFailed);
+      }
+    } else {
+      errorToast(AppMessages.notingToUpdate);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -51,20 +66,8 @@ class CartListScreen extends StatelessWidget {
           actions: [
             IconButton(
               enableFeedback: true,
-              onPressed: () async {
-                bool isChangedCart =
-                    Get.find<GetCartListController>().productIdList.isNotEmpty;
-                if (isChangedCart) {
-                  bool res =
-                      await Get.find<UpdateCartController>().updateCartList();
-                  if (res) {
-                    successToast(AppMessages.cartUpdateSuccess);
-                  } else {
-                    errorToast(AppMessages.cartUpdateFailed);
-                  }
-                } else {
-                  errorToast(AppMessages.notingToUpdate);
-                }
+              onPressed: () {
+                _updateCard();
               },
               icon: GetBuilder<UpdateCartController>(builder: (updateCart) {
                 return Visibility(
