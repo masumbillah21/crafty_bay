@@ -184,7 +184,7 @@ class _VerifyPinCodeScreenState extends State<VerifyPinCodeScreen> {
                   TextButton(
                     onPressed: () {
                       if (_start == 0) {
-                        Get.offAndToNamed(VerifyEmailScreen.routeName);
+                        Get.offNamed(VerifyEmailScreen.routeName);
                       }
                     },
                     style: TextButton.styleFrom(
