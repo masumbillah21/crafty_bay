@@ -13,19 +13,20 @@ class VerifyOTPController extends GetxController {
 
   Future<bool> verifyOTP(String pin) async {
     _inProgress = true;
+    bool status = false;
     update();
 
     String? email = _authController.user?.email ?? '';
 
     ApiResponse res = await ApiCaller().apiGetRequest(
         url: Urls.verifyLogin(email: email, otp: pin), isLogin: true);
-    _inProgress = false;
-    update();
+
     if (res.isSuccess) {
       await _authController.saveUserToken(res.jsonResponse['data']);
-      return true;
-    } else {
-      return false;
+      status = true;
     }
+    _inProgress = false;
+    update();
+    return status;
   }
 }

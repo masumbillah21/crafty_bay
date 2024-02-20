@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:crafty_bay/auth/controllers/verify_otp_controller.dart';
 import 'package:crafty_bay/auth/screens/verify_email_screen.dart';
@@ -65,16 +66,19 @@ class _VerifyPinCodeScreenState extends State<VerifyPinCodeScreen> {
       bool res = await Get.find<VerifyOTPController>()
           .verifyOTP(_pinCodeCTEController.text.trim());
       if (res) {
-        var readProfile = Get.find<ReadUserProfileController>();
+        await Get.find<GetWishlistController>().getWishlist();
+
+        ReadUserProfileController readProfile =
+            Get.find<ReadUserProfileController>();
         await readProfile.readProfile();
         bool hasProfile = readProfile.hasProfileData;
 
-        await Get.find<GetWishlistController>().getWishlist();
-
         if (hasProfile) {
+          log('profile data found');
           Get.back();
-          // Get.offNamedUntil(BottomNavScreen.routeName, (route) => false);
+          //Get.offNamedUntil(BottomNavScreen.routeName, (route) => false);
         } else {
+          log('No profile data found');
           Get.offNamed(UpdateProfileScreen.routeName);
         }
         successToast(AppMessages.otpSuccess);

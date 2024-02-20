@@ -41,7 +41,7 @@ class _CustomerReviewScreenState extends State<CustomerReviewScreen> {
   }
 
   void _isLogin() async {
-    bool login = await AuthController.isLogin();
+    bool login = await AuthController().checkAuthState();
     var customer = Get.find<AuthController>().customer;
     if (!login) {
       AuthController.goToLogin();

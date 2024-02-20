@@ -29,12 +29,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   int productQyt = 1;
   int id = Get.arguments;
 
-  final ValueNotifier<bool> _login = ValueNotifier(false);
-
-  void _isLogin() async {
-    _login.value = await AuthController.isLogin();
-  }
-
   void _addToCard({
     required int productId,
     required String color,
@@ -59,9 +53,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     await Get.find<ProductDetailsController>().getProductDetailsById(id);
   }
 
+  bool _isLogin = false;
+  void _loginCheck() async {
+    _isLogin = await AuthController().checkAuthState();
+  }
+
   @override
   void initState() {
-    _isLogin();
+    _loginCheck();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _getProductDetails();
     });
@@ -74,7 +73,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       appBar: AppBar(
         title: const Text("Product Details"),
       ),
-      body: GetBuilder<ProductDetailsController>( builder: (product) {
+      body: GetBuilder<ProductDetailsController>(builder: (product) {
         return Visibility(
           visible: !product.inProgress,
           replacement: const Center(
@@ -143,7 +142,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ),
           SizedBox(
             width: 150,
-            child: _login.value
+            child: _isLogin
                 ? GetBuilder<AddToCartController>(builder: (cart) {
                     return Visibility(
                       visible: !cart.inProgress,
@@ -171,11 +170,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   })
                 : ElevatedButton(
                     onPressed: () {
-                      Get.toNamed(VerifyEmailScreen.routeName)?.then((value) {
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          _getProductDetails();
-                        });
-                      });
+                      Get.toNamed(VerifyEmailScreen.routeName);
                     },
                     child: const Text("Login"),
                   ),

@@ -79,7 +79,7 @@ class ProductGrid extends StatelessWidget {
                       const SizedBox(width: 6),
                       ProductStarWidget(productStar: productModel.star ?? 0),
                       const SizedBox(width: 8),
-                      WishlistWidget(productId: productModel.id!)
+                      WishlistWidget(productId: productModel.id ?? 0)
                     ],
                   ),
                 ],

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:crafty_bay/auth/controllers/auth_controller.dart';
 import 'package:crafty_bay/global/widgets/app_navigation_drawer_widget.dart';
 import 'package:crafty_bay/global/widgets/crafty_app_bar.dart';
@@ -60,16 +62,20 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   }
 
   void _isLogin() async {
-    bool login = await AuthController.isLogin();
+    bool login = await AuthController().checkAuthState();
     if (!login) {
+      log("in profile: Not logged in");
       AuthController.goToLogin();
+    } else {
+      log("in profile: logged in");
     }
   }
 
-  @override
-  void initState() {
-    _isLogin();
-    var customer = Get.find<AuthController>().customer;
+  void initialProfileData() {
+    AuthController authController = Get.find<AuthController>();
+    authController.initializeUserCache();
+
+    var customer = authController.customer;
     _cusNameTEController.text = customer?.cusName ?? '';
     _cusAddTEController.text = customer?.cusAdd ?? '';
     _cusCityTEController.text = customer?.cusCity ?? '';
@@ -81,6 +87,12 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     _shipCityTEController.text = customer?.shipCity ?? '';
     _shipPostcodeTEController.text = customer?.shipPostcode ?? '';
     _shipPhoneTEController.text = customer?.shipPhone ?? '';
+  }
+
+  @override
+  void initState() {
+    _isLogin();
+    initialProfileData();
     super.initState();
   }
 
@@ -105,253 +117,258 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     return Scaffold(
       appBar: const CraftyAppBar(),
       drawer: AppNavigationDrawerWidget(),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  AssetsPath.logo,
-                  alignment: Alignment.center,
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                Text(
-                  "Complete Profile",
-                  style: Theme.of(context).textTheme.headlineLarge,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "Get started with us with your details",
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Billing Address",
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                      const Divider(),
-                      TextFormField(
-                        controller: _cusNameTEController,
-                        decoration: const InputDecoration(
-                          hintText: 'Name',
-                        ),
-                        keyboardType: TextInputType.text,
-                        textInputAction: TextInputAction.next,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return AppMessages.requiredName;
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        controller: _cusAddTEController,
-                        textInputAction: TextInputAction.next,
-                        decoration: const InputDecoration(
-                          hintText: 'Address',
-                        ),
-                        keyboardType: TextInputType.text,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return AppMessages.requiredAddress;
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        controller: _cusCityTEController,
-                        textInputAction: TextInputAction.next,
-                        decoration: const InputDecoration(
-                          hintText: 'City',
-                        ),
-                        keyboardType: TextInputType.text,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return AppMessages.requiredCity;
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        controller: _cusPostcodeTEController,
-                        textInputAction: TextInputAction.next,
-                        decoration: const InputDecoration(
-                          hintText: 'Postal Code',
-                        ),
-                        keyboardType: TextInputType.text,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return AppMessages.requiredPostalCode;
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        controller: _cusPhoneTEController,
-                        textInputAction: TextInputAction.next,
-                        decoration: const InputDecoration(
-                          hintText: 'Mobile',
-                        ),
-                        keyboardType: TextInputType.text,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return AppMessages.requiredMobileNumber;
-                          } else if (value.length < 11) {
-                            return AppMessages.invalidMobileNumber;
-                          } else if (!validatePhoneNumber(value)) {
-                            return AppMessages.invalidMobileNumber;
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Text(
-                        "Shipping Address",
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                      const Divider(),
-                      TextFormField(
-                        controller: _shipNameTEController,
-                        decoration: const InputDecoration(
-                          hintText: 'Name',
-                        ),
-                        keyboardType: TextInputType.text,
-                        textInputAction: TextInputAction.next,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return AppMessages.requiredName;
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        controller: _shipAddTEController,
-                        textInputAction: TextInputAction.next,
-                        decoration: const InputDecoration(
-                          hintText: 'Address',
-                        ),
-                        keyboardType: TextInputType.text,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return AppMessages.requiredAddress;
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        controller: _shipCityTEController,
-                        textInputAction: TextInputAction.next,
-                        decoration: const InputDecoration(
-                          hintText: 'City',
-                        ),
-                        keyboardType: TextInputType.text,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return AppMessages.requiredCity;
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        controller: _shipPostcodeTEController,
-                        textInputAction: TextInputAction.next,
-                        decoration: const InputDecoration(
-                          hintText: 'Postal Code',
-                        ),
-                        keyboardType: TextInputType.text,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return AppMessages.requiredPostalCode;
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        controller: _shipPhoneTEController,
-                        textInputAction: TextInputAction.next,
-                        decoration: const InputDecoration(
-                          hintText: 'Mobile',
-                        ),
-                        keyboardType: TextInputType.text,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return AppMessages.requiredMobileNumber;
-                          } else if (value.length < 11) {
-                            return AppMessages.invalidMobileNumber;
-                          } else if (!validatePhoneNumber(value)) {
-                            return AppMessages.invalidMobileNumber;
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: GetBuilder<CreateUserProfileController>(
-                            builder: (user) {
-                          return Visibility(
-                            visible: user.inProgress == false,
-                            replacement: const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                _createUserProfile();
-                              },
-                              child: const Text('Complete'),
-                            ),
-                          );
-                        }),
-                      )
-                    ],
+      body: RefreshIndicator(
+        onRefresh: () async {
+          initialProfileData();
+        },
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    AssetsPath.logo,
+                    alignment: Alignment.center,
                   ),
-                )
-              ],
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Text(
+                    "Complete Profile",
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Get started with us with your details",
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Billing Address",
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                        const Divider(),
+                        TextFormField(
+                          controller: _cusNameTEController,
+                          decoration: const InputDecoration(
+                            hintText: 'Name',
+                          ),
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.next,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return AppMessages.requiredName;
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          controller: _cusAddTEController,
+                          textInputAction: TextInputAction.next,
+                          decoration: const InputDecoration(
+                            hintText: 'Address',
+                          ),
+                          keyboardType: TextInputType.text,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return AppMessages.requiredAddress;
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          controller: _cusCityTEController,
+                          textInputAction: TextInputAction.next,
+                          decoration: const InputDecoration(
+                            hintText: 'City',
+                          ),
+                          keyboardType: TextInputType.text,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return AppMessages.requiredCity;
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          controller: _cusPostcodeTEController,
+                          textInputAction: TextInputAction.next,
+                          decoration: const InputDecoration(
+                            hintText: 'Postal Code',
+                          ),
+                          keyboardType: TextInputType.text,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return AppMessages.requiredPostalCode;
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          controller: _cusPhoneTEController,
+                          textInputAction: TextInputAction.next,
+                          decoration: const InputDecoration(
+                            hintText: 'Mobile',
+                          ),
+                          keyboardType: TextInputType.text,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return AppMessages.requiredMobileNumber;
+                            } else if (value.length < 11) {
+                              return AppMessages.invalidMobileNumber;
+                            } else if (!validatePhoneNumber(value)) {
+                              return AppMessages.invalidMobileNumber;
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text(
+                          "Shipping Address",
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                        const Divider(),
+                        TextFormField(
+                          controller: _shipNameTEController,
+                          decoration: const InputDecoration(
+                            hintText: 'Name',
+                          ),
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.next,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return AppMessages.requiredName;
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          controller: _shipAddTEController,
+                          textInputAction: TextInputAction.next,
+                          decoration: const InputDecoration(
+                            hintText: 'Address',
+                          ),
+                          keyboardType: TextInputType.text,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return AppMessages.requiredAddress;
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          controller: _shipCityTEController,
+                          textInputAction: TextInputAction.next,
+                          decoration: const InputDecoration(
+                            hintText: 'City',
+                          ),
+                          keyboardType: TextInputType.text,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return AppMessages.requiredCity;
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          controller: _shipPostcodeTEController,
+                          textInputAction: TextInputAction.next,
+                          decoration: const InputDecoration(
+                            hintText: 'Postal Code',
+                          ),
+                          keyboardType: TextInputType.text,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return AppMessages.requiredPostalCode;
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          controller: _shipPhoneTEController,
+                          textInputAction: TextInputAction.next,
+                          decoration: const InputDecoration(
+                            hintText: 'Mobile',
+                          ),
+                          keyboardType: TextInputType.text,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return AppMessages.requiredMobileNumber;
+                            } else if (value.length < 11) {
+                              return AppMessages.invalidMobileNumber;
+                            } else if (!validatePhoneNumber(value)) {
+                              return AppMessages.invalidMobileNumber;
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          child: GetBuilder<CreateUserProfileController>(
+                              builder: (user) {
+                            return Visibility(
+                              visible: user.inProgress == false,
+                              replacement: const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  _createUserProfile();
+                                },
+                                child: const Text('Complete'),
+                              ),
+                            );
+                          }),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

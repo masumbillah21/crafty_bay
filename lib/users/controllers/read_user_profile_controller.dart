@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 
 class ReadUserProfileController extends GetxController {
   bool _inProgress = false;
-  bool _hasProfileData = true;
+  bool _hasProfileData = false;
 
   final AuthController _authController = Get.find<AuthController>();
 
@@ -16,6 +16,7 @@ class ReadUserProfileController extends GetxController {
 
   Future<bool> readProfile() async {
     _inProgress = true;
+    bool status = false;
     update();
 
     ApiResponse res = await ApiCaller().apiGetRequest(
@@ -23,22 +24,18 @@ class ReadUserProfileController extends GetxController {
       token: AuthController.token.toString(),
     );
 
-    _inProgress = false;
-    update();
-
     if (res.isSuccess) {
-      if (res.jsonResponse['data'] == null ||
-          res.jsonResponse['data'].isEmpty) {
-        _hasProfileData = false;
-      } else {
+      if (res.jsonResponse['data'] != null ||
+          res.jsonResponse['data'].isNotEmpty) {
         CustomerModel customerModel =
             CustomerModel.fromJson(res.jsonResponse['data']);
         await _authController.saveCustomerData(model: customerModel);
+        _hasProfileData = true;
+        status = true;
       }
-
-      return true;
-    } else {
-      return false;
     }
+    _inProgress = false;
+    update();
+    return status;
   }
 }

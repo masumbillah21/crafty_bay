@@ -46,9 +46,9 @@ class CraftyBayDependency extends Bindings {
     Get.put(AuthController());
     Get.lazyPut(() => SendEmailOTPController(), fenix: true);
     Get.lazyPut(() => VerifyOTPController(), fenix: true);
-    Get.lazyPut(() => ReadUserProfileController(), fenix: true);
-    Get.lazyPut(() => CreateUserProfileController(), fenix: true);
-    Get.lazyPut(() => AddToCartController(), fenix: true);
+    Get.put(ReadUserProfileController());
+    Get.put(CreateUserProfileController());
+    Get.put(AddToCartController());
     Get.put(GetCartListController());
     Get.lazyPut(() => DeleteCartController(), fenix: true);
     Get.put(UpdateCartController());
