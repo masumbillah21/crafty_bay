@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:crafty_bay/api/api_caller.dart';
 import 'package:crafty_bay/api/api_response.dart';
 import 'package:crafty_bay/auth/controllers/auth_controller.dart';
@@ -24,7 +22,6 @@ class AddToCartController extends GetxController {
     );
     if (res.isSuccess) {
       status = true;
-      log('Card: ${res.errorMessage}');
     }
     _inProgress = false;
     update();

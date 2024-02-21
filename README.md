@@ -14,6 +14,7 @@ An Ecommerce Flutter project.
 - webview_flutter: ^4.5.0
 
 ## Screenshots
+
 ![Screenshot 2024-02-20 at 11.44.05 PM.png](screenshots%2FScreenshot%202024-02-20%20at%2011.44.05%E2%80%AFPM.png)
 ![Screenshot 2024-02-20 at 11.44.13 PM.png](screenshots%2FScreenshot%202024-02-20%20at%2011.44.13%E2%80%AFPM.png)
 ![Screenshot 2024-02-20 at 11.44.28 PM.png](screenshots%2FScreenshot%202024-02-20%20at%2011.44.28%E2%80%AFPM.png)
@@ -28,4 +29,6 @@ An Ecommerce Flutter project.
 ![Screenshot 2024-02-20 at 11.46.59 PM.png](screenshots%2FScreenshot%202024-02-20%20at%2011.46.59%E2%80%AFPM.png)
 ![Screenshot 2024-02-20 at 11.47.09 PM.png](screenshots%2FScreenshot%202024-02-20%20at%2011.47.09%E2%80%AFPM.png)
 ![Screenshot 2024-02-20 at 11.47.51 PM.png](screenshots%2FScreenshot%202024-02-20%20at%2011.47.51%E2%80%AFPM.png)
-
+![Screenshot 2024-02-21 at 12.40.13 AM.png](screenshots%2FScreenshot%202024-02-21%20at%2012.40.13%E2%80%AFAM.png)
+![Screenshot 2024-02-21 at 12.40.22 AM.png](screenshots%2FScreenshot%202024-02-21%20at%2012.40.22%E2%80%AFAM.png)
+![Screenshot 2024-02-21 at 12.40.30 AM.png](screenshots%2FScreenshot%202024-02-21%20at%2012.40.30%E2%80%AFAM.png)

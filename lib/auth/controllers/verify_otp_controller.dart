@@ -25,8 +25,9 @@ class VerifyOTPController extends GetxController {
 
     if (res.isSuccess) {
       await _authController.saveUserToken(res.jsonResponse['data']);
-      await Get.find<GetWishlistController>().getWishlist();
       await Get.find<ReadUserProfileController>().readProfile();
+      await Get.find<GetWishlistController>().getWishlist();
+
       status = true;
     }
     _inProgress = false;

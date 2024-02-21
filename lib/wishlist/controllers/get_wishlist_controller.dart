@@ -24,19 +24,19 @@ class GetWishlistController extends GetxController {
     if (res.isSuccess) {
       if (res.jsonResponse['data'] != null) {
         _wishlist = WishlistListModel.fromJson(res.jsonResponse);
-        wishListProductIds();
+        await wishListProductIds();
       }
     }
     _inProgress = false;
     update();
   }
 
-  void wishListProductIds() {
+  Future<void> wishListProductIds() async {
     List<int> list = [];
     _wishlist?.wishList?.forEach((element) {
       list.add(element.productId!);
     });
-    Get.find<WishlistStoreController>()
+    await Get.find<WishlistStoreController>()
         .saveWishListProduct(productIdList: list);
   }
 }

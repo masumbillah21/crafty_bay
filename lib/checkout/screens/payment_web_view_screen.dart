@@ -16,7 +16,7 @@ class PaymentWebViewScreen extends StatefulWidget {
 }
 
 class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
-  final String _url = Get.arguments;
+  final String _url = Get.arguments['url'] ?? '';
   late WebViewController _webViewController;
 
   @override

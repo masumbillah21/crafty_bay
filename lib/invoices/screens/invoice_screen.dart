@@ -55,7 +55,7 @@ class InvoiceScreen extends StatelessWidget {
                             return ListTile(
                               onTap: () {
                                 Get.toNamed(InvoiceProductScreen.routeName,
-                                    arguments: item.id);
+                                    arguments: {'id': item.id});
                               },
                               leading: Container(
                                 alignment: Alignment.center,

@@ -1,5 +1,5 @@
 import 'package:crafty_bay/global/widgets/product_grid.dart';
-import 'package:crafty_bay/products/controllers/product_category_controller.dart';
+import 'package:crafty_bay/products/controllers/product_brand_controller.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +9,7 @@ class BrandProductListScreen extends StatelessWidget {
   const BrandProductListScreen({super.key});
 
   void getProductList(int id) async {
-    await Get.find<ProductCategoryController>().getProductByCategoryId(id);
+    await Get.find<ProductBrandController>().getProductByBrandId(id);
   }
 
   @override
@@ -28,13 +28,13 @@ class BrandProductListScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: GetBuilder<ProductCategoryController>(builder: (product) {
+        child: GetBuilder<ProductBrandController>(builder: (product) {
           return Visibility(
             visible: product.inProgress == false,
             replacement: const Center(
               child: CircularProgressIndicator(),
             ),
-            child: product.categoryProductList?.productList?.isEmpty ?? true
+            child: product.brandProductList?.productList?.isEmpty ?? true
                 ? Center(
                     child: Text(
                       AppMessages.emptyMessage('Product'),
@@ -50,10 +50,9 @@ class BrandProductListScreen extends StatelessWidget {
                       crossAxisSpacing: 4,
                     ),
                     itemCount:
-                        product.categoryProductList?.productList?.length ?? 0,
+                        product.brandProductList?.productList?.length ?? 0,
                     itemBuilder: (context, index) {
-                      var item =
-                          product.categoryProductList!.productList![index];
+                      var item = product.brandProductList!.productList![index];
                       return FittedBox(
                         child: ProductGrid(
                           productModel: item,

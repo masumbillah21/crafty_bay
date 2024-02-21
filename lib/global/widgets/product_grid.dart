@@ -20,7 +20,8 @@ class ProductGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.toNamed(ProductDetailsScreen.routeName, arguments: productModel.id);
+        Get.toNamed(ProductDetailsScreen.routeName,
+            arguments: {'id': productModel.id});
       },
       borderRadius: BorderRadius.circular(15),
       child: Card(

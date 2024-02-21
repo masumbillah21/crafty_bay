@@ -14,6 +14,8 @@ import 'package:crafty_bay/reviews/screens/review_list_screen.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
+import 'package:crafty_bay/wishlist/controllers/get_wishlist_controller.dart';
+import 'package:crafty_bay/wishlist/controllers/wishlist_store_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -27,7 +29,7 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   int productQyt = 1;
-  int id = Get.arguments;
+  int id = Get.arguments['id'] ?? 0;
 
   void _addToCard({
     required int productId,
@@ -56,12 +58,18 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   bool _isLogin = false;
   void _loginCheck() async {
     _isLogin = await AuthController().checkAuthState();
+
+    if (_isLogin) {
+      if (Get.find<WishlistStoreController>().productListInWishlist.isEmpty) {
+        await Get.find<GetWishlistController>().getWishlist();
+      }
+    }
   }
 
   @override
   void initState() {
-    _loginCheck();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loginCheck();
       _getProductDetails();
     });
     super.initState();
@@ -170,7 +178,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   })
                 : ElevatedButton(
                     onPressed: () {
-                      Get.toNamed(VerifyEmailScreen.routeName);
+                      Get.offNamed(VerifyEmailScreen.routeName, arguments: {
+                        'routeName': ProductDetailsScreen.routeName,
+                        'id': id
+                      });
                     },
                     child: const Text("Login"),
                   ),
@@ -280,7 +291,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     return InkWell(
       onTap: () {
         Get.toNamed(ReviewListScreen.routeName,
-            arguments: productDetails.productId!);
+            arguments: {'id': productDetails.productId!});
       },
       child: const Text(
         "Reviews",

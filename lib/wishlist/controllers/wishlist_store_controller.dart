@@ -14,10 +14,12 @@ class WishlistStoreController extends GetxController {
   Future<void> saveWishListProduct({required List<int> productIdList}) async {
     await _storage.write("wishlist", productIdList);
     _productListInWishlist = _storage.read('wishlist') ?? [];
+    update();
   }
 
   Future<void> initializeWishListProduct() async {
     _productListInWishlist = _storage.read('wishlist') ?? [];
+    update();
   }
 
   static Future<void> clearWishListProduct() async {

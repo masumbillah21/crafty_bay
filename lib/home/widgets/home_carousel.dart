@@ -89,7 +89,7 @@ class HomeCarousel extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () {
                           Get.toNamed(ProductDetailsScreen.routeName,
-                              arguments: item.productId);
+                              arguments: {'id': item.productId});
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,

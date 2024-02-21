@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:crafty_bay/auth/controllers/verify_otp_controller.dart';
 import 'package:crafty_bay/auth/screens/verify_email_screen.dart';
 import 'package:crafty_bay/global/screens/bottom_nav_screen.dart';
+import 'package:crafty_bay/home/controllers/bottom_nav_controller.dart';
 import 'package:crafty_bay/users/controllers/read_user_profile_controller.dart';
 import 'package:crafty_bay/users/screens/update_profile_screen.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
@@ -47,6 +48,30 @@ class _VerifyPinCodeScreenState extends State<VerifyPinCodeScreen> {
     );
   }
 
+  Future<void> _verifyPinCode() async {
+    if (_formKey.currentState!.validate()) {
+      bool res = await Get.find<VerifyOTPController>()
+          .verifyOTP(_pinCodeCTEController.text.trim());
+      if (res) {
+        bool hasProfile = Get.find<ReadUserProfileController>().hasProfileData;
+        if (hasProfile) {
+          if (Get.arguments?.isNotEmpty ?? false) {
+            Get.offNamed(Get.arguments['routeName'],
+                arguments: Get.arguments ?? {'id': 0, 'name': 'unknown'});
+          } else {
+            Get.offNamedUntil(BottomNavScreen.routeName, (route) => false);
+          }
+        } else {
+          //Get.offNamedUntil(UpdateProfileScreen.routeName, (route) => false);
+          Get.offNamed(UpdateProfileScreen.routeName);
+        }
+        successToast(AppMessages.otpSuccess);
+      } else {
+        errorToast(AppMessages.otpFailed);
+      }
+    }
+  }
+
   @override
   void initState() {
     _startTimer();
@@ -60,24 +85,6 @@ class _VerifyPinCodeScreenState extends State<VerifyPinCodeScreen> {
     super.dispose();
   }
 
-  Future<void> _verifyPinCode() async {
-    if (_formKey.currentState!.validate()) {
-      bool res = await Get.find<VerifyOTPController>()
-          .verifyOTP(_pinCodeCTEController.text.trim());
-      if (res) {
-        bool hasProfile = Get.find<ReadUserProfileController>().hasProfileData;
-        if (hasProfile) {
-          Get.offNamedUntil(BottomNavScreen.routeName, (route) => false);
-        } else {
-          Get.offNamedUntil(UpdateProfileScreen.routeName, (route) => false);
-        }
-        successToast(AppMessages.otpSuccess);
-      } else {
-        errorToast(AppMessages.otpFailed);
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,6 +92,7 @@ class _VerifyPinCodeScreenState extends State<VerifyPinCodeScreen> {
         canPop: false,
         onPopInvoked: (_) {
           Get.offNamedUntil(BottomNavScreen.routeName, (route) => false);
+          Get.find<BottomNavController>().backToHome();
         },
         child: Center(
           child: SingleChildScrollView(

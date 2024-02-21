@@ -1,6 +1,7 @@
 import 'package:crafty_bay/auth/controllers/send_email_otp_controller.dart';
 import 'package:crafty_bay/auth/screens/verify_pin_code_screen.dart';
 import 'package:crafty_bay/global/screens/bottom_nav_screen.dart';
+import 'package:crafty_bay/home/controllers/bottom_nav_controller.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/assets_path.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
@@ -26,7 +27,8 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
           .sendEmailOTP(_emailTEController.text.trim());
       if (res) {
         successToast(AppMessages.emailVerificationSuccess);
-        Get.offNamedUntil(VerifyPinCodeScreen.routeName, (route) => false);
+        Get.offNamed(VerifyPinCodeScreen.routeName,
+            arguments: Get.arguments ?? {});
       } else {
         errorToast(AppMessages.emailVerificationFailed);
       }
@@ -46,6 +48,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
         canPop: false,
         onPopInvoked: (_) {
           Get.offNamedUntil(BottomNavScreen.routeName, (route) => false);
+          Get.find<BottomNavController>().backToHome();
         },
         child: Center(
           child: SingleChildScrollView(

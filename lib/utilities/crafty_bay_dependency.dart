@@ -14,6 +14,7 @@ import 'package:crafty_bay/invoices/controllers/invoice_controller.dart';
 import 'package:crafty_bay/invoices/controllers/invoice_details_controller.dart';
 import 'package:crafty_bay/products/controllers/new_product_controller.dart';
 import 'package:crafty_bay/products/controllers/popular_product_controller.dart';
+import 'package:crafty_bay/products/controllers/product_brand_controller.dart';
 import 'package:crafty_bay/products/controllers/product_category_controller.dart';
 import 'package:crafty_bay/products/controllers/product_details_controller.dart';
 import 'package:crafty_bay/products/controllers/special_product_controller.dart';
@@ -38,6 +39,7 @@ class CraftyBayDependency extends Bindings {
     Get.put(SpecialProductController());
     Get.put(NewProductController());
     Get.lazyPut(() => ProductCategoryController(), fenix: true);
+    Get.lazyPut(() => ProductBrandController(), fenix: true);
     Get.put(ProductDetailsController());
     Get.put(GetWishlistController());
     Get.lazyPut(() => AddWishlistController(), fenix: true);

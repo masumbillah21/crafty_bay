@@ -1,7 +1,5 @@
-import 'package:crafty_bay/auth/controllers/auth_controller.dart';
 import 'package:crafty_bay/reviews/controllers/create_review_controller.dart';
 import 'package:crafty_bay/reviews/models/review_model.dart';
-import 'package:crafty_bay/users/screens/update_profile_screen.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
 import 'package:crafty_bay/utilities/utilities.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +15,7 @@ class CustomerReviewScreen extends StatefulWidget {
 
 class _CustomerReviewScreenState extends State<CustomerReviewScreen> {
   final _formKey = GlobalKey<FormState>();
-  final int _productId = Get.arguments;
+  final int _productId = Get.arguments['id'];
   final TextEditingController _reviewTEController = TextEditingController();
   final ValueNotifier _rating = ValueNotifier(5);
 
@@ -38,23 +36,6 @@ class _CustomerReviewScreenState extends State<CustomerReviewScreen> {
         errorToast(AppMessages.reviewFailed);
       }
     }
-  }
-
-  void _isLogin() async {
-    bool login = await AuthController().checkAuthState();
-    var customer = Get.find<AuthController>().customer;
-    if (!login) {
-      AuthController.goToLogin();
-    } else if (customer?.cusName?.isEmpty ?? true) {
-      Get.offNamedUntil(UpdateProfileScreen.routeName, (route) => false);
-      errorToast(AppMessages.emptyMessage("profile"));
-    }
-  }
-
-  @override
-  void initState() {
-    _isLogin();
-    super.initState();
   }
 
   @override

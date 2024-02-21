@@ -1,19 +1,43 @@
+import 'package:crafty_bay/auth/controllers/auth_controller.dart';
+import 'package:crafty_bay/auth/screens/verify_email_screen.dart';
 import 'package:crafty_bay/global/widgets/bottom_section_bg.dart';
 import 'package:crafty_bay/reviews/controllers/get_review_list_controller.dart';
 import 'package:crafty_bay/reviews/screens/customer_review_screen.dart';
+import 'package:crafty_bay/users/screens/update_profile_screen.dart';
 import 'package:crafty_bay/utilities/app_colors.dart';
 import 'package:crafty_bay/utilities/app_messages.dart';
+import 'package:crafty_bay/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ReviewListScreen extends StatelessWidget {
+class ReviewListScreen extends StatefulWidget {
   static const routeName = '/reviews';
-  ReviewListScreen({super.key});
+  const ReviewListScreen({super.key});
 
-  final int id = Get.arguments;
+  @override
+  State<ReviewListScreen> createState() => _ReviewListScreenState();
+}
+
+class _ReviewListScreenState extends State<ReviewListScreen> {
+  final int id = Get.arguments['id'] ?? 0;
 
   void _fetchReviewList() async {
     await Get.find<GetReviewListController>().getReviewList(id);
+  }
+
+  void _handleNavigation() async {
+    bool login = await AuthController().checkAuthState();
+    var customer = Get.find<AuthController>().customer;
+    if (!login) {
+      Get.offNamed(VerifyEmailScreen.routeName,
+          arguments: {'routeName': ReviewListScreen.routeName, 'id': id});
+    } else if (customer?.cusName?.isEmpty ?? true) {
+      Get.toNamed(UpdateProfileScreen.routeName);
+      errorToast(AppMessages.emptyMessage("profile"));
+    } else {
+      await Get.toNamed(CustomerReviewScreen.routeName, arguments: {'id': id})
+          ?.then((value) => _fetchReviewList());
+    }
   }
 
   @override
@@ -44,8 +68,15 @@ class ReviewListScreen extends StatelessWidget {
                         reviewBottomSection(review, id),
                       ],
                     )
-                  : Center(
-                      child: Text(AppMessages.emptyMessage("Review")),
+                  : Column(
+                      children: [
+                        Expanded(
+                          child: Center(
+                            child: Text(AppMessages.emptyMessage("Review")),
+                          ),
+                        ),
+                        reviewBottomSection(review, id),
+                      ],
                     ),
             );
           }),
@@ -105,8 +136,7 @@ class ReviewListScreen extends StatelessWidget {
           ),
           InkWell(
             onTap: () async {
-              await Get.toNamed(CustomerReviewScreen.routeName, arguments: id)
-                  ?.then((value) => _fetchReviewList());
+              _handleNavigation();
             },
             borderRadius: BorderRadius.circular(50),
             child: Container(

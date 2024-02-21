@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:crafty_bay/cart/controllers/add_to_cart_controller.dart';
 import 'package:crafty_bay/cart/controllers/get_cart_list_controller.dart';
 import 'package:crafty_bay/cart/models/cart_model.dart';
@@ -25,7 +23,6 @@ class UpdateCartController extends GetxController {
         bool res = await Get.find<AddToCartController>().addToCart(formValue);
         if (res) {
           status = true;
-          log("update in res cart: $status");
           update();
         }
       }
@@ -34,7 +31,6 @@ class UpdateCartController extends GetxController {
     _inProgress = false;
     getCartListController.productIdList.clear();
     update();
-    log("update cart: $status");
     return status;
   }
 }

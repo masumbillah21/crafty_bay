@@ -58,6 +58,8 @@ class AuthController extends GetxController {
   }
 
   static Future<void> goToLogin() async {
-    Get.offNamedUntil(VerifyEmailScreen.routeName, (route) => false);
+    var arg = Get.arguments;
+    arg['routeName'] = Get.currentRoute;
+    Get.offNamed(VerifyEmailScreen.routeName, arguments: arg);
   }
 }

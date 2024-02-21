@@ -111,7 +111,7 @@ class CheckoutScreen extends StatelessWidget {
                       return ListTile(
                         onTap: () {
                           Get.toNamed(PaymentWebViewScreen.routeName,
-                              arguments: item!.redirectGatewayURL!);
+                              arguments: {'url': item!.redirectGatewayURL!});
                         },
                         leading: Image.network(item?.logo ?? ''),
                         title: Text(item?.name?.toUpperCase() ?? ''),
