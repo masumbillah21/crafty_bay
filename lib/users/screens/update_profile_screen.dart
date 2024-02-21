@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:crafty_bay/auth/controllers/auth_controller.dart';
 import 'package:crafty_bay/global/widgets/app_navigation_drawer_widget.dart';
 import 'package:crafty_bay/global/widgets/crafty_app_bar.dart';
@@ -63,7 +65,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     bool login = await AuthController().checkAuthState();
     if (!login) {
       AuthController.goToLogin();
-    } else {}
+    }
+    log('test');
   }
 
   void initialProfileData() {
